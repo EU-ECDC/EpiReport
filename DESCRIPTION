@@ -1,0 +1,24 @@
+Package: EpiReport
+Type: Package
+Title: ECDC Annual Epidemiological Report
+Version: 0.1.0
+Author: Lore Merdrignac
+Maintainer: Lore Merdrignac <l.merdrignac@epiconcept.fr>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+Depends: R (>= 3.4.0)
+License: EUPL
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.0
+Imports:
+    officer,
+    flextable,
+    png,
+    dplyr,
+    ggplot2,
+    graphics,
+    utils
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
