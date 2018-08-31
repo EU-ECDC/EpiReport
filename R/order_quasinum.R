@@ -26,7 +26,7 @@
 
 
 order_quasinum <- function(x){
-  y <- str_split(x, "-")
+  y <- strsplit(x, "-")
   y <- rapply(y, function(x) x[1], how = "unlist")
   y <- suppressWarnings(ifelse(grepl(">=", y), as.numeric(gsub(">=", "", y)),
               ifelse(grepl("<=", y), as.numeric(gsub("<=", "", y)),
