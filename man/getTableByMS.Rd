@@ -4,8 +4,8 @@
 \alias{getTableByMS}
 \title{Get the table}
 \usage{
-getTableByMS(x, disease = "Salmonellosis", year = 2016,
-  reportParameters, index = 1, doc)
+getTableByMS(x, disease = "Salmonellosis", year = 2016, reportParameters,
+  index = 1, doc)
 }
 \arguments{
 \item{x}{dataset including required data for AER}
