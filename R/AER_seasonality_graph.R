@@ -1,7 +1,7 @@
 
 #' @export
 AER_seasonality_graph <- function(data, xvar = "timecode",
-                                  yvar = "n",
+                                  yvar = "yvalue",
                                   yearvar  = "timeyear",
                                   monthvar = "timemonth",
                                   year = 2015){
