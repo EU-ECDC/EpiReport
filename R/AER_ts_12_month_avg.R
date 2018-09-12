@@ -10,12 +10,6 @@
 #' @keywords moving average
 #' @export
 #' @examples
-#' # Load dummy data
-#' load(system.file("extdata", "mav_example.rda", package = "ECDC.graphs"))
-#' 
-#' # Plot the example
-#' AER_ts_12_month_avg(data = mav, xvar = timecode, 
-#' yvar = n, mov_average = M.AV)
 #' @export
 AER_ts_12_month_avg <- function(data, xvar,
                                 yvar,
