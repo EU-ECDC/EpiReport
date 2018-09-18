@@ -16,16 +16,8 @@ AER_ts_12_month_avg(data, xvar, yvar, mov_average)
 \item{mov_average}{A variable with the moving average per each time unit.}
 }
 \description{
-This function draws a line graph with 12-month moving average, AER style. 
+This function draws a line graph with 12-month moving average, AER style.
 Expects aggregated data and pre-calculated 12-month moving average.
-}
-\examples{
-# Load dummy data
-load(system.file("extdata", "mav_example.rda", package = "ECDC.graphs"))
-
-# Plot the example
-AER_ts_12_month_avg(data = mav, xvar = timecode, 
-yvar = n, mov_average = M.AV)
 }
 \keyword{average}
 \keyword{moving}

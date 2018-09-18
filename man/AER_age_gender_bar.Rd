@@ -23,19 +23,19 @@ AER_age_gender_bar(data, xvar, yvar, group, fill_color1 = "#65B32E",
 \item{ytitle}{y-axis title; defaults to "Rate".}
 }
 \description{
-This function draws a barchart by age group and gender(or possibly other grouping), AER style. 
+This function draws a barchart by age group and gender(or possibly other grouping), AER style.
 Expects aggregated data.
 }
 \examples{
 # Create dummy data
-mydat <- data.frame(Gender=c("F", "F", "M", "M"), 
-AgeGroup = c("0-65", "65+", "0-65", "65+"), 
+mydat <- data.frame(Gender=c("F", "F", "M", "M"),
+AgeGroup = c("0-65", "65+", "0-65", "65+"),
 NumberOfCases = c(54,43,32,41))
 
 # Plot the dummy data
-AER_age_gender_bar(mydat, xvar = AgeGroup, 
-yvar = NumberOfCases, 
-group = Gender, 
-ytitle = "Number of cases")
+# AER_age_gender_bar(mydat, xvar = AgeGroup,
+# yvar = NumberOfCases,
+# group = Gender,
+# ytitle = "Number of cases")
 }
 \keyword{AER_age_gender_bar}
