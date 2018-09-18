@@ -6,7 +6,7 @@
 \title{Dataset including parameters for AER production}
 \format{A data frame with 53 rows (corresponding to the 53 diseases) and 28 variables:
 \describe{
-  \item{HealthTopic}{Disease code e.g. ANTH, SALM, etc.}
+  \item{Health.topic}{Disease code e.g. ANTH, SALM, etc.}
   \item{DG}{}
   \item{DP}{}
   \item{Label}{}

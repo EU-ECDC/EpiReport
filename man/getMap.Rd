@@ -4,8 +4,8 @@
 \alias{getMap}
 \title{Get the disease map}
 \usage{
-getMap(x, disease = "Salmonellosis", year = 2016, reportParameters,
-  index = 1, pathPNG, doc)
+getMap(x, disease = "SALM", year = 2016, reportParameters, index = 1,
+  pathPNG, doc)
 }
 \arguments{
 \item{x}{dataset including required data for AER}

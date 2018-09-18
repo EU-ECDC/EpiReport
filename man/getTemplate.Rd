@@ -7,7 +7,7 @@
 getTemplate(output_path)
 }
 \arguments{
-\item{output_path}{The path where to create the Word output. 
+\item{output_path}{The path where to create the Word output.
 Defaut location will be the current working directory (getwd())}
 }
 \value{
