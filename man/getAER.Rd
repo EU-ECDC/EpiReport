@@ -7,7 +7,7 @@
 getAER(template, outputPath, x, disease, year, reportParameters, pathPNG)
 }
 \arguments{
-\item{template}{The word document in which to add the table. 
+\item{template}{The word document in which to add the table.
 Default value is the empty template included in the package getTemplate().}
 
 \item{outputPath}{The path for the word output.
