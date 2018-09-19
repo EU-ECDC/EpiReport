@@ -16,6 +16,7 @@ Imports:
     flextable,
     png,
     dplyr,
+    tidyr,
     ggplot2,
     graphics,
     utils

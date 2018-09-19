@@ -37,70 +37,6 @@ getTemplate <- function(output_path){
 
 
 
-#' Get the table
-#'
-#' Function returning the table
-#'
-#' @param x dataset including required data for AER
-#' @param disease character string, disease name
-#' @param year numeric, year to produce the report for
-#' @param reportParameters dataset of parameters for the report
-#' @param index figure number
-#' @param doc Word document (see \code{officer} package)
-#' @return ?
-#' @export
-getTableByMS <- function(x, disease = "Salmonellosis", year = 2016,
-                   reportParameters, index = 1, doc){
-
-  ## ----
-  ## Setting default arguments if missing
-  ## ----
-
-  if(missing(x)) { x <- EpiReport::AERdata }
-  if(missing(disease)) { disease <- "Salmonellosis" }    # disease <- "SALM"
-  if(missing(year)) { year <- 2016 }
-  if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
-  if(missing(index)) { index <- 1 }
-
-  ## ----
-  ## Filtering
-  ## ----
-
-  x <- dplyr::filter(x, x$HealthTopic == disease)
-  if( nrow(x) ==0 ) {
-    stop(paste('The dataset does not include the selected disease "', disease, '".'))
-  }
-  disease <- "SALM"
-  reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
-  if( nrow(reportParameters) ==0 ) {
-    stop(paste('The disease "', disease, '" is not described in the parameter table.
-               The report cannot be produced.'))
-  }
-
-
-  ## ----
-  ## Table
-  ## ----
-  t <- x[1:15, 1:6]
-  ft <- flextable::flextable(t)
-  ft <- flextable::theme_zebra(ft)
-  ft <- flextable::autofit(ft)
-
-  if(missing(doc)) {
-
-    ## ------ If no Word document, then just preview the map
-    return(ft)
-
-  } else {
-    officer::cursor_bookmark(doc, id = "TABLE1_BOOKMARK")
-    doc <- flextable::body_add_flextable(doc, value = ft)
-    return(doc)
-  }
-
-}
-
-
-
 
 #' AgeGender
 #'
@@ -113,15 +49,15 @@ getTableByMS <- function(x, disease = "Salmonellosis", year = 2016,
 AgeGenderBarGph <- function(disease, year, x){
 
   if(missing(x)) {
-    x <- EpiReport::AERdata
+    x <- EpiReport::SALM2016
   }
 
   parameters <- EpiReport::AERparams
   parameters <- dplyr::filter(parameters, parameters$HealthTopic == disease)
   x <- dplyr::filter(x, x$HealthTopic == disease)
 
-  if (parameters$AgeGender.bar.graph.used=="Y"    #--AgeGender bar graph
-     & parameters$AgeGender.Rates.use=="Y") {    #-- with Rates
+  if (parameters$AgeGenderBarGraphUse =="Y"    #--AgeGender bar graph
+     & parameters$AgeGenderRatesUse =="Y") {    #-- with Rates
 
     if(parameters$MeasurePopulation=="CONFIRMED"){    #-- Confirmed cases
 
@@ -287,13 +223,13 @@ tseasonalityByMS <- function(x){
   ## Setting default arguments if missing
   ## ----
 
-  if(missing(x)){ x <- EpiReport::AERdata }
+  if(missing(x)){ x <- EpiReport::SALM2016 }
 
   ## ----
   ## Plot output
   ## ----
 
-  .p <- suppressWarnings( ggplot2::ggplot(x, ggplot2::aes(x$RegionCode, x$NumValue))) +
+  .p <- suppressWarnings( ggplot2::ggplot(x, ggplot2::aes(x$GeoCode, x$XValue))) +
     suppressWarnings(ggplot2::geom_bar(stat="identity"))
 
   .p
@@ -336,8 +272,8 @@ getAER <- function(template, outputPath = getwd(),
   if(missing(outputPath)){
     outputPath <- getwd()
     }
-  if(missing(x)) { x <- EpiReport::AERdata }
-  if(missing(disease)) { disease <- "Salmonellosis" }    # disease <- "SALM"
+  if(missing(x)) { x <- EpiReport::SALM2016 }
+  if(missing(disease)) { disease <- "SALM" }    # disease <- "SALM"
   if(missing(year)) { year <- 2016 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(pathPNG)) { pathPNG <- system.file("maps", package = "EpiReport") }
@@ -375,8 +311,7 @@ getAER <- function(template, outputPath = getwd(),
   ## Map
   ## ----
 
-  doc <- EpiReport::getMap(x = x,
-                           disease = disease,
+  doc <- EpiReport::getMap(disease = disease,
                            year = year,
                            reportParameters = reportParameters,
                            index = 1,

@@ -6,34 +6,32 @@
 \title{Dataset including parameters for AER production}
 \format{A data frame with 53 rows (corresponding to the 53 diseases) and 28 variables:
 \describe{
-  \item{Health.topic}{Disease code e.g. ANTH, SALM, etc.}
+  \item{HealthTopic}{Disease code e.g. ANTH, SALM, etc.}
   \item{DG}{}
   \item{DP}{}
   \item{Label}{}
-  \item{Frequency.category}{}
+  \item{FrequencyCategory}{}
   \item{MeasurePopulation}{}
   \item{DatePublicAtlas}{}
-  \item{Table1.Use}{}
-  \item{Table1.Rates.use}{}
-  \item{Table1.Rates.label}{}
-  \item{Table1.Rates.No.Decimals}{}
-  \item{Table1.ASR.use}{}
-  \item{Table1.ASR.No.Decimals}{}
-  \item{AgeGender.bar.graph.used}{}
-  \item{AgeGender.Rates.use}{}
-  \item{Age.bar.graph.used}{}
-  \item{AgeGender.bar.graph.label}{}
-  \item{AgeGender.graph.No.Decimals}{}
-  \item{TS.trend.graph.use}{}
-  \item{TS.seasonality.graph.use}{}
-  \item{TS.specific}{}
-  \item{Map.numbers.use}{}
-  \item{Map.rates.use}{}
-  \item{No.Decimals}{}
-  \item{Map.ASR.use}{}
-  \item{No.Decimals.1}{}
+  \item{TableUse}{}
+  \item{TableRatesLabel}{}
+  \item{TableRatesNoDecimals}{}
+  \item{TableASRNoDecimals}{}
+  \item{AgeGenderBarGraphUse}{}
+  \item{AgeGenderRatesUse}{}
+  \item{AgeBarGraphUse}{}
+  \item{AgeGenderBarGraphLabel}{}
+  \item{AgeGenderGraphNoDecimals}{}
+  \item{TSTrendGraphUse}{}
+  \item{TSSeasonalityGraphUse}{}
+  \item{TSSpecific}{}
+  \item{MapNumbersUse}{}
+  \item{MapRatesUse}{}
+  \item{MapRatesNoDecimals}{}
+  \item{MapASRUse}{}
+  \item{MapASRNoDecimals}{}
   \item{Transmission}{}
-  \item{Transmission.No.Decimals}{}
+  \item{TransmissionNoDecimals}{}
 }}
 \usage{
 data(AERparams)

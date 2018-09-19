@@ -35,7 +35,7 @@ getMap <- function(disease = "SALM", year = 2016,
   #   stop(paste('The dataset does not include the selected disease "', disease, '".'))
   #   }
 
-  reportParameters <- dplyr::filter(reportParameters, reportParameters$Health.topic == disease)
+  reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
   if( nrow(reportParameters) ==0 ) {
     stop(paste('The disease "', disease, '" is not described in the parameter table.
                The report cannot be produced.'))
@@ -56,13 +56,13 @@ getMap <- function(disease = "SALM", year = 2016,
   ## Opt1: Number of cases map
   ## ----
 
-  if(reportParameters$Map.numbers.use == "Y") {
-    includemap(disease, year, reportParameters,
-               index, pathPNG, doc, pop,
-               namePNGsuffix = "COUNT",
-               unit = "",
-               mapBookmark = "MAP_NB_BOOKMARK",
-               captionBookmark = "MAP_NB_CAPTION")
+  if(reportParameters$MapNumbersUse == "Y") {
+    doc <- includeMap(disease, year, reportParameters,
+                      index, pathPNG, doc, pop,
+                      namePNGsuffix = "COUNT",
+                      unit = "",
+                      mapBookmark = "MAP_NB_BOOKMARK",
+                      captionBookmark = "MAP_NB_CAPTION")
   }
 
 
@@ -71,13 +71,13 @@ getMap <- function(disease = "SALM", year = 2016,
   ## Opt2: Rates map
   ## ----
 
-  if(reportParameters$Map.rates.use == "Y") {
-    includemap(disease, year, reportParameters,
-               index, pathPNG, doc, pop,
-               namePNGsuffix = "RATE",
-               unit = "per 100 000 population",
-               mapBookmark = "MAP_RATE_BOOKMARK",
-               captionBookmark = "MAP_RATE_CAPTION")
+  if(reportParameters$MapRatesUse == "Y") {
+    doc <- includeMap(disease, year, reportParameters,
+                      index, pathPNG, doc, pop,
+                      namePNGsuffix = "RATE",
+                      unit = "per 100 000 population",
+                      mapBookmark = "MAP_RATE_BOOKMARK",
+                      captionBookmark = "MAP_RATE_CAPTION")
   }
 
 
@@ -86,15 +86,20 @@ getMap <- function(disease = "SALM", year = 2016,
   ## Opt3: Age Specific Rate map
   ## ----
 
-  if(reportParameters$Map.ASR.use == "Y") {
-    includemap(disease, year, reportParameters,
-               index, pathPNG, doc, pop,
-               namePNGsuffix = "AGESTANDARDISED",
-               unit = "per 100 000 population",
-               mapBookmark = "MAP_ASR_BOOKMARK",
-               captionBookmark = "MAP_ASR_CAPTION")
+  if(reportParameters$MapASRUse == "Y") {
+    doc <- includeMap(disease, year, reportParameters,
+                      index, pathPNG, doc, pop,
+                      namePNGsuffix = "AGESTANDARDISED",
+                      unit = "per 100 000 population",
+                      mapBookmark = "MAP_ASR_BOOKMARK",
+                      captionBookmark = "MAP_ASR_CAPTION")
   }
-  }
+  return(doc)
+}
+
+
+
+
 
 
 #' Function including the PNG map
@@ -113,7 +118,7 @@ getMap <- function(disease = "SALM", year = 2016,
 #' @param mapBookmark Bookmark for the map in the Word document
 #' @param captionBookmark Bookmark for the caption in the Word document
 #' @return Word doc a preview
-includemap <- function(disease, year, reportParameters,
+includeMap <- function(disease, year, reportParameters,
                        index, pathPNG, doc,
                        pop, namePNGsuffix, unit,
                        mapBookmark, captionBookmark){
@@ -128,6 +133,7 @@ includemap <- function(disease, year, reportParameters,
     # --- If no Word document, then just preview the map
     img <- png::readPNG(namePNG)
     grid::grid.raster(img)
+    return(namePNG)
 
   } else {
 
@@ -142,12 +148,6 @@ includemap <- function(disease, year, reportParameters,
     officer::cursor_bookmark(doc, id = captionBookmark)
     doc <- officer::body_add_break(doc)
     doc <- officer::body_add_par(doc, value = caption)
-
-    #-----> Adding the link
-    # link <- pot('Link to the graph',
-    #             hyperlink = parameters$Map.rates.URL,
-    #             format=textProperties(color = MAINCOLOR , underline = TRUE ))
-    # doc <- addParagraph(doc, link, bookmark = "MAP_RATE_BOOKMARK_LINK")
 
     return(doc)
   }
