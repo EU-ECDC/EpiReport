@@ -24,7 +24,7 @@ getTemplate <- function(output_path){
   ## Initialising the Word object
   ## ----
 
-  doc <- officer::read_docx(path = file.path(system.file(package = "EpiReport"), "template/Empty_AER_template.docx" ))
+  doc <- officer::read_docx(path = file.path(system.file(package = "EpiReport"), "template/AER_template.docx" ))
 
   ## ----
   ## Generating the word output
@@ -259,7 +259,7 @@ tseasonalityByMS <- function(x){
 #' @return A word document
 #' @export
 getAER <- function(template, outputPath = getwd(),
-                   x, disease = "Salmonellosis", year = 2016,
+                   x, disease = "SALM", year = 2016,
                    reportParameters, pathPNG){
 
   ## ----
@@ -267,7 +267,7 @@ getAER <- function(template, outputPath = getwd(),
   ## ----
 
   if(missing(template)){
-    template <- file.path(system.file(package = "EpiReport"), "template/Empty_AER_template.docx" )
+    template <- file.path(system.file(package = "EpiReport"), "template/AER_template.docx" )
     }
   if(missing(outputPath)){
     outputPath <- getwd()
@@ -277,6 +277,21 @@ getAER <- function(template, outputPath = getwd(),
   if(missing(year)) { year <- 2016 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(pathPNG)) { pathPNG <- system.file("maps", package = "EpiReport") }
+
+
+  ## ----
+  ## Filtering
+  ## ----
+  # x <- dplyr::filter(x, x$HealthTopic == disease)
+  # if( nrow(x) == 0 ) {
+  #   stop(paste('The dataset does not include the selected disease "', disease, '".'))
+  #   }
+  reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
+  if( nrow(reportParameters) ==0 ) {
+    stop(paste('The disease "', disease, '" is not described in the parameter table.
+               The report cannot be produced.'))
+  }
+
 
 
   ## ----
@@ -290,10 +305,22 @@ getAER <- function(template, outputPath = getwd(),
     padding.top = 1, padding.bottom = 1, padding.left = 0, padding.right = 0,
     text.align = "center")
 
+
+
+  ## ----
+  ## Disease and year title
+  ## ----
+
+  doc <- officer::body_replace_text_at_bkm(doc, bookmark = "DISEASE",  value = toCapTitle(reportParameters$Label))
+  doc <- officer::body_replace_text_at_bkm(doc, bookmark = "YEAR",  value = as.character(year))
+
+
+
   ## ----
   ## Adding the table
   ## ----
 
+  index <- 1
   doc <- EpiReport::getTableByMS(x = x,
                                  disease = disease,
                                  year = year,
@@ -304,13 +331,14 @@ getAER <- function(template, outputPath = getwd(),
   ## ----
   ## Bar graph
   ## ----
+  index <- index + 1
 
 
 
   ## ----
   ## Map
   ## ----
-
+  index <- index + 1
   doc <- EpiReport::getMap(disease = disease,
                            year = year,
                            reportParameters = reportParameters,
@@ -322,12 +350,12 @@ getAER <- function(template, outputPath = getwd(),
   ## ----
   ## TS plot
   ## ----
-  p <- suppressWarnings(EpiReport::tseasonalityByMS())
-  officer::cursor_bookmark(doc, id = "TS_SEASON_BOOKMARK")
-  doc <- officer::body_add_gg( doc,
-                               value = p,
-                               width = 7.2,
-                               height = 3)
+  # p <- suppressWarnings(EpiReport::tseasonalityByMS())
+  # officer::cursor_bookmark(doc, id = "TS_SEASON_BOOKMARK")
+  # doc <- officer::body_add_gg( doc,
+  #                              value = p,
+  #                              width = 7.2,
+  #                              height = 3)
 
 
 
@@ -336,6 +364,23 @@ getAER <- function(template, outputPath = getwd(),
   ## Generating the word output
   ## ----
 
-  print( doc, target = paste(outputPath, "/AER_report_", disease, year, ".docx", sep="") )
+  print(doc,
+        target = paste(outputPath, "/AnnualEpidemiologicalReport_",
+                       disease, year, ".docx", sep=""))
 
+}
+
+
+
+
+#' Capitalise the first letter
+#'
+#' Capitalise the first letter
+#'
+#' @param str character string to capitalise as a title
+#' @return character string
+#'
+toCapTitle <- function(str) {
+  paste(toupper(substring(str, 1,1)), substring(str, 2),
+        sep="", collapse=" ")
 }

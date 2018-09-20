@@ -43,12 +43,13 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
   if(nrow(x) == 0) {
     stop(paste('The dataset does not include the selected disease "', disease, '".'))
   }
+
+
   reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
-  if(nrow(reportParameters) == 0) {
+  if( nrow(reportParameters) ==0 ) {
     stop(paste('The disease "', disease, '" is not described in the parameter table.
                The report cannot be produced.'))
   }
-
 
   ## ------------------
   ## Building the Table
@@ -194,7 +195,6 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
   } else {
     # --- If there is a Word document, then replace the corresponding bookmark
     officer::cursor_bookmark(doc, id = "TABLE1_BOOKMARK")
-    doc <- officer::body_add_break(doc)
     doc <- flextable::body_add_flextable(doc, value = ft)
 
 
@@ -204,7 +204,7 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
 
     ## ------ Caption definition
     pop <- ifelse(reportParameters$MeasurePopulation == "ALL", "", "-")
-    pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", "-")
+    pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
     caption <- paste("Table 1. Distribution of ", pop, reportParameters$Label,
                      " cases, ", "EU/EEA, ", year-4, "\U2013", year, sep = "")
     officer::cursor_bookmark(doc, id = "TABLE1_CAPTION")

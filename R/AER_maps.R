@@ -23,18 +23,16 @@ getMap <- function(disease = "SALM", year = 2016,
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(index)) { index <- 1 }
   if(missing(pathPNG)) { pathPNG <- system.file("maps", package = "EpiReport") }
-
+  if(missing(doc)) { preview <- "" }
 
 
   ## ----
   ## Filtering
   ## ----
-
   # x <- dplyr::filter(x, x$HealthTopic == disease)
   # if( nrow(x) == 0 ) {
   #   stop(paste('The dataset does not include the selected disease "', disease, '".'))
   #   }
-
   reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
   if( nrow(reportParameters) ==0 ) {
     stop(paste('The disease "', disease, '" is not described in the parameter table.
@@ -42,13 +40,12 @@ getMap <- function(disease = "SALM", year = 2016,
   }
 
 
-
   ## ----
   ## Caption definition
   ## ----
 
   pop <- ifelse(reportParameters$MeasurePopulation == "ALL", "", "-")
-  pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", "-")
+  pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
 
 
 
@@ -57,12 +54,18 @@ getMap <- function(disease = "SALM", year = 2016,
   ## ----
 
   if(reportParameters$MapNumbersUse == "Y") {
-    doc <- includeMap(disease, year, reportParameters,
-                      index, pathPNG, doc, pop,
-                      namePNGsuffix = "COUNT",
-                      unit = "",
-                      mapBookmark = "MAP_NB_BOOKMARK",
-                      captionBookmark = "MAP_NB_CAPTION")
+    if(missing(doc)) {
+      preview <- c(preview, previewMap(disease, year, reportParameters,
+                                           pathPNG, namePNGsuffix = "COUNT"))
+    }else{
+      doc <- includeMap(disease, year, reportParameters,
+                        index, pathPNG, doc, pop,
+                        namePNGsuffix = "COUNT",
+                        unit = "",
+                        mapBookmark = "MAP_NB_BOOKMARK",
+                        captionBookmark = "MAP_NB_CAPTION")
+      index <- index + 1
+    }
   }
 
 
@@ -72,12 +75,18 @@ getMap <- function(disease = "SALM", year = 2016,
   ## ----
 
   if(reportParameters$MapRatesUse == "Y") {
-    doc <- includeMap(disease, year, reportParameters,
-                      index, pathPNG, doc, pop,
-                      namePNGsuffix = "RATE",
-                      unit = "per 100 000 population",
-                      mapBookmark = "MAP_RATE_BOOKMARK",
-                      captionBookmark = "MAP_RATE_CAPTION")
+    if(missing(doc)) {
+      preview <- c(preview, previewMap(disease, year, reportParameters,
+                                           pathPNG, namePNGsuffix = "RATE"))
+    }else{
+      doc <- includeMap(disease, year, reportParameters,
+                        index, pathPNG, doc, pop,
+                        namePNGsuffix = "RATE",
+                        unit = "per 100 000 population",
+                        mapBookmark = "MAP_RATE_BOOKMARK",
+                        captionBookmark = "MAP_RATE_CAPTION")
+      index <- index + 1
+    }
   }
 
 
@@ -87,14 +96,49 @@ getMap <- function(disease = "SALM", year = 2016,
   ## ----
 
   if(reportParameters$MapASRUse == "Y") {
-    doc <- includeMap(disease, year, reportParameters,
-                      index, pathPNG, doc, pop,
-                      namePNGsuffix = "AGESTANDARDISED",
-                      unit = "per 100 000 population",
-                      mapBookmark = "MAP_ASR_BOOKMARK",
-                      captionBookmark = "MAP_ASR_CAPTION")
+    if(missing(doc)) {
+      preview <- c(preview, previewMap(disease, year, reportParameters,
+                                           pathPNG, namePNGsuffix = "AGESTANDARDISED"))
+    }else{
+      doc <- includeMap(disease, year, reportParameters,
+                        index, pathPNG, doc, pop,
+                        namePNGsuffix = "AGESTANDARDISED",
+                        unit = "per 100 000 population",
+                        mapBookmark = "MAP_ASR_BOOKMARK",
+                        captionBookmark = "MAP_ASR_CAPTION")
+      index <- index + 1
+    }
   }
-  return(doc)
+
+
+
+  ## ----
+  ## No Maps for this disease
+  ## ----
+
+  if(reportParameters$MapNumbersUse != "Y" &
+     reportParameters$MapRatesUse != "Y" &
+     reportParameters$MapASRUse != "Y") {
+    warning(paste('According to the parameter table \'AERparams\', this disease "',
+                  disease, '" does not include any map in the AER report.', sep = ""))
+    if(missing(doc)) {
+      return()
+    } else {
+      return(doc)
+    }
+  }
+
+
+  ## ----
+  ## Final output
+  ## ----
+
+  if(missing(doc)) {
+    return(preview[-1])
+  }else{
+    return(doc)
+  }
+
 }
 
 
@@ -117,7 +161,7 @@ getMap <- function(disease = "SALM", year = 2016,
 #' @param unit Label of the unit used in the caption
 #' @param mapBookmark Bookmark for the map in the Word document
 #' @param captionBookmark Bookmark for the caption in the Word document
-#' @return Word doc a preview
+#' @return Word doc
 includeMap <- function(disease, year, reportParameters,
                        index, pathPNG, doc,
                        pop, namePNGsuffix, unit,
@@ -128,14 +172,14 @@ includeMap <- function(disease, year, reportParameters,
                    reportParameters$MeasurePopulation, ".",
                    namePNGsuffix, ".png", sep = "")
 
-  if(missing(doc)) {
-
-    # --- If no Word document, then just preview the map
-    img <- png::readPNG(namePNG)
-    grid::grid.raster(img)
-    return(namePNG)
-
-  } else {
+  # if(missing(doc)) {
+  #
+  #   # --- If no Word document, then just preview the map
+  #   img <- png::readPNG(namePNG)
+  #   grid::grid.raster(img)
+  #   return(namePNG)
+  #
+  # } else {
 
     # --- If word document provided, add the maps in the doc
     officer::cursor_bookmark(doc, id = mapBookmark)
@@ -143,12 +187,37 @@ includeMap <- function(disease, year, reportParameters,
 
     ## ------ Caption definition
     caption <- paste("Figure ", index, ". Distribution of ", pop, reportParameters$Label,
-                     " cases", unit, " by country, ",
+                     " cases ", unit, " by country, ",
                      "EU/EEA, ", year, sep = "")
     officer::cursor_bookmark(doc, id = captionBookmark)
-    doc <- officer::body_add_break(doc)
     doc <- officer::body_add_par(doc, value = caption)
 
     return(doc)
-  }
+  # }
+}
+
+
+#' Function including the PNG map
+#'
+#' Function including the PNG map
+#'
+#' @param disease character string, disease name
+#' @param year numeric, year to produce the report for
+#' @param reportParameters dataset of parameters for the report
+#' @param pathPNG character string, path to the folder containing the maps in PNG
+#' @param namePNGsuffix Suffix of the PNG file name of the map
+#' @return Preview
+previewMap <- function(disease, year, reportParameters,
+                       pathPNG, namePNGsuffix){
+
+  ## ----- Map file name
+  namePNG <- paste(pathPNG, "/", disease, "_", year, ".",
+                   reportParameters$MeasurePopulation, ".",
+                   namePNGsuffix, ".png", sep = "")
+
+  # --- If no Word document, then just preview the map
+  img <- png::readPNG(namePNG)
+  grid::grid.raster(img)
+  return(namePNG)
+
 }
