@@ -1,3 +1,94 @@
+#' Get the seasonal distribution graph
+#'
+#' Function returning the plot
+#'
+#' @param x dataset
+#' @param disease character string, disease name
+#' @param year numeric, year to produce the report for
+#' @param reportParameters dataset of parameters for the report
+#' @param index figure number
+#' @param doc Word document
+#' @return Word doc a ggplot2 preview
+#' @export
+getSeason <- function(x, #to improve with variables??
+                      disease = "SALM", year = 2016,
+                      reportParameters, index = 1, doc){
+
+  ## ----
+  ## Setting default arguments if missing
+  ## ----
+
+  if(missing(x)) { x <- EpiReport::SALM2016 }
+  if(missing(disease)) { disease <- "SALM" }
+  if(missing(year)) { year <- 2016 }
+  if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
+  if(missing(index)) { index <- 1 }
+
+
+  ## ----
+  ## Filtering
+  ## ----
+  # x <- dplyr::filter(x, x$HealthTopic == disease)
+  # if( nrow(x) == 0 ) {
+  #   stop(paste('The dataset does not include the selected disease "', disease, '".'))
+  #   }
+  reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
+  if( nrow(reportParameters) ==0 ) {
+    stop(paste('The disease "', disease, '" is not described in the parameter table.
+               The report cannot be produced.'))
+  }
+
+
+  ## ----
+  ## No Seasonal plot for this disease
+  ## ----
+
+  if(reportParameters$TSSeasonalityGraphUse == "Y") {
+    p <- suppressWarnings(ggplot2::ggplot(x, ggplot2::aes(x$GeoCode, x$XValue))) +
+      suppressWarnings(ggplot2::geom_bar(stat="identity"))
+
+    if(missing(doc)) {
+      p
+    } else {
+      officer::cursor_bookmark(doc, id = "TS_SEASON_BOOKMARK")
+      doc <- officer::body_add_gg( doc,
+                                   value = p,
+                                   width = 6,
+                                   height = 3)
+    }
+
+  }
+
+
+  ## ----
+  ## No Seasonal plot for this disease
+  ## ----
+
+  if(reportParameters$TSSeasonalityGraphUse == "N") {
+    message(paste('According to the parameter table \'AERparams\', this disease "',
+                  disease, '" does not include any seasonal graph in the AER report.', sep = ""))
+    if(missing(doc)) {
+      return()
+    } else {
+      return(doc)
+    }
+  }
+
+
+  ## ----
+  ## Final output
+  ## ----
+
+  if(missing(doc)) {
+    return(p)
+  }else{
+    return(doc)
+  }
+}
+
+
+
+
 #' AER
 #'
 #' This function ...

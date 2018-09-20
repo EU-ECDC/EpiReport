@@ -119,13 +119,8 @@ getMap <- function(disease = "SALM", year = 2016,
   if(reportParameters$MapNumbersUse != "Y" &
      reportParameters$MapRatesUse != "Y" &
      reportParameters$MapASRUse != "Y") {
-    warning(paste('According to the parameter table \'AERparams\', this disease "',
+    message(paste('According to the parameter table \'AERparams\', this disease "',
                   disease, '" does not include any map in the AER report.', sep = ""))
-    if(missing(doc)) {
-      return()
-    } else {
-      return(doc)
-    }
   }
 
 

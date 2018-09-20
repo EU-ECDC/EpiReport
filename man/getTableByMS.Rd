@@ -23,7 +23,7 @@ getTableByMS(x, disease = "Salmonellosis", year = 2016,
 \item{doc}{Word document (see \code{officer} package)}
 }
 \value{
-?
+Word doc or FlexTable preview
 }
 \description{
 Function returning the table

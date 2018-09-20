@@ -9,9 +9,10 @@
 #' @param MSCode dataset containing the correspondence table of geo code and labels
 #' @param index figure number
 #' @param doc Word document (see \code{officer} package)
-#' @return ?
+#' @return Word doc or FlexTable preview
 #' @export
 getTableByMS <- function(x,     #input to improve to have variables instead of dataframe
+                                #using HealthTopic TimeUnit TimeCode GeoCode MeasureCode YValue
                          disease = "Salmonellosis", year = 2016,
                          reportParameters, MSCode, index = 1, doc){
 
