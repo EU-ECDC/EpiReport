@@ -8,11 +8,14 @@
 \describe{
   \item{Country}{Country name}
   \item{GeoCode}{Country code}
+  \item{EUEEA}{For each country, EU or EEA depending on the country}
 }}
 \usage{
 data(MSCode)
 }
 \description{
-Dataset correspondence table for country names and code
+Dataset correspondence table for country names, code and EU or EEA.
+EUEEA code and name is included in a additional row in the dataframe for
+the EUEEA summary of table 1 in the AER report
 }
 \keyword{datasets}

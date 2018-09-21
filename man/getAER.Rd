@@ -4,7 +4,7 @@
 \alias{getAER}
 \title{Produce the AER report}
 \usage{
-getAER(template, outputPath, x, disease, year, reportParameters, pathPNG)
+getAER(template, outputPath, x, disease, year, reportParameters, MSCode, pathPNG)
 }
 \arguments{
 \item{template}{The word document in which to add the table.
@@ -20,6 +20,8 @@ Default value is the current working directory getwd().}
 \item{year}{numeric, year to produce the report for}
 
 \item{reportParameters}{dataset of parameters for the report}
+
+\item{MSCode}{dataset of corresponding table of GeoCode names and codes}
 
 \item{pathPNG}{character string, path to the folder containing the maps in PNG}
 }

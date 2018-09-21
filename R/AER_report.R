@@ -48,20 +48,23 @@ getTemplate <- function(output_path){
 #' @param disease character string, disease name
 #' @param year numeric, year to produce the report for
 #' @param reportParameters dataset of parameters for the report
+#' @param MSCode dataset of corresponding table of GeoCode names and codes
 #' @param pathPNG character string, path to the folder containing the maps in PNG
 #'
-#' @usage getAER(template, outputPath, x, disease, year, reportParameters, pathPNG)
+#' @usage getAER(template, outputPath, x, disease, year, reportParameters, MSCode, pathPNG)
 #'
 #' @return A word document
 #' @export
-getAER <- function(template, outputPath = getwd(),
+getAER <- function(template,
+                   outputPath = getwd(),
                    x, disease = "SALM", year = 2016,
-                   reportParameters, pathPNG){
+                   reportParameters,
+                   MSCode,
+                   pathPNG){
 
   ## ----
   ## Setting default arguments if missing
   ## ----
-
   if(missing(template)){
     template <- file.path(system.file(package = "EpiReport"), "template/AER_template.docx" )
   }
@@ -72,6 +75,7 @@ getAER <- function(template, outputPath = getwd(),
   if(missing(disease)) { disease <- "SALM" }    # disease <- "SALM"
   if(missing(year)) { year <- 2016 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
+  if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
   if(missing(pathPNG)) { pathPNG <- system.file("maps", package = "EpiReport") }
 
 
@@ -93,20 +97,13 @@ getAER <- function(template, outputPath = getwd(),
   ## ----
   ## Initialising the Word object
   ## ----
-
   doc <- officer::read_docx(path = template)
-  options( "ReporteRs-fontsize" = 9,
-           "ReporteRs-default-font" = "Tahoma")
-  dataParProp <- officer::fp_par(
-    padding.top = 1, padding.bottom = 1, padding.left = 0, padding.right = 0,
-    text.align = "center")
 
 
 
   ## ----
   ## Disease and year title
   ## ----
-
   doc <- officer::body_replace_text_at_bkm(doc, bookmark = "DISEASE",  value = toCapTitle(reportParameters$Label))
   doc <- officer::body_replace_text_at_bkm(doc, bookmark = "YEAR",  value = as.character(year))
 
@@ -115,7 +112,6 @@ getAER <- function(template, outputPath = getwd(),
   ## ----
   ## Extraction date on which the Atlas is based on
   ## ----
-
   dateAtlas <- paste("This report is based on data for ", year,
                      " retrieved from The European Surveillance System (TESSy) on ",
                      reportParameters$DatePublicAtlas,
@@ -128,55 +124,73 @@ getAER <- function(template, outputPath = getwd(),
   ## ----
   ## Adding the table
   ## ----
-
   index <- 1
   doc <- EpiReport::getTableByMS(x = x,
                                  disease = disease,
                                  year = year,
                                  reportParameters = reportParameters,
-                                 index = 1,
+                                 MSCode = MSCode,
+                                 index = index,
                                  doc = doc)
+  index <- index + 1
+
+
+
 
   ## ----
-  ## Bar graph
+  ## Seasonal plot
   ## ----
+  doc <- EpiReport::getSeason(x = x,
+                              disease = disease,
+                              year = year,
+                              reportParameters = reportParameters,
+                              MSCode = MSCode,
+                              index = index,
+                              doc = doc)
   index <- index + 1
+
+
+
+
+
+
+
+  ## ----
+  ## Trend plot
+  ## ----
+  doc <- EpiReport::getTrend(x = x,
+                             disease = disease,
+                             year = year,
+                             reportParameters = reportParameters,
+                             MSCode = MSCode,
+                             index = index,
+                             doc = doc)
+  index <- index + 1
+
+
+
 
 
 
   ## ----
   ## Map
   ## ----
-  index <- index + 1
   doc <- EpiReport::getMap(disease = disease,
                            year = year,
                            reportParameters = reportParameters,
-                           index = 1,
+                           index = index,
                            pathPNG = pathPNG,
                            doc = doc)
-
-
-  ## ----
-  ## Seasonal plot
-  ## ----
   index <- index + 1
-  doc <- EpiReport::getSeason(x = x,
-                              disease = disease,
-                              year = year,
-                              reportParameters = reportParameters,
-                              index = 1,
-                              doc = doc)
+
+
 
 
   ## ----
-  ## TS plot
+  ## Bar graph
   ## ----
-  # p <- suppressWarnings(EpiReport::tseasonalityByMS())
-  # officer::cursor_bookmark(doc, id = "TS_SEASON_BOOKMARK")
-  # doc <- officer::body_add_gg( doc,
-  #                              value = p,
-  #                              width = 7.2,
-  #                              height = 3)
+  # index <- index + 1
+
 
 
 
