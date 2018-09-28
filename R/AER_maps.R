@@ -17,7 +17,6 @@ getMap <- function(disease = "SALM", year = 2016,
   ## Setting default arguments if missing
   ## ----
 
-  # if(missing(x)) { x <- EpiReport::SALM2016 }
   if(missing(disease)) { disease <- "SALM" }
   if(missing(year)) { year <- 2016 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
@@ -162,7 +161,14 @@ includeMap <- function(disease, year, reportParameters,
 
   # --- If word document provided, add the maps in the doc
   officer::cursor_bookmark(doc, id = mapBookmark)
-  doc <- officer::body_add_img(doc, namePNG, width = 7.018, height = 4.956)
+  if( file.exists(namePNG) ){
+    doc <- officer::body_add_img(doc, namePNG, width = 7.018, height = 4.956)
+  } else {
+    warning(paste('The file "', namePNG,
+                  '"does not exist and could not be included in the report.',
+                  sep = ""),
+            call. = FALSE)
+  }
 
   ## ------ Caption definition
   caption <- paste("Figure ", index, ". Distribution of ", pop, reportParameters$Label,
@@ -195,8 +201,16 @@ previewMap <- function(disease, year, reportParameters,
                    namePNGsuffix, ".png", sep = "")
 
   # --- If no Word document, then just preview the map
-  img <- png::readPNG(namePNG)
-  grid::grid.raster(img)
+  if( file.exists(namePNG) ){
+    img <- png::readPNG(namePNG)
+    grid::grid.raster(img)
+  } else {
+    stop(paste('The file "', namePNG,
+               '" does not exist and could not be displayed.',
+               sep = ""),
+         call. = FALSE)
+  }
+
   return(namePNG)
 
 }

@@ -92,6 +92,11 @@ getAER <- function(template,
   doc <- officer::read_docx(path = template)
 
 
+  ## ----
+  ## Preparing the data
+  ## ----
+  x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+
 
   ## ----
   ## Disease and year title

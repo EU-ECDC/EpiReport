@@ -15,3 +15,7 @@ cleaned variable
 \description{
 Clean the MeasureCode variable
 }
+\examples{
+x <- EpiReport::SALM2016
+x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+}

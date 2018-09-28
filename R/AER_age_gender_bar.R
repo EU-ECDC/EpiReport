@@ -39,7 +39,7 @@ getAgeGender <- function(x, #to improve with variables??
   ## Age Gender bar graph
   ## ----
 
-  if(reportParameters$AgeGenderBarGraphUse == "Y") {
+  if(reportParameters$AgeGenderBarGraphUse %in% c("Y", "P")) {
 
 
     ## ----
@@ -92,7 +92,12 @@ getAgeGender <- function(x, #to improve with variables??
       }
     }
 
-    if(reportParameters$AgeBarGraphUse == "Y") {
+
+    ## ------------
+    ## Proportion Graph
+    ## ------------
+
+    if(reportParameters$AgeGenderBarGraphUse == "P") {
 
       # --- Filtering on MeasureCode indicators
       x <- dplyr::filter(x, x$MeasureCode %in%
@@ -100,6 +105,24 @@ getAgeGender <- function(x, #to improve with variables??
       if(nrow(x) == 0) {
         stop(paste('The dataset does not include the required MeasureCode "',
                    paste(reportParameters$MeasurePopulation, "AGE_GENDER.PROPORTION", sep=".")
+                   ,'" for the selected disease "', disease, '".'))
+      }
+
+    }
+
+
+    ## ------------
+    ## WNV Graph
+    ## ------------
+
+    if(reportParameters$AgeBarGraphUse == "Y") {
+
+      # --- Filtering on MeasureCode indicators
+      x <- dplyr::filter(x, x$MeasureCode %in%
+                           paste(reportParameters$MeasurePopulation, "DOMESTIC.AGE.RATE", sep="."))
+      if(nrow(x) == 0) {
+        stop(paste('The dataset does not include the required MeasureCode "',
+                   paste(reportParameters$MeasurePopulation, "DOMESTIC.AGE.RATE", sep=".")
                    ,'" for the selected disease "', disease, '".'))
       }
 

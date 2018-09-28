@@ -42,11 +42,71 @@ filterDisease <- function(dis, reportParameters) {
 #'
 #' @param var variable to clean
 #' @return cleaned variable
+#' @examples
+#' x <- EpiReport::SALM2016
+#' x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
 #' @export
 #'
 cleanMeasureCode <- function(var) {
 
+  # ---- Recoding CONFIRMED.AGE_GENDER.RATE
+  valuesToReplace <- c("CONFIRMED.LABCONFIRMED.AGE_GENDER.RATE",
+                      "TYPHOID.AGE_GENDER.RATE",
+                      "ACCUTE.AGE_GENDER.RATE")
+  var <- ifelse(var %in% valuesToReplace,
+                "CONFIRMED.AGE_GENDER.RATE",
+                var)
 
+
+  # ---- Recoding CONFIRMED.AGESTANDARDISED.RATE
+  valuesToReplace <- c("CONFIRMED.LABCONFIRMED.AGESTANDARDISED.RATE")
+  var <- ifelse(var %in% valuesToReplace,
+                "CONFIRMED.AGESTANDARDISED.RATE",
+                var)
+
+
+  # ---- Recoding CONFIRMED.RATE
+  valuesToReplace = c("CONFIRMED.LABCONFIRMED.RATE",
+                      "CONFIRMED.AGELT1.RATE",
+                      "TYPHOID.RATE")
+  var <- ifelse(var %in% valuesToReplace,
+                "CONFIRMED.RATE",
+                var)
+
+
+  # ---- Recoding CONFIRMED.COUNT
+  valuesToReplace = c("ALL.LABCONFIRMED.COUNT",
+                      "CONFIRMED.LABCONFIRMED.COUNT",
+                      "CONFIRMED.AGELT1.COUNT",
+                      "TYPHOID.COUNT")
+  var <- ifelse(var %in% valuesToReplace,
+                "CONFIRMED.COUNT",
+                var)
+
+
+  # ---- Recoding ALL.COUNT
+  valuesToReplace = c("ALL.DOMESTIC.COUNT",
+                      "AGELT1.COUNT")
+  var <- ifelse(var %in% valuesToReplace,
+                "ALL.COUNT",
+                var)
+
+
+  # ---- Recoding ALL.RATE
+  valuesToReplace = c("ALL.DOMESTIC.RATE")
+  var <- ifelse(var %in% valuesToReplace,
+                "ALL.RATE",
+                var)
+
+
+
+  # ---- Recoding AGESTANDARDISED.RATE
+  valuesToReplace = c("ALL.DOMESTIC.AGESTANDARDISED.RATE")
+  var <- ifelse(var %in% valuesToReplace,
+                "AGESTANDARDISED.RATE",
+                var)
+
+  return(var)
 }
 
 
