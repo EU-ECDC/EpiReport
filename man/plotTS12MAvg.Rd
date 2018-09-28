@@ -4,7 +4,7 @@
 \alias{plotTS12MAvg}
 \title{AER time series with 12-month moving average}
 \usage{
-plotTS12MAvg(data, xvar, yvar, movAverage)
+plotTS12MAvg(data, xvar = "TimeCode", yvar = "N", movAverage = "MAV")
 }
 \arguments{
 \item{data}{Your data frame.}

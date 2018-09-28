@@ -82,15 +82,7 @@ getAER <- function(template,
   ## ----
   ## Filtering
   ## ----
-  # x <- dplyr::filter(x, x$HealthTopic == disease)
-  # if( nrow(x) == 0 ) {
-  #   stop(paste('The dataset does not include the selected disease "', disease, '".'))
-  #   }
-  reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
-  if( nrow(reportParameters) ==0 ) {
-    stop(paste('The disease "', disease, '" is not described in the parameter table.
-               The report cannot be produced.'))
-  }
+  reportParameters <- filterDisease(disease, reportParameters)
 
 
 
@@ -190,6 +182,14 @@ getAER <- function(template,
   ## Bar graph
   ## ----
   # index <- index + 1
+
+  doc <- EpiReport::getAgeGender(x = x,
+                                 disease = disease,
+                                 year = year,
+                                 reportParameters= reportParameters,
+                                 geoCode = "EU_EEA31",
+                                 index = index,
+                                 doc = doc)
 
 
 

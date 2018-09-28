@@ -32,11 +32,7 @@ getSeason <- function(x, #to improve with variables??
   ## Filtering parameter table
   ## ----
 
-  reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
-  if( nrow(reportParameters) ==0 ) {
-    stop(paste('The disease "', disease, '" is not described in the parameter table.
-               The report cannot be produced.'))
-  }
+  reportParameters <- filterDisease(disease, reportParameters)
 
 
   ## ----

@@ -32,11 +32,7 @@ getTrend <- function(x, #to improve with variables??
   ## Filtering parameter table
   ## ----
 
-  reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
-  if( nrow(reportParameters) ==0 ) {
-    stop(paste('The disease "', disease, '" is not described in the parameter table.
-               The report cannot be produced.'))
-  }
+  reportParameters <- filterDisease(disease, reportParameters)
 
 
   ## ----
@@ -61,7 +57,7 @@ getTrend <- function(x, #to improve with variables??
       stop(paste('The dataset does not include the selected disease "', disease, '".'))
     }
 
-    # --- Filtering on Yearly data only
+    # --- Filtering on Monthly data only
     x <- dplyr::filter(x, x$TimeUnit == "M")
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the required time unit \'M\' for the selected disease "', disease, '".'))
@@ -113,7 +109,7 @@ getTrend <- function(x, #to improve with variables??
       fill = list(NA, NA, NA))    #used to be 'fill = list(NA, NULL, NA))' !!!! TO DISCUSS!!
 
     # --- Building the result dataframe
-    eueea <- dplyr::mutate(eueea, M.AV = zoo::coredata(m.av))
+    eueea <- dplyr::mutate(eueea, MAV = zoo::coredata(m.av))
     eueea <- as.data.frame(eueea)
 
     # --- Transforming into a complete date
@@ -125,7 +121,10 @@ getTrend <- function(x, #to improve with variables??
     ## Plot
     ## ----
 
-    p <- plotTS12MAvg(eueea, "TimeCode", "N", "M.AV")
+    p <- plotTS12MAvg(eueea,
+                      xvar = "TimeCode",
+                      yvar = "N",
+                      movAverage = "MAV")
 
 
     if(missing(doc)) {
@@ -191,9 +190,9 @@ getTrend <- function(x, #to improve with variables??
 #' @keywords moving average
 #' @export
 plotTS12MAvg <- function(data,
-                         xvar,
-                         yvar,
-                         movAverage){
+                         xvar = "TimeCode",
+                         yvar = "N",
+                         movAverage = "MAV"){
 
 
   # xvar <- deparse(substitute(xvar))
@@ -202,7 +201,9 @@ plotTS12MAvg <- function(data,
 
 
   # --- Breaks for the Y axis
-  FIGTSBREAKS <- pretty(seq(0, max(data[[yvar]]), by = max(data[[yvar]])/7))
+  FIGTSBREAKS <- pretty(seq(0,
+                            max(data[[yvar]]),
+                            by = max(data[[yvar]])/7))
 
 
   # --- Plotting

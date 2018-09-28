@@ -18,7 +18,7 @@ getMap <- function(disease = "SALM", year = 2016,
   ## ----
 
   # if(missing(x)) { x <- EpiReport::SALM2016 }
-  if(missing(disease)) { disease <- "SALM" }    # disease <- "SALM"
+  if(missing(disease)) { disease <- "SALM" }
   if(missing(year)) { year <- 2016 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(index)) { index <- 1 }
@@ -29,15 +29,8 @@ getMap <- function(disease = "SALM", year = 2016,
   ## ----
   ## Filtering
   ## ----
-  # x <- dplyr::filter(x, x$HealthTopic == disease)
-  # if( nrow(x) == 0 ) {
-  #   stop(paste('The dataset does not include the selected disease "', disease, '".'))
-  #   }
-  reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == disease)
-  if( nrow(reportParameters) ==0 ) {
-    stop(paste('The disease "', disease, '" is not described in the parameter table.
-               The report cannot be produced.'))
-  }
+
+  reportParameters <- filterDisease(disease, reportParameters)
 
 
   ## ----
@@ -56,7 +49,7 @@ getMap <- function(disease = "SALM", year = 2016,
   if(reportParameters$MapNumbersUse == "Y") {
     if(missing(doc)) {
       preview <- c(preview, previewMap(disease, year, reportParameters,
-                                           pathPNG, namePNGsuffix = "COUNT"))
+                                       pathPNG, namePNGsuffix = "COUNT"))
     }else{
       doc <- includeMap(disease, year, reportParameters,
                         index, pathPNG, doc, pop,
@@ -77,7 +70,7 @@ getMap <- function(disease = "SALM", year = 2016,
   if(reportParameters$MapRatesUse == "Y") {
     if(missing(doc)) {
       preview <- c(preview, previewMap(disease, year, reportParameters,
-                                           pathPNG, namePNGsuffix = "RATE"))
+                                       pathPNG, namePNGsuffix = "RATE"))
     }else{
       doc <- includeMap(disease, year, reportParameters,
                         index, pathPNG, doc, pop,
@@ -98,7 +91,7 @@ getMap <- function(disease = "SALM", year = 2016,
   if(reportParameters$MapASRUse == "Y") {
     if(missing(doc)) {
       preview <- c(preview, previewMap(disease, year, reportParameters,
-                                           pathPNG, namePNGsuffix = "AGESTANDARDISED"))
+                                       pathPNG, namePNGsuffix = "AGESTANDARDISED"))
     }else{
       doc <- includeMap(disease, year, reportParameters,
                         index, pathPNG, doc, pop,
@@ -167,28 +160,19 @@ includeMap <- function(disease, year, reportParameters,
                    reportParameters$MeasurePopulation, ".",
                    namePNGsuffix, ".png", sep = "")
 
-  # if(missing(doc)) {
-  #
-  #   # --- If no Word document, then just preview the map
-  #   img <- png::readPNG(namePNG)
-  #   grid::grid.raster(img)
-  #   return(namePNG)
-  #
-  # } else {
+  # --- If word document provided, add the maps in the doc
+  officer::cursor_bookmark(doc, id = mapBookmark)
+  doc <- officer::body_add_img(doc, namePNG, width = 7.018, height = 4.956)
 
-    # --- If word document provided, add the maps in the doc
-    officer::cursor_bookmark(doc, id = mapBookmark)
-    doc <- officer::body_add_img(doc, namePNG, width = 7.018, height = 4.956)
+  ## ------ Caption definition
+  caption <- paste("Figure ", index, ". Distribution of ", pop, reportParameters$Label,
+                   " cases ", unit, " by country, ",
+                   "EU/EEA, ", year, sep = "")
+  officer::cursor_bookmark(doc, id = captionBookmark)
+  doc <- officer::body_add_par(doc, value = caption)
 
-    ## ------ Caption definition
-    caption <- paste("Figure ", index, ". Distribution of ", pop, reportParameters$Label,
-                     " cases ", unit, " by country, ",
-                     "EU/EEA, ", year, sep = "")
-    officer::cursor_bookmark(doc, id = captionBookmark)
-    doc <- officer::body_add_par(doc, value = caption)
+  return(doc)
 
-    return(doc)
-  # }
 }
 
 
