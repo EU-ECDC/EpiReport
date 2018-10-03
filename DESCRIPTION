@@ -14,8 +14,10 @@ RoxygenNote: 6.1.0
 Imports:
     officer,
     flextable,
+    zoo,
     png,
     dplyr,
+    tidyr,
     ggplot2,
     graphics,
     utils

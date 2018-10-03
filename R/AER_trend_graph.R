@@ -1,4 +1,4 @@
-#' Get the seasonality graph
+#' Get the trend of reported/confirmed cases graph
 #'
 #' Function returning the plot
 #'
@@ -11,10 +11,10 @@
 #' @param doc Word document
 #' @return Word doc a ggplot2 preview
 #' @export
-getSeason <- function(x, #to improve with variables??
+getTrend <- function(x, #to improve with variables??
                      #HealthTopic MeasureCode TimeUnit TimeCode GeoCode N
-                     disease = "SALM", year = 2016,
-                     reportParameters, MSCode, index = 1, doc){
+                      disease = "SALM", year = 2016,
+                      reportParameters, MSCode, index = 1, doc){
 
   ## ----
   ## Setting default arguments if missing
@@ -36,10 +36,10 @@ getSeason <- function(x, #to improve with variables??
 
 
   ## ----
-  ## Seasonal plot
+  ## Trend plot
   ## ----
 
-  if(reportParameters$TSSeasonalityGraphUse == "Y") {
+  if(reportParameters$TSTrendGraphUse == "Y") {
 
     ## ----
     ## Filtering data
@@ -57,7 +57,7 @@ getSeason <- function(x, #to improve with variables??
       stop(paste('The dataset does not include the selected disease "', disease, '".'))
     }
 
-    # --- Filtering on Yearly data only
+    # --- Filtering on Monthly data only
     x <- dplyr::filter(x, x$TimeUnit == "M")
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the required time unit \'M\' for the selected disease "', disease, '".'))
@@ -96,37 +96,24 @@ getSeason <- function(x, #to improve with variables??
     missingTimePoint <- dplyr::setdiff(tsFill, x[,names(tsFill)])
     x <- dplyr::filter(x, !(x$GeoCode %in% unique(missingTimePoint$GeoCode)))
 
-
-
-    ## ----
-    ## Building the result table
-    ## ----
-
-    # --- Transforming into a complete date
-    x$TimeCode <- as.Date(paste(x$TimeCode,"01", sep = "-"), "%Y-%m-%d")
-
-    # --- Creating the year and month variables for further stratification
-    x <- dplyr::mutate(x, TimeYear = format(as.Date(x$TimeCode, "%Y-%m-%d"), "%Y"))
-    x <- dplyr::mutate(x, TimeMonth = format(as.Date(x$TimeCode, "%Y-%m-%d"), "%m"))
-
-    # --- Computing TS at EUEEA level
-    N <- TimeCode <- TimeYear <- TimeMonth <- NULL
-    eueea <- dplyr::group_by(x, TimeCode, TimeYear, TimeMonth)
+    # --- Computing EUEEA level
+    N <- TimeCode <- NULL
+    eueea <- dplyr::group_by(x, TimeCode)
     eueea <- dplyr::summarise(eueea, "N" = sum(N, na.rm = TRUE))
     eueea <- dplyr::ungroup(eueea)
 
-    # --- Compute mean, min and max
-    summ <- dplyr::filter(eueea, eueea$TimeYear != year)
-    summ <- dplyr::group_by(summ, TimeMonth)
-    summ <- dplyr::summarise(summ,
-                             Mean4Years = mean(N, na.rm = TRUE),
-                             Max4Years=max(N, na.rm = TRUE),
-                             Min4Years=min(N, na.rm = TRUE))
-    summ <- dplyr::ungroup(summ)
+    # --- Computing EUEEA Moving average
+    m.av <- zoo::rollmean(
+      zoo::zoo(eueea$N, eueea$TimeCode),
+      12 ,
+      fill = list(NA, NA, NA))    #used to be 'fill = list(NA, NULL, NA))' !!!! TO DISCUSS!!
 
-    # --- Finalysing the result table
-    agg <- dplyr::filter(eueea, eueea$TimeYear == year)
-    agg <- dplyr::inner_join(agg, summ, by = "TimeMonth")
+    # --- Building the result dataframe
+    eueea <- dplyr::mutate(eueea, MAV = zoo::coredata(m.av))
+    eueea <- as.data.frame(eueea)
+
+    # --- Transforming into a complete date
+    eueea$TimeCode <- as.Date(paste(eueea$TimeCode,"01", sep = "-"), "%Y-%m-%d")
 
 
 
@@ -134,13 +121,10 @@ getSeason <- function(x, #to improve with variables??
     ## Plot
     ## ----
 
-    p <- plotSeasonality(data = agg,
-                                xvar = "TimeCode",
-                                yvar = "N",
-                                min4years = "Min4Years",
-                                max4years = "Max4Years",
-                                mean4years = "Mean4Years",
-                                year = year)
+    p <- plotTS12MAvg(eueea,
+                      xvar = "TimeCode",
+                      yvar = "N",
+                      movAverage = "MAV")
 
 
     if(missing(doc)) {
@@ -150,9 +134,9 @@ getSeason <- function(x, #to improve with variables??
       ## ------ Caption
       pop <- ifelse(reportParameters$MeasurePopulation == "ALL", "", "-")
       pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
-      caption <- paste("Figure ", index, ". Distribution of ", pop,
-                       reportParameters$Label, " cases by month, EU/EEA, ",
-                       year, " and ", year-4, "\U2013", year-1, sep = "")
+      caption <- paste("Figure ", index, ". Trend and number of ", pop,
+                       reportParameters$Label, " cases, EU/EEA by month, ",
+                       year-4, "\U2013", year, sep = "")
       officer::cursor_bookmark(doc, id = "TS_TREND_BOOKMARK")
       doc <- officer::body_add_par(doc,
                                    value = caption)
@@ -167,12 +151,12 @@ getSeason <- function(x, #to improve with variables??
 
 
   ## ----
-  ## No Seasonal plot for this disease
+  ## No trend plot for this disease
   ## ----
 
-  if(reportParameters$TSSeasonalityGraphUse == "N") {
+  if(reportParameters$TSTrendGraphUse == "N") {
     message(paste('According to the parameter table \'AERparams\', this disease "',
-                  disease, '" does not include any seasonal graph in the AER report.', sep = ""))
+                  disease, '" does not include any trend graph in the AER report.', sep = ""))
     if(missing(doc)) {
       return()
     } else {
@@ -190,73 +174,78 @@ getSeason <- function(x, #to improve with variables??
   }else{
     return(doc)
   }
-  }
+}
 
 
-#' AER
+
+
+#' AER time series with 12-month moving average
 #'
-#' This function ...
-#' @param data Your data frame
-#' @param xvar Variable on the x-axis in quotes; e.g. age group
-#' @param yvar Variable on the y-axis in quotes with the rate or number of cases
-#' @param min4years var...
-#' @param max4years var...
-#' @param mean4years var..
-#' @param year Var...
-#' @keywords seasonality
+#' This function draws a line graph with 12-month moving average, AER style.
+#' Expects aggregated data and pre-calculated 12-month moving average.
+#' @param data Your data frame.
+#' @param xvar Time variable, given in quotes.
+#' @param yvar A variable with the number of cases for each time unit, given in quotes.
+#' @param movAverage A variable with the moving average per each time unit.
+#' @keywords moving average
 #' @export
-plotSeasonality <- function(data,
-                            xvar = "TimeCode",
-                            yvar = "N",
-                            min4years = "Min4Years",
-                            max4years = "Max4Years",
-                            mean4years = "Mean4Years",
-                            year = 2016){
+plotTS12MAvg <- function(data,
+                         xvar = "TimeCode",
+                         yvar = "N",
+                         movAverage = "MAV"){
 
-  # --- Setting breaks for the time series to be nice
+
+  # xvar <- deparse(substitute(xvar))
+  # yvar <- deparse(substitute(yvar))
+  # movAverage <-deparse(substitute(movAverage))
+
+
+  # --- Breaks for the Y axis
   FIGTSBREAKS <- pretty(seq(0,
-                            max(data[[max4years]], data[[yvar]]),
-                            by = max(data[[max4years]], data[[yvar]])/7))
+                            max(data[[yvar]]),
+                            by = max(data[[yvar]])/7))
 
-  p <- ggplot2::ggplot(data, ggplot2::aes(data[[xvar]])) +
-    ggplot2::geom_ribbon(
-      ggplot2::aes(ymin = data[[min4years]] ,
-                   ymax = data[[max4years]],
-                   fill = paste("Min-max (", year - 4, "\U2013", year - 1, ")",sep = "")) , alpha = 0.5) +
+
+  # --- Plotting
+
+  p <- ggplot2::ggplot(data,
+                       ggplot2::aes(data[[xvar]])) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[mean4years]],
-                   color = "Mean"),
-      linetype = "longdash", size = 0.6) +
+      ggplot2::aes(y = data[[yvar]] , color = "Number of cases"), size = 0.6) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[yvar]], color = "year"), size = 1.1) +
+      ggplot2::aes(y = data[[movAverage]], color = "12-month moving average"), size = 1.1, na.rm = TRUE) +
     ggplot2::scale_x_date(
-      date_labels = "%b", date_breaks = "1 month", expand = c(0, 0)) +
+      date_label = "%b \n %Y",
+      date_breaks = "6 months",
+      expand = c(0, 0)) +
     ggplot2::scale_y_continuous(
-      breaks = FIGTSBREAKS, limits = c(0,max(FIGTSBREAKS)), expand = c(0, 0)) +
+      breaks = FIGTSBREAKS,
+      limits = c(0, max(FIGTSBREAKS)),
+      expand = c(0, 0)) +
     ggplot2::xlab("Month") +
     ggplot2::ylab("Number of cases") +
-    ggplot2::scale_colour_manual("lines",
-                                 values = c("year" = "#69AE23", "Mean" = "#767171"),
-                                 labels = c("year" = as.character(year),
-                                            "Mean" = paste("Mean (", year - 4 , "\U2013", year - 1, ")", sep = ""))) +
-    ggplot2::scale_fill_manual("", values = "grey80") +
+    ggplot2::scale_colour_manual(
+      "lines",
+      values=c("Number of cases" = "#767171", "12-month moving average"= "#69AE23")) +
     ggplot2::theme(
       axis.text = ggplot2::element_text(size = 8),
       axis.title = ggplot2::element_text(size = 9),
+      axis.line = ggplot2::element_line(colour = "#767171"),
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       panel.background = ggplot2::element_blank(),
-      axis.line = ggplot2::element_line(colour = "#767171"),
       legend.position = "right",
       legend.title = ggplot2::element_blank(),
-      legend.text = ggplot2::element_text(size=8),
+      legend.text = ggplot2::element_text(size = 8),
       legend.key = ggplot2::element_blank(),
       legend.key.width = ggplot2::unit(0.8, "cm")) +
-    ggplot2::guides(
-      color = ggplot2::guide_legend(
-        override.aes = list(linetype = c("longdash", "solid"),
-                            lwd = c(0.6, 1.1))))
+    ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE),
+                    colour = ggplot2::guide_legend(reverse = TRUE))
 
   return(p)
-
 }
+
+
+
+
+
