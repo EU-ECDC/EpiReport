@@ -66,7 +66,8 @@ getAER <- function(template,
   ## Setting default arguments if missing
   ## ----
   if(missing(template)){
-    template <- file.path(system.file(package = "EpiReport"), "template/AER_template.docx" )
+    template <- file.path(system.file(package = "EpiReport"),
+                          "template/AER_template.docx" )
   }
   if(missing(outputPath)){
     outputPath <- getwd()
@@ -101,8 +102,12 @@ getAER <- function(template,
   ## ----
   ## Disease and year title
   ## ----
-  doc <- officer::body_replace_text_at_bkm(doc, bookmark = "DISEASE",  value = toCapTitle(reportParameters$Label))
-  doc <- officer::body_replace_text_at_bkm(doc, bookmark = "YEAR",  value = as.character(year))
+  doc <- officer::body_replace_text_at_bkm(doc,
+                                           bookmark = "DISEASE",
+                                           value = toCapTitle(reportParameters$Label))
+  doc <- officer::body_replace_text_at_bkm(doc,
+                                           bookmark = "YEAR",
+                                           value = as.character(year))
 
 
 
@@ -112,9 +117,12 @@ getAER <- function(template,
   dateAtlas <- paste("This report is based on data for ", year,
                      " retrieved from The European Surveillance System (TESSy) on ",
                      reportParameters$DatePublicAtlas,
-                     ". TESSy is a system for the collection, analysis and dissemination of data on communicable diseases.",
+                     ". TESSy is a system for the collection, analysis and dissemination",
+                     " of data on communicable diseases.",
                      sep = "")
-  doc <- officer::body_replace_text_at_bkm(doc, bookmark = "DATEPUBLICATLAS",  value = dateAtlas)
+  doc <- officer::body_replace_text_at_bkm(doc,
+                                           bookmark = "DATEPUBLICATLAS",
+                                           value = dateAtlas)
 
 
 
@@ -145,8 +153,6 @@ getAER <- function(template,
                               index = index,
                               doc = doc)
   index <- index + 1
-
-
 
 
 
