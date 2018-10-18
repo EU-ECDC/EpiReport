@@ -29,6 +29,12 @@ getTrend <- function(x, #to improve with variables??
 
 
   ## ----
+  ## Preparing the data
+  ## ----
+  x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+
+
+  ## ----
   ## Filtering parameter table
   ## ----
 

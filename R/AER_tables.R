@@ -29,6 +29,12 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
 
 
   ## ----
+  ## Preparing the data
+  ## ----
+  x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+
+
+  ## ----
   ## Filtering parameter table
   ## ----
 

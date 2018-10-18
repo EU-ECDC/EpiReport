@@ -98,12 +98,16 @@ cleanMeasureCode <- function(var) {
                 "ALL.RATE",
                 var)
 
-
+  # ---- Recoding ALL.AGE.RATE
+  valuesToReplace = c("ALL.DOMESTIC.AGE.RATE")
+  var <- ifelse(var %in% valuesToReplace,
+                "ALL.AGE.RATE",
+                var)
 
   # ---- Recoding AGESTANDARDISED.RATE
   valuesToReplace = c("ALL.DOMESTIC.AGESTANDARDISED.RATE")
   var <- ifelse(var %in% valuesToReplace,
-                "AGESTANDARDISED.RATE",
+                "ALL.AGESTANDARDISED.RATE",
                 var)
 
   return(var)

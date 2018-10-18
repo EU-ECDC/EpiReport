@@ -29,6 +29,12 @@ getAgeGender <- function(x, #to improve with variables??
 
 
   ## ----
+  ## Preparing the data
+  ## ----
+  x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+
+
+  ## ----
   ## Filtering parameter table
   ## ----
 
@@ -39,7 +45,7 @@ getAgeGender <- function(x, #to improve with variables??
   ## Age Gender bar graph
   ## ----
 
-  if(reportParameters$AgeGenderBarGraphUse %in% c("Y", "P")) {
+  if(reportParameters$AgeGenderUse != "NO") {
 
 
     ## ----
@@ -80,7 +86,12 @@ getAgeGender <- function(x, #to improve with variables??
     }
 
 
-    if(reportParameters$AgeGenderRatesUse == "Y") {
+
+    ## ------------
+    ## Age and Gender bar graph using rates: AG-RATE
+    ## ------------
+
+    if(reportParameters$AgeGenderUse == "AG-RATE") {
 
       # --- Filtering on MeasureCode indicators
       x <- dplyr::filter(x, x$MeasureCode %in%
@@ -93,11 +104,30 @@ getAgeGender <- function(x, #to improve with variables??
     }
 
 
+
     ## ------------
-    ## Proportion Graph
+    ## Age and Gender bar graph using counts: AG-COUNT
     ## ------------
 
-    if(reportParameters$AgeGenderBarGraphUse == "P") {
+    if(reportParameters$AgeGenderUse == "AG-COUNT") {
+
+      # --- Filtering on MeasureCode indicators
+      x <- dplyr::filter(x, x$MeasureCode %in%
+                           paste(reportParameters$MeasurePopulation, "AGE_GENDER.COUNT", sep="."))
+      if(nrow(x) == 0) {
+        stop(paste('The dataset does not include the required MeasureCode "',
+                   paste(reportParameters$MeasurePopulation, "AGE_GENDER.COUNT", sep=".")
+                   ,'" for the selected disease "', disease, '".'))
+      }
+    }
+
+
+
+    ## ------------
+    ## Proportion Graph: AG-PROP
+    ## ------------
+
+    if(reportParameters$AgeGenderUse == "AG-PROP") {
 
       # --- Filtering on MeasureCode indicators
       x <- dplyr::filter(x, x$MeasureCode %in%
@@ -112,17 +142,17 @@ getAgeGender <- function(x, #to improve with variables??
 
 
     ## ------------
-    ## WNV Graph
+    ## Age Rate bar graph (WNV): A-RATE
     ## ------------
 
-    if(reportParameters$AgeBarGraphUse == "Y") {
+    if(reportParameters$AgeGenderUse == "A-RATE") {
 
       # --- Filtering on MeasureCode indicators
       x <- dplyr::filter(x, x$MeasureCode %in%
-                           paste(reportParameters$MeasurePopulation, "DOMESTIC.AGE.RATE", sep="."))
+                           paste(reportParameters$MeasurePopulation, "AGE.RATE", sep="."))
       if(nrow(x) == 0) {
         stop(paste('The dataset does not include the required MeasureCode "',
-                   paste(reportParameters$MeasurePopulation, "DOMESTIC.AGE.RATE", sep=".")
+                   paste(reportParameters$MeasurePopulation, "AGE.RATE", sep=".")
                    ,'" for the selected disease "', disease, '".'))
       }
 
@@ -133,21 +163,35 @@ getAgeGender <- function(x, #to improve with variables??
     ## Ordering the labels for gender variable
     ## ----
 
-    x$YLabel = factor(x$YLabel, c("Male","Female"))
     x$XLabel = factor(x$XLabel, order_quasinum(unique(x$XLabel)))
+    # --- for Age by Gender
+    if(substr(reportParameters$AgeGenderUse, 1, 2) == "AG") {
+      x$YLabel = factor(x$YLabel, c("Male","Female"))
+    }
 
 
     ## ----
     ## Plot
     ## ----
 
-    p <- plotAgeGender(x,
-                       xvar = "XLabel",
-                       yvar = "ZValue",
-                       group = "YLabel",
-                       fill_color1 = "#65B32E",
-                       fill_color2 = "#7CBDC4",
-                       ytitle  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
+    if(substr(reportParameters$AgeGenderUse, 1, 2) == "AG") {
+      # --- Age by Gender
+      p <- plotAgeGender(x,
+                         xvar = "XLabel",
+                         yvar = "ZValue",
+                         group = "YLabel",
+                         fill_color1 = "#65B32E",
+                         fill_color2 = "#7CBDC4",
+                         ytitle  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
+    } else {
+      # --- Age only
+      p <- plotAge(x,
+                   xvar = "XLabel",
+                   yvar = "YValue",
+                   fill_color1 = "#65B32E",
+                   ytitle  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
+    }
+
 
     if(missing(doc)) {
       return(p)
@@ -156,10 +200,11 @@ getAgeGender <- function(x, #to improve with variables??
       ## ------ Caption
       pop <- ifelse(reportParameters$MeasurePopulation == "ALL", "", "-")
       pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
+      groupby <- ifelse(substr(reportParameters$AgeGenderUse, 1, 2) == "AG", "by age and gender", "by age")
       caption <- paste("Figure ", index, ". Distribution of ", pop,
                        reportParameters$Label, " ",
                        tolower(reportParameters$AgeGenderBarGraphLabel),
-                       ", by age and gender, EU/EEA, ",
+                       ", ", groupby, ", EU/EEA, ",
                        year, sep = "")
       officer::cursor_bookmark(doc, id = "BARGPH_AGEGENDER_BOOKMARK")
       doc <- officer::body_add_par(doc,
@@ -180,7 +225,7 @@ getAgeGender <- function(x, #to improve with variables??
   ## No AgeGender bar graph for this disease
   ## ----
 
-  if(reportParameters$AgeGenderBarGraphUse == "N") {
+  if(reportParameters$AgeGenderUse == "N") {
     message(paste('According to the parameter table \'AERparams\', this disease "',
                   disease, '" does not include any age and gender bar graph in the AER report.', sep = ""))
     if(missing(doc)) {
@@ -273,6 +318,64 @@ plotAgeGender <- function(data,
                    legend.text = ggplot2::element_text(size=8),
                    legend.key.width = ggplot2::unit(0.8, "cm"),
                    legend.key.size = ggplot2::unit(0.4, "cm"))
+
+  return(p)
+}
+
+
+
+
+#' AER age bar graph
+#'
+#' This function draws a barchart by age group, AER style.
+#' Expects aggregated data.
+#' @param data Your data frame
+#' @param xvar Variable on the x-axis in quotes; e.g. age group
+#' @param yvar Variable on the y-axis in quotes with the rate or number of cases
+#' @param fill_color1 Bar 1 colour; defaults to ECDC green "#65B32E"
+#' @param ytitle y-axis title; defaults to "Rate".
+#' @keywords AER_age_bar
+#' @export
+#' @examples
+#' # --- Create dummy data
+#' mydat <- data.frame(AgeGroup = c("0-25", "26-65", "65+"),
+#'                     NumberOfCases = c(54,32,41))
+#'
+#' # --- Plot the dummy data
+#' plotAge(mydat,
+#'         xvar = "AgeGroup",
+#'         yvar = "NumberOfCases",
+#'         ytitle = "Number of cases")
+#' @export
+plotAge <- function(data,
+                    xvar = "XLabel",
+                    yvar = "YValue",
+                    fill_color1 = "#65B32E",
+                    ytitle  = "Rate") {
+
+  # xvar <-deparse(substitute(xvar))
+  # yvar <-deparse(substitute(yvar))
+  # group <-deparse(substitute(group))
+
+  FIGBREAKS <- pretty(seq(0,
+                          max(data[[yvar]]),
+                          by = max(data[[yvar]])/5))
+
+  p <- ggplot2::ggplot(data = data,
+                       ggplot2::aes(x = data[[xvar]], y = data[[yvar]])) +
+    ggplot2::geom_bar(stat = "identity", fill = fill_color1) +
+    ggplot2::scale_y_continuous(expand = c(0,0),
+                                limits = c(0, max(FIGBREAKS)),
+                                breaks = FIGBREAKS) +
+    ggplot2::labs(title = "", x = "Age", y = ytitle) +
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 8),
+                   axis.title = ggplot2::element_text(size = 9),
+                   axis.line = ggplot2::element_line(colour = "black"),
+                   axis.line.x = ggplot2::element_blank(),
+                   # --- Setting the background
+                   panel.grid.major = ggplot2::element_blank(),
+                   panel.grid.minor = ggplot2::element_blank(),
+                   panel.background = ggplot2::element_blank())
 
   return(p)
 }

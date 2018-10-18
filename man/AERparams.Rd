@@ -17,9 +17,7 @@
   \item{TableRatesLabel}{}
   \item{TableRatesNoDecimals}{}
   \item{TableASRNoDecimals}{}
-  \item{AgeGenderBarGraphUse}{}
-  \item{AgeGenderRatesUse}{}
-  \item{AgeBarGraphUse}{}
+  \item{AgeGenderUse}{}
   \item{AgeGenderBarGraphLabel}{}
   \item{AgeGenderGraphNoDecimals}{}
   \item{TSTrendGraphUse}{}
