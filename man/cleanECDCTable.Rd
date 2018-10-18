@@ -7,11 +7,13 @@
 cleanECDCTable(x, Country, GeoCode)
 }
 \arguments{
-\item{x}{dataset including required data for AER}
+\item{x}{dataset to clean}
 
-\item{Country}{character vector containing the correspondence table of geo code and labels}
+\item{Country}{character vector, geo code of each Member State
+(default EpiReport::MSCode$Country)}
 
-\item{GeoCode}{character vector containing the correspondence table of geo code and labels}
+\item{GeoCode}{character vector, corresponding geo labels of each Member State
+(default EpiReport::MSCode$GeoCode)}
 }
 \value{
 cleaned ECDC table

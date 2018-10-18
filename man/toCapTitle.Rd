@@ -15,3 +15,7 @@ character string
 \description{
 Capitalise the first letter
 }
+\examples{
+my_title <- "number of salmonellosis cases by age group"
+toCapTitle(my_title)
+}

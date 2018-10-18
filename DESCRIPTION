@@ -19,6 +19,7 @@ Imports:
     dplyr,
     tidyr,
     ggplot2,
+    extrafont,
     graphics,
     utils
 Suggests: knitr,

@@ -2,29 +2,52 @@
 % Please edit documentation in R/AER_seasonality_graph.R
 \name{getSeason}
 \alias{getSeason}
-\title{Get the seasonality graph}
+\title{Get the Seasonality graph}
 \usage{
 getSeason(x, disease = "SALM", year = 2016, reportParameters, MSCode,
   index = 1, doc)
 }
 \arguments{
-\item{x}{dataset}
+\item{x}{dataframe, raw disease-specific dataset (see more information in the vignette)
+(default reportParameters <- EpiReport::SALM2016)}
 
-\item{disease}{character string, disease name}
+\item{disease}{character string, disease name (default "SALM")}
 
-\item{year}{numeric, year to produce the report for}
+\item{year}{numeric, year to produce the report for (default 2016)}
 
-\item{reportParameters}{dataset of parameters for the report}
+\item{reportParameters}{dataset of parameters for the report
+(default reportParameters <- EpiReport::AERparams)}
 
-\item{MSCode}{dataset containing the correspondence table of geo code and labels}
+\item{MSCode}{dataset containing the correspondence table of geographical code and labels
+(default MSCode <- EpiReport::MSCode)}
 
-\item{index}{figure number}
+\item{index}{integer, figure number}
 
-\item{doc}{Word document}
+\item{doc}{Word document (see \code{officer} package)}
 }
 \value{
-Word doc a ggplot2 preview
+Word doc or a ggplot2 preview
 }
 \description{
-Function returning the plot
+Function returning the plot describing the seasonality of the disease
+that will be included in the Annual Epidemiological Report (AER)
+(see reports already available on the ECDC dedicated web page
+https://ecdc.europa.eu/en/annual-epidemiological-reports)
+}
+\examples{
+
+# --- Please Note! AER plots use the font "Tahoma"
+# --- To download this font, use the commands below
+library(extrafont)
+font_import(pattern = 'tahoma')
+loadfonts(device = "win")
+
+# --- Plot using the default dataset
+getSeason()
+
+}
+\seealso{
+\code{\link{plotSeasonality}}
+\code{\link{AERparams}} \code{\link{MSCode}}
+\code{\link{getAER}} \code{\link{officer}}
 }

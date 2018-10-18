@@ -2,27 +2,40 @@
 % Please edit documentation in R/AER_maps.R
 \name{getMap}
 \alias{getMap}
-\title{Get the disease map}
+\title{Get the disease-specific Map}
 \usage{
 getMap(disease = "SALM", year = 2016, reportParameters, index = 1,
   pathPNG, doc)
 }
 \arguments{
-\item{disease}{character string, disease name}
+\item{disease}{character string, disease name (default "SALM")}
 
-\item{year}{numeric, year to produce the report for}
+\item{year}{numeric, year to produce the report for (default 2016)}
 
-\item{reportParameters}{dataset of parameters for the report}
+\item{reportParameters}{dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)}
 
-\item{index}{figure number}
+\item{index}{integer, figure number}
 
-\item{pathPNG}{character string, path to the folder containing the maps in PNG}
+\item{pathPNG}{character string, full path to the folder containing the maps in PNG}
 
-\item{doc}{Word document}
+\item{doc}{Word document (see \code{officer} package)}
 }
 \value{
-Word doc a preview
+Word doc an image preview
 }
 \description{
-Function returning the map
+Function returning the disease-specific PNG map
+previously created and stored in a specific folder (see pathPNG)
+that will be included in the Annual Epidemiological Report (AER)
+(see reports already available on the ECDC dedicated web page
+https://ecdc.europa.eu/en/annual-epidemiological-reports)
+}
+\examples{
+# --- Preview of the PNG map using the default Salmonellosis dataset
+getMap()
+}
+\seealso{
+\code{\link{getAER}}
+\code{\link{includeMap}} \code{\link{previewMap}}
+\code{\link{AERparams}}
 }

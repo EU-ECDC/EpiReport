@@ -1,9 +1,11 @@
 #' Get AER Word template
 #'
-#' Function to get the standard Word template for ECDC Annual Epidemiological Report
+#' Function to export the standard Word template for ECDC Annual Epidemiological Report (AER)
+#' (see reports already available on the ECDC dedicated web page
+#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
 #'
-#' @param output_path The path where to create the Word output.
-#' Defaut location will be the current working directory (getwd())
+#' @param output_path character string, the full path where to create the Word output.
+#' Defaut location will be the current working directory (default getwd())
 #' @usage getTemplate(output_path)
 #' @return A word document
 #' @examples
@@ -24,7 +26,8 @@ getTemplate <- function(output_path){
   ## Initialising the Word object
   ## ----
 
-  doc <- officer::read_docx(path = file.path(system.file(package = "EpiReport"), "template/AER_template.docx" ))
+  doc <- officer::read_docx(path = file.path(system.file(package = "EpiReport"),
+                                             "template/AER_template.docx" ))
 
   ## ----
   ## Generating the word output
@@ -36,22 +39,40 @@ getTemplate <- function(output_path){
 
 
 
-#' Produce the AER report
+
+
+#' Produce the AER Word report
 #'
-#' Function to generate the AER Word report
+#' Function to generate the Word ECDC Annual Epidemiological Report (AER)
+#' including all disease-specific outputs in the Word bookmark location
+#' (see reports already available on the ECDC dedicated web page
+#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
 #'
-#' @param template The word document in which to add the table.
+#' @param template doc (see \code{officer} package), the word document in which to add the AER outputs.
 #' Default value is the empty template included in the package getTemplate().
-#' @param outputPath The path for the word output.
+#' @param outputPath character string, the full path where to generate the AER Word output.
 #' Default value is the current working directory getwd().
-#' @param x dataset including required data for AER
-#' @param disease character string, disease name
-#' @param year numeric, year to produce the report for
-#' @param reportParameters dataset of parameters for the report
+#' @param x dataframe, raw disease-specific dataset (see more information in the vignette)
+#' (default reportParameters <- EpiReport::SALM2016)
+#' @param disease character string, disease name (default "SALM")
+#' @param year numeric, year to produce the report for (default 2016)
+#' @param reportParameters dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)
 #' @param MSCode dataset of corresponding table of GeoCode names and codes
-#' @param pathPNG character string, path to the folder containing the maps in PNG
-#'
+#' (default reportParameters <- EpiReport::MSCode)
+#' @param pathPNG character string, the full path to the folder containing
+#' the maps in PNG to include in the final report
 #' @usage getAER(template, outputPath, x, disease, year, reportParameters, MSCode, pathPNG)
+#' @seealso \code{\link{getTemplate}} \code{\link{MSCode}}
+#' \code{\link{AERparams}}
+#' @examples
+#' # --- Generating the AER report using the default Salmonellosis dataset
+#' getAER()
+#'
+#' # --- Or using external data (example below)
+#' # ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+#' # output <- "C:/EpiReport/doc/"
+#' # pathMap <- "C:/EpiReport/maps/"
+#' # getAER(disease = "ZIKV", year = 2016, x = ZIKV2016, outputPath = output, pathPNG = pathMap)
 #'
 #' @return A word document
 #' @export
@@ -214,5 +235,5 @@ getAER <- function(template,
         target = paste(outputPath, "/AnnualEpidemiologicalReport_",
                        disease, year, ".docx", sep=""))
 
-  }
+}
 

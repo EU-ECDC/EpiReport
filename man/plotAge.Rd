@@ -2,27 +2,29 @@
 % Please edit documentation in R/AER_age_gender_bar.R
 \name{plotAge}
 \alias{plotAge}
-\title{AER age bar graph}
+\title{AER Age bar graph}
 \usage{
 plotAge(data, xvar = "XLabel", yvar = "YValue",
   fill_color1 = "#65B32E", ytitle = "Rate")
 }
 \arguments{
-\item{data}{Your data frame}
+\item{data}{dataframe containing the variables to plot}
 
-\item{xvar}{Variable on the x-axis in quotes; e.g. age group}
+\item{xvar}{character string, variable on the x-axis in quotes (default "XLabel")}
 
-\item{yvar}{Variable on the y-axis in quotes with the rate or number of cases}
+\item{yvar}{character string, variable on the y-axis in quotes (default "YValue")}
 
-\item{fill_color1}{Bar 1 colour; defaults to ECDC green "#65B32E"}
+\item{fill_color1}{character string, hexadecimal colour to use in the graph;
+(default to ECDC green "#65B32E")}
 
-\item{ytitle}{y-axis title; defaults to "Rate".}
+\item{ytitle}{character string, y-axis title; (default "Rate").}
 }
 \description{
-This function draws a barchart by age group, AER style.
+This function draws a barchart by age group, using the AER style.
 Expects aggregated data.
 }
 \examples{
+
 # --- Create dummy data
 mydat <- data.frame(AgeGroup = c("0-25", "26-65", "65+"),
                     NumberOfCases = c(54,32,41))
@@ -32,5 +34,10 @@ plotAge(mydat,
         xvar = "AgeGroup",
         yvar = "NumberOfCases",
         ytitle = "Number of cases")
+
 }
-\keyword{AER_age_bar}
+\seealso{
+\code{\link{getAgeGender}} and \code{\link{plotAgeGender}}
+}
+\keyword{age}
+\keyword{bargraph}

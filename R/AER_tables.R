@@ -1,18 +1,29 @@
-#' Get the table
+#' Get the disease-specific AER Table
 #'
-#' Function returning the table
+#' Function returning the table (flextable) that will be included
+#' in the Annual Epidemiological Report (AER)
+#' (see reports already available on the ECDC dedicated web page
+#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
 #'
-#' @param x dataset including required data for AER
-#' @param disease character string, disease name
-#' @param year numeric, year to produce the report for
+#' @param x dataframe, raw disease-specific dataset (see more information in the vignette)
+#' (default reportParameters <- EpiReport::SALM2016)
+#' @param disease character string, disease name (default "SALM")
+#' @param year numeric, year to produce the report for (default 2016)
 #' @param reportParameters dataset of parameters for the report
-#' @param MSCode dataset containing the correspondence table of geo code and labels
-#' @param index figure number
+#' (default reportParameters <- EpiReport::AERparams)
+#' @param MSCode dataset containing the correspondence table of geographical code
+#' and labels (default MSCode <- EpiReport::MSCode)
+#' @param index integer, figure number
 #' @param doc Word document (see \code{officer} package)
-#' @return Word doc or FlexTable preview
+#' @return Word doc or FlexTable preview (see \code{flextable} package)
+#' @seealso \code{\link{getAER}} \code{\link{flextable}}
+#' \code{\link{shapeECDCFlexTable}} \code{\link{cleanECDCTable}}
+#' \code{\link{AERparams}} \code{\link{MSCode}}
+#' @examples
+#' # --- Draft the table using the default Salmonellosis dataset
+#' getTableByMS()
 #' @export
-getTableByMS <- function(x,     #input to improve to have variables instead of dataframe
-                                #using HealthTopic TimeUnit TimeCode GeoCode MeasureCode YValue
+getTableByMS <- function(x,
                          disease = "Salmonellosis", year = 2016,
                          reportParameters, MSCode, index = 1, doc){
 
@@ -46,7 +57,8 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
   ## ----
 
   # --- Filtering on the disease of interest
-  x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit", "TimeCode", "GeoCode", "YValue"))
+  x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
+                          "TimeCode", "GeoCode", "YValue"))
   if(nrow(x) == 0) {
     stop(paste('The dataset does not include the necessary variables.'))
   }
@@ -60,19 +72,22 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
   # Filtering on Yearly data only
   x <- dplyr::filter(x, x$TimeUnit == "Y")
   if(nrow(x) == 0) {
-    stop(paste('The dataset does not include the required time unit \'Y\' for the selected disease "', disease, '".'))
+    stop(paste('The dataset does not include the required time unit \'Y\' for the selected disease "',
+               disease, '".'))
   }
 
   # Filtering on 5 year period
   x <- dplyr::filter(x, x$TimeCode %in% (year-4):year)
   if(nrow(x) == 0) {
-    stop(paste('The dataset does not include the required 5-year study period for the selected disease "', disease, '".'))
+    stop(paste('The dataset does not include the required 5-year study period for the selected disease "',
+               disease, '".'))
   }
 
   # Filtering for analysis at country and EU-EEA level only, no EU level
   x <- dplyr::filter(x, x$GeoCode %in% MSCode$GeoCode)
   if(nrow(x) == 0) {
-    stop(paste('The dataset does not include any \'GeoCode\' from the MSCode dataset for the selected disease "', disease, '".'))
+    stop(paste('The dataset does not include any \'GeoCode\' from the MSCode dataset for the selected disease "',
+               disease, '".'))
   }
 
 
@@ -90,11 +105,11 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
 
     # --- Filtering
     x <- dplyr::filter(x, x$MeasureCode %in% paste(reportParameters$MeasurePopulation,
-                                                     c("COUNT", "RATE", "AGESTANDARDISED.RATE") , sep="."))
+                                                   c("COUNT", "RATE", "AGESTANDARDISED.RATE") , sep = "."))
     # --- Filtering ASR only for the year of interest
     x <- dplyr::filter(x, !(x$TimeCode != year &
                               x$MeasureCode %in% paste(reportParameters$MeasurePopulation,
-                                                         "AGESTANDARDISED.RATE" , sep=".")))
+                                                       "AGESTANDARDISED.RATE" , sep = ".")))
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the required \'MeasureCode\' indicator for the selected disease "',
                  disease, '" to present the AER table with ASR.'))
@@ -109,7 +124,8 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
     x <- tidyr::spread(x, "Key", "YValue")
 
     # --- Reordering and rounding columns
-    lastColumn <- paste(year, "_", reportParameters$MeasurePopulation,".AGESTANDARDISED.RATE", sep="")
+    lastColumn <- paste(year, "_", reportParameters$MeasurePopulation,
+                        ".AGESTANDARDISED.RATE", sep = "")
     asrColumn <- dplyr::select(x, lastColumn)
     asrColumn <- round(asrColumn, reportParameters$TableASRNoDecimals)
     x <- dplyr::bind_cols(dplyr::select(x, -lastColumn),
@@ -138,7 +154,7 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
 
     # --- Filtering
     x <- dplyr::filter(x, x$MeasureCode %in% paste(reportParameters$MeasurePopulation,
-                                                   c("COUNT", "RATE") , sep="."))
+                                                   c("COUNT", "RATE") , sep = "."))
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the required \'MeasureCode\' indicator for the selected disease "',
                  disease, '" to present the AER table with RATES.'))
@@ -210,7 +226,7 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
 
 
   # ----
-  # Specific Tables ??
+  # Specific Tables to be continued
   # ----
 
   if(reportParameters$TableUse == "SPECIFIC") {
@@ -246,7 +262,7 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
     pop <- ifelse(reportParameters$MeasurePopulation == "ALL", "", "-")
     pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
     caption <- paste("Table 1. Distribution of ", pop, reportParameters$Label,
-                     " cases, ", "EU/EEA, ", year-4, "\U2013", year, sep = "")
+                     " cases, ", "EU/EEA, ", year - 4, "\U2013", year, sep = "")
     officer::cursor_bookmark(doc, id = "TABLE1_CAPTION")
     doc <- officer::body_add_par(doc, value = caption)
 
@@ -259,17 +275,20 @@ getTableByMS <- function(x,     #input to improve to have variables instead of d
 
 
 
+
 #' Shaping the final table
 #'
 #' Shaping the final table (layout)
 #'
-#' @param ft fletable to shape into ECDC table layout
+#' @param ft flextable (see \code{flextable} package), table to shape into ECDC table layout
 #' @param headers dataframe including the multiple headers to add to the flextable
 #' (n.b. the first column should contain the names of the flextable object)
 #' @param fsize numeric, font to use (defaut = 7)
 #' @param fname character, font name (defaut = "Tahoma")
-#' @param maincolor character string, hexadecial code for the header background color
-#' @return flextable object
+#' @param maincolor character string, hexadecimal code for the header background color
+#' @return flextable object (see \code{flextable} package)
+#' @seealso \code{\link{getTableByMS}}
+#' \code{\link{shapeECDCFlexTable}} \code{\link{flextable}}
 #' @export
 shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
 
@@ -327,9 +346,11 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
 #' replacing the Member State codes with Member State names,
 #' identifying not reporting Member States with '.'
 #'
-#' @param x dataset including required data for AER
-#' @param Country character vector containing the correspondence table of geo code and labels
-#' @param GeoCode character vector containing the correspondence table of geo code and labels
+#' @param x dataset to clean
+#' @param Country character vector, geo code of each Member State
+#' (default EpiReport::MSCode$Country)
+#' @param GeoCode character vector, corresponding geo labels of each Member State
+#' (default EpiReport::MSCode$GeoCode)
 #' @return cleaned ECDC table
 #' @export
 cleanECDCTable <- function(x, Country, GeoCode){

@@ -2,22 +2,27 @@
 % Please edit documentation in R/AER_trend_graph.R
 \name{plotTS12MAvg}
 \alias{plotTS12MAvg}
-\title{AER time series with 12-month moving average}
+\title{AER Time series with 12-month moving average}
 \usage{
 plotTS12MAvg(data, xvar = "TimeCode", yvar = "N", movAverage = "MAV")
 }
 \arguments{
-\item{data}{Your data frame.}
+\item{data}{dataframe containing the variables to plot}
 
-\item{xvar}{Time variable, given in quotes.}
+\item{xvar}{character string, variable on the x-axis in quotes (default "TimeCode")}
 
-\item{yvar}{A variable with the number of cases for each time unit, given in quotes.}
+\item{yvar}{character string, variable on the y-axis in quotes (default "N")}
 
-\item{movAverage}{A variable with the moving average per each time unit.}
+\item{movAverage}{character string, variable including
+the moving average per each time unit in quotes (default "MAV")}
 }
 \description{
-This function draws a line graph with 12-month moving average, AER style.
+This function draws a line graph with 12-month moving average, using the AER style.
 Expects aggregated data and pre-calculated 12-month moving average.
 }
-\keyword{average}
+\seealso{
+\code{\link{getTrend}} \code{\link{getAER}}
+}
+\keyword{average,}
 \keyword{moving}
+\keyword{trend}

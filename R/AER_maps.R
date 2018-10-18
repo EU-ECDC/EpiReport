@@ -1,14 +1,24 @@
-#' Get the disease map
+#' Get the disease-specific Map
 #'
-#' Function returning the map
+#' Function returning the disease-specific PNG map
+#' previously created and stored in a specific folder (see pathPNG)
+#' that will be included in the Annual Epidemiological Report (AER)
+#' (see reports already available on the ECDC dedicated web page
+#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
 #'
-#' @param disease character string, disease name
-#' @param year numeric, year to produce the report for
-#' @param reportParameters dataset of parameters for the report
-#' @param index figure number
-#' @param pathPNG character string, path to the folder containing the maps in PNG
-#' @param doc Word document
-#' @return Word doc a preview
+#' @param disease character string, disease name (default "SALM")
+#' @param year numeric, year to produce the report for (default 2016)
+#' @param reportParameters dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)
+#' @param index integer, figure number
+#' @param pathPNG character string, full path to the folder containing the maps in PNG
+#' @param doc Word document (see \code{officer} package)
+#' @return Word doc an image preview
+#' @seealso \code{\link{getAER}}
+#' \code{\link{includeMap}} \code{\link{previewMap}}
+#' \code{\link{AERparams}}
+#' @examples
+#' # --- Preview of the PNG map using the default Salmonellosis dataset
+#' getMap()
 #' @export
 getMap <- function(disease = "SALM", year = 2016,
                    reportParameters, index = 1, pathPNG, doc){
@@ -133,22 +143,27 @@ getMap <- function(disease = "SALM", year = 2016,
 
 
 
-#' Function including the PNG map
+#' Include the PNG map (Word)
 #'
-#' Function including the PNG map
+#' Function including the disease-specific PNG map in the Word document
+#' at the specific bookmark location
 #'
-#' @param disease character string, disease name
-#' @param year numeric, year to produce the report for
+#' @param disease character string, disease name (default "SALM")
+#' @param year numeric, year to produce the report for (default 2016)
 #' @param reportParameters dataset of parameters for the report
-#' @param index figure number
-#' @param pathPNG character string, path to the folder containing the maps in PNG
-#' @param doc Word document
-#' @param pop Label of the type of population used in the caption
-#' @param namePNGsuffix Suffix of the PNG file name of the map
-#' @param unit Label of the unit used in the caption
-#' @param mapBookmark Bookmark for the map in the Word document
-#' @param captionBookmark Bookmark for the caption in the Word document
+#' (default reportParameters <- EpiReport::AERparams)
+#' @param index integer, figure number
+#' @param pathPNG character string, full path to the folder containing the maps in PNG
+#' @param doc Word document (see \code{officer} package)
+#' @param pop character string, label of the type of population used in the caption
+#' @param namePNGsuffix character string, suffix of the PNG file name of the map
+#' @param unit character string, label of the unit used in the caption
+#' @param mapBookmark character string, label of the bookmark in the Word document
+#' @param captionBookmark character string, label of the bookmark for the caption in the Word document
 #' @return Word doc
+#' @seealso \code{\link{getMap}} \code{\link{previewMap}}
+#' \code{\link{getAER}}
+#' @export
 includeMap <- function(disease, year, reportParameters,
                        index, pathPNG, doc,
                        pop, namePNGsuffix, unit,
@@ -182,16 +197,21 @@ includeMap <- function(disease, year, reportParameters,
 }
 
 
-#' Function including the PNG map
+
+
+#' Preview the PNG map
 #'
-#' Function including the PNG map
+#' Function preview the disease-specific PNG map
 #'
-#' @param disease character string, disease name
-#' @param year numeric, year to produce the report for
-#' @param reportParameters dataset of parameters for the report
-#' @param pathPNG character string, path to the folder containing the maps in PNG
-#' @param namePNGsuffix Suffix of the PNG file name of the map
+#' @param disease character string, disease name (default "SALM")
+#' @param year numeric, year to produce the report for (default 2016)
+#' @param reportParameters dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)
+#' @param pathPNG character string, full path to the folder containing the maps in PNG
+#' @param namePNGsuffix character string, suffix of the PNG file name of the map
 #' @return Preview
+#' @seealso \code{\link{getMap}} \code{\link{includeMap}}
+#' \code{\link{getAER}}
+#' @export
 previewMap <- function(disease, year, reportParameters,
                        pathPNG, namePNGsuffix){
 
