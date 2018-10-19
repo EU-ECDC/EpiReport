@@ -4,8 +4,10 @@ Title: ECDC Annual Epidemiological Report
 Version: 0.1.0
 Author: Lore Merdrignac
 Maintainer: Lore Merdrignac <l.merdrignac@epiconcept.fr>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: The EpiReport package allows the user to draft 
+  the ECDC Annual Epidemiological Report for a given disease and in Microsoft Word format. 
+  It is specifically designed to generate each disease-specific outputs 
+  used in these reports, using ECDC Atlas export data.
 Depends: R (>= 3.4.0)
 License: EUPL
 Encoding: UTF-8
@@ -21,7 +23,8 @@ Imports:
     ggplot2,
     extrafont,
     graphics,
-    utils
-Suggests: knitr,
+    utils,
+    knitr (>= 1.20),
     rmarkdown
 VignetteBuilder: knitr
+URL: https://ecdc.europa.eu/en/annual-epidemiological-reports

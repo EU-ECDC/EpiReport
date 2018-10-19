@@ -1,0 +1,313 @@
+---
+title: "The 'Epidemiological Report' Package"
+author: "EpiConcept / European Centre for Disease Prevention and Control (ECDC)"
+output: 
+  rmarkdown::html_vignette:
+    toc: false
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+<style>
+  .myTable td {
+    width: 400px;
+  }
+</style>
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Description
+
+The EpiReport package allows the user to draft the ECDC Annual Epidemiological Report (AER) 
+in Microsoft Word format for a given disease.
+
+It is specifically designed to generate, through standalone functions, 
+each disease-specific outputs presented in these reports, using ECDC Atlas export data. 
+
+
+Package details below:
+
+```{r, echo = FALSE}
+pkgVersion <- packageDescription("EpiReport")$Version
+pkgDate <- packageDescription("EpiReport")$Date
+authorsString <- packageDescription("EpiReport")$Author
+pkgMaintainer <- packageDescription("EpiReport")$Maintainer
+pkgLicense <- packageDescription("EpiReport")$License
+pkgUrl <- packageDescription("EpiReport")$URL
+```
+
+
+Package | Description  
+------- | -------------
+Version | `r pkgVersion`
+Published | `r pkgDate`
+Authors | `r authorsString`
+Maintainer | `r pkgMaintainer`
+License | `r pkgLicense`
+Link to the ECDC AER reports | `r pkgUrl`
+
+
+
+
+## Background
+
+ECDC's Annual Epidemiological Report is available as a series of individual 
+epidemiological disease reports. Reports are published on the ECDC website 
+https://ecdc.europa.eu/en/annual-epidemiological-reports as they become available.
+
+The year given in the title of the report (i.e. 'Annual epidemiological report for 2016') 
+refers to the year the data were collected. Reports are usually available for publication 
+one year after data collection is complete.
+
+All reports are based on data retrieved from The European Surveillance System (TESSy)[^1]. 
+Countries participating in disease surveillance submit their data electronically.
+
+The communicable diseases and related health issues covered by the reports 
+are under European Union and European Economic Area disease surveillance[^2] [^3] [^4] [^5]. 
+
+ECDC's annual surveillance reports provide a wealth of epidemiological data 
+to support decision-making at the national level. 
+They are mainly intended for public health professionals and policymakers 
+involved in disease prevention and control programmes.
+
+[^1]: The European Surveillance System (TESSy) is a system for the collection, 
+analysis and dissemination of data on communicable diseases. 
+EU Member States and EEA countries contribute to the system 
+by uploading their infectious disease surveillance data at regular intervals.
+
+[^2]: 2000/96/EC: Commission Decision of 22 December 1999 
+on the communicable diseases to be progressively covered 
+by the Community network under Decision No 2119/98/EC of the European Parliament 
+and of the Council. Official Journal, OJ L 28, 03.02.2000, p. 50-53.
+
+[^3]: 2003/534/EC: Commission Decision of 17 July 2003 amending Decision No 2119/98/EC 
+of the European Parliament and of the Council and Decision 2000/96/EC 
+as regards communicable diseases listed in those decisions and amending 
+Decision 2002/253/EC as regards the case definitions for communicable diseases. 
+Official Journal, OJ L 184, 23.07.2003, p. 35-39.
+
+[^4]: 2007/875/EC: Commission Decision of 18 December 2007 amending Decision 
+No 2119/98/EC of the European Parliament and of the Council and Decision 2000/96/EC 
+as regards communicable diseases listed in those decisions. Official Journal, OJ L 344, 28.12.2007, p. 48-49.
+
+[^5]: Commission Decision 2119/98/EC of the Parliament and of the Council of 24 September 1998 
+setting up a network for the epidemiological surveillance and control of 
+communicable diseases in the Community. Official Journal, OJ L 268, 03/10/1998 p. 1-7.
+
+
+## 1. Datasets to be used in the Epidemiological Report package
+
+Two types of datasets can be used:
+
+* The default dataset included in the `EpiReport` package which includes 
+Salmonellosis data for 2016 exported from the ECDC Atlas (restricted access): `EpiReport::SALM2016`;
+* A complete ECDC Atlas export (csv format) or any dataset specified as described below.
+
+
+### Disease dataset specification (naming, format, description)
+
+* `HealthTopicCode`: Character string, disease code 
+(see also the reports parameter table);
+* `MeasurePopulation`: Character string, population characteristics 
+(e.g. All cases,  Confirmed cases, Serotype AGONA, Serotype BAREILLY etc.). 
+* `MeasureCode`: Character string, code of the indicators available 
+(e.g. ALL.COUNT, ALL.RATE, CONFIRMED.AGESTANDARDISED.RATE etc.);
+* `TimeUnit`: Character string, unit of the time variable `TimeCode` 
+(e.g. `M` for monthly data, `Y` for yearly data). 
+* `TimeCode`: Character string, time variable including dates in any formats available 
+i.e. yearly data (e.g. 2001) or monthly data (e.g. 2001-01);
+* `GeoCode`: Character string, geographical level in coded format 
+(e.g. `AT` for Austria, `BE` for Belgium, `BG` for Bulgaria, 
+see also the `EpiReport::MSCode` table, correspondence table for Member State labels and codes);
+* `XLabel`: The label associated with the x-axis in the AER report
+(see `getAgeGender()` and `plotAgeGender()` bar graph for the age variable);
+* `YLabel`: The label associated with the y-axis in the AER report
+(see `getAgeGender()` and `plotAgeGender()` bar graph for the grouping variable gender);
+* `ZValue`: The value associated with the stratification of `XLabel` and `YLabel` 
+in the age and gender bar graph (see `getAgeGender()` and `plotAgeGender()`);
+* `YValue`: The value and the label associated with the y-axis in the AER report
+(see `plotAge` bar graph for the variable age, or `getTableByMS()` for the number of cases, 
+rate or age-standardised rate in the table by Member States by year);
+* `N`: Integer, number of cases (see `getTrend()` and `getSeason()` line graph).
+
+
+```{r, echo=FALSE, results='asis'}
+my_dataset <- EpiReport::SALM2016
+my_dataset <- dplyr::select(my_dataset, 
+                            c("HealthTopicCode", "MeasurePopulation", "MeasureCode",
+                              "TimeUnit", "TimeCode", "GeoCode", "XLabel",
+                              "YLabel", "ZValue", "YValue", "N"))
+knitr::kable(my_dataset[sample(1:nrow(EpiReport::SALM2016), 10), ], 
+             row.names = FALSE,
+             format = "html", table.attr = 'class="myTable"',
+             caption = "__Tab.1 Example of Salmonellosis data exported from the ECDC Atlas (restricted access)__")
+```
+
+
+
+### Report parameters dataset specificiation
+
+The internal dataset `EpiReport::AERparams` describes the parameters to use 
+for each output of each disease report.
+
+
+```{r, echo=FALSE, results='asis'}
+my_dataset <- EpiReport::AERparams
+knitr::kable(my_dataset[sample(1:nrow(EpiReport::AERparams), 5), ], 
+             row.names = FALSE,
+             format = "html", table.attr = 'class="myTable"',
+             caption = "__Tab.2 Example of parameters__")
+```
+
+
+
+### Member States correspondance table dataset
+
+The internal dataset `EpiReport::MSCode` provides the correspondance table 
+of the geographical code used in the disease dataset, and the geographical label 
+to use throughout the report. Additional information on EU/EEA affiliation is also available.
+
+```{r, echo=FALSE, results='asis'}
+my_dataset <- EpiReport::MSCode
+knitr::kable(my_dataset[sample(1:nrow(EpiReport::MSCode), 5), ], 
+             row.names = FALSE,
+             format = "html", table.attr = 'class="myTable"',
+             caption = "__Tab.3 Example of geographical code and associated label__")
+```
+
+
+
+## 2. How to generate the Annual Epidemiological Report in Microsoft Word format
+
+To generate an Annual Epidemiological Report using the default dataset included 
+in the `EpiReport` package with Salmonellosis data for 2016, use the function `getAER()`.
+By default, the Salmonellosis 2016 report will be generated and stored in your working directory (see `getwd()`)
+
+```{r, eval=FALSE}
+getAER()
+```
+
+Please specify the full path to the final folder if necessary:
+
+```{r, eval=FALSE}
+output <- "C:/EpiReport/doc/"
+getAER(outputPath = output)
+```
+
+
+### Word template
+
+By default, an empty template is used to produce the report. 
+In order to modify this template, please first dowload the default template 
+using the function `getTemplate()`.
+
+```{r, eval = FALSE}
+getTemplate(output_path = "C:/EpiReport/template")
+```
+
+Then apply the modifications required, save it and use it as a new template 
+when producing the AER report as described below.
+
+```{r, eval = FALSE}
+getAER(template = "C:/EpiReport/template/New_AER_Template.docx",
+       outputPath = output)
+```
+
+
+### External disease-specific datset
+
+To generate the report using an external dataset, please use the syntax below.
+In the following example, Pertussis 2016 TESSy data is used to produce the corresponding AER report.
+Pertussis PNG maps have previously been created and stored in a specific folder `/maps`. 
+
+```{r, warning=FALSE, eval=FALSE}
+# --- Importing the dataset
+PERT2016 <- read.table("data/PERT2016.csv", 
+                       sep = ",", 
+                       header = TRUE, 
+                       stringsAsFactors = FALSE)
+
+# --- Specifying the folder containing pertussis maps
+pathMap <- paste(getwd(), "/maps", sep = "")
+
+# --- Importing the Tahoma font for the report
+extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
+extrafont::loadfonts(device = "win", quiet = TRUE)
+
+# --- Producing the report
+EpiReport::getAER(disease = "PERT", 
+       year = 2016, 
+       x = PERT2016, 
+       outputPath = getwd(), 
+       pathPNG = pathMap)
+```
+
+
+
+## 3. AER table
+
+```{r}
+EpiReport::getTableByMS()
+```
+
+
+
+## 4. Seasonal plot
+
+```{r, fig.width = 7}
+# --- Importing the Tahoma font for the report
+extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
+extrafont::loadfonts(device = "win", quiet = TRUE)
+
+# --- Setting the local language as English
+Sys.setlocale("LC_TIME", "C")
+
+# --- Salmonellosis 2016 plot
+EpiReport::getSeason()
+```
+
+## 5. Trend plot
+
+```{r, fig.width = 7}
+# --- Importing the Tahoma font for the report
+extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
+extrafont::loadfonts(device = "win", quiet = TRUE)
+
+# --- Setting the local language as English
+Sys.setlocale("LC_TIME", "C")
+
+# --- Salmonellosis 2016 plot
+EpiReport::getTrend()
+```
+
+
+## 6. Maps
+
+```{r}
+# --- Salmonellosis 2016 plot
+EpiReport::getMap()
+```
+
+## 7. Age and gender bargraph
+
+
+```{r, fig.width = 7}
+# --- Importing the Tahoma font for the report
+extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
+extrafont::loadfonts(device = "win", quiet = TRUE)
+
+# --- Salmonellosis 2016 plot
+EpiReport::getAgeGender()
+```
+
+

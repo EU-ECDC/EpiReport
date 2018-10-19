@@ -11,7 +11,7 @@
   \item{EUEEA}{For each country, EU or EEA depending on the country}
 }}
 \usage{
-data(MSCode)
+MSCode
 }
 \description{
 Dataset correspondence table for country names, code and EU or EEA.

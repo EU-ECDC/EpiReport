@@ -7,26 +7,26 @@
 \format{A data frame with 60,775 rows and 18 variables:
 \describe{
   \item{HealthTopicCode}{Disease code e.g. ANTH, SALM, etc.}
-  \item{MeasureLabel}{}
-  \item{MeasurePopulation}{}
-  \item{MeasureCode}{}
-  \item{MeasureId}{}
-  \item{MeasureType}{}
-  \item{TimeUnit}{}
-  \item{GeoLevel}{}
-  \item{TimeCode}{}
-  \item{GeoCode}{}
-  \item{XValue}{}
-  \item{XLabel}{}
-  \item{YValue}{}
-  \item{YLabel}{}
-  \item{ZValue}{}
-  \item{N}{}
-  \item{NMissing}{}
-  \item{NLowerResolution}{}
+  \item{MeasureLabel}{Label of the measure indicator}
+  \item{MeasurePopulation}{Population targeted by the measure indicator}
+  \item{MeasureCode}{Measure indicator code}
+  \item{MeasureId}{(optional) Measure indicator ID}
+  \item{MeasureType}{(optional) Type of measure indicator}
+  \item{TimeUnit}{Unit of the time variable e.g. Y or M}
+  \item{GeoLevel}{Geographical level e.g. 1, 2, etc}
+  \item{TimeCode}{Time variable according to the unit defined in TimeUnit}
+  \item{GeoCode}{Geographical level including country names e.g. AU, BE, BG, etc.}
+  \item{XValue}{XValue}
+  \item{XLabel}{XLabel}
+  \item{YValue}{YValue}
+  \item{YLabel}{YLabel}
+  \item{ZValue}{ZValue}
+  \item{N}{Number of cases}
+  \item{NMissing}{(optional)}
+  \item{NLowerResolution}{(optional)}
 }}
 \usage{
-data(SALM2016)
+SALM2016
 }
 \description{
 A dataset containing the parameters required to build the AER

@@ -15,7 +15,8 @@ plotAgeGender(data, xvar = "XLabel", yvar = "ZValue",
 
 \item{yvar}{character string, variable on the y-axis in quotes (default "ZValue")}
 
-\item{group}{character string, the grouping variable in quotes, e.g. gender as in the AER.}
+\item{group}{character string, the grouping variable in quotes, e.g. gender as in the AER.
+(default "YLabel)}
 
 \item{fill_color1}{character string, hexadecimal colour to use in the graph for bar 1;
 (default to ECDC green "#65B32E")}

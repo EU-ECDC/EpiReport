@@ -291,6 +291,7 @@ getAgeGender <- function(x,
 #' @param fill_color2 character string, hexadecimal colour to use in the graph for bar 1;
 #' (default to ECDC green "#7CBDC4")
 #' @param group character string, the grouping variable in quotes, e.g. gender as in the AER.
+#' (default "YLabel)
 #' @param ytitle character string, y-axis title; (default "Rate").
 #' @keywords age gender bargraph
 #' @seealso \code{\link{getAgeGender}} and \code{\link{plotAge}}
