@@ -2,29 +2,33 @@
 % Please edit documentation in R/AER_age_gender_bar.R
 \name{plotAgeGender}
 \alias{plotAgeGender}
-\title{AER age-gender bar}
+\title{AER Age and Gender bar graph}
 \usage{
 plotAgeGender(data, xvar = "XLabel", yvar = "ZValue",
   group = "YLabel", fill_color1 = "#65B32E", fill_color2 = "#7CBDC4",
   ytitle = "Rate")
 }
 \arguments{
-\item{data}{Your data frame}
+\item{data}{dataframe containing the variables to plot}
 
-\item{xvar}{Variable on the x-axis in quotes; e.g. age group}
+\item{xvar}{character string, variable on the x-axis in quotes (default "XLabel")}
 
-\item{yvar}{Variable on the y-axis in quotes with the rate or number of cases}
+\item{yvar}{character string, variable on the y-axis in quotes (default "ZValue")}
 
-\item{group}{A grouping variable in quotes, e.g. gender as in the AER.}
+\item{group}{character string, the grouping variable in quotes, e.g. gender as in the AER.
+(default "YLabel)}
 
-\item{fill_color1}{Bar 1 colour; defaults to ECDC green "#65B32E"}
+\item{fill_color1}{character string, hexadecimal colour to use in the graph for bar 1;
+(default to ECDC green "#65B32E")}
 
-\item{fill_color2}{Bar 2 colour; defaults to light blue "#7CBDC1"}
+\item{fill_color2}{character string, hexadecimal colour to use in the graph for bar 1;
+(default to ECDC green "#7CBDC4")}
 
-\item{ytitle}{y-axis title; defaults to "Rate".}
+\item{ytitle}{character string, y-axis title; (default "Rate").}
 }
 \description{
-This function draws a barchart by age group and gender(or possibly other grouping), AER style.
+This function draws a barchart by age group and gender (or possibly other grouping),
+using the AER style.
 Expects aggregated data.
 }
 \examples{
@@ -33,6 +37,12 @@ mydat <- data.frame(Gender=c("F", "F", "M", "M"),
 AgeGroup = c("0-65", "65+", "0-65", "65+"),
 NumberOfCases = c(54,43,32,41))
 
+# --- WARNING! AER plots use the font "Tahoma"
+# --- To download this font, use the commands below
+library(extrafont)
+font_import(pattern = 'tahoma')
+loadfonts(device = "win")
+
 # --- Plot the dummy data
 plotAgeGender(mydat,
               xvar = "AgeGroup",
@@ -40,4 +50,9 @@ plotAgeGender(mydat,
               group = "Gender",
               ytitle = "Number of cases")
 }
-\keyword{AER_age_gender_bar}
+\seealso{
+\code{\link{getAgeGender}} and \code{\link{plotAge}}
+}
+\keyword{age}
+\keyword{bargraph}
+\keyword{gender}

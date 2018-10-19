@@ -4,6 +4,9 @@
 #'
 #' @param str character string to capitalise as a title
 #' @return character string
+#' @examples
+#' my_title <- "number of salmonellosis cases by age group"
+#' toCapTitle(my_title)
 #' @export
 #'
 toCapTitle <- function(str) {
@@ -17,9 +20,16 @@ toCapTitle <- function(str) {
 #'
 #' Filter disease parameters
 #'
-#' @param dis character string containing disease code
+#' @param dis ccharacter string, disease code
 #' @param reportParameters dataset of parameters for the report
-#' @return row corresponding to the parameters of the selected disease
+#' (default reportParameters <- EpiReport::AERparams)
+#' @return dataframe with one row (from the AERparams dataframe)
+#' corresponding to the parameters of the selected disease
+#' @examples
+#' disease <- "SALM"
+#' reportParameters <- EpiReport::AERparams
+#' reportParameters <- filterDisease(disease, reportParameters)
+#' @seealso \code{\link{AERparams}}
 #' @export
 #'
 filterDisease <- function(dis, reportParameters) {
@@ -38,13 +48,15 @@ filterDisease <- function(dis, reportParameters) {
 
 #' Clean the MeasureCode variable
 #'
-#' Clean the MeasureCode variable
+#' Clean the MeasureCode variable and replace the specific codes with the generic ones
+#' (e.g. ACCUTE.AGE_GENDER.RATE will be replaced by CONFIRMED.AGE_GENDER.RATE)
 #'
-#' @param var variable to clean
-#' @return cleaned variable
+#' @param var vector variable, variable to clean
+#' @return cleaned vector variable
 #' @examples
 #' x <- EpiReport::SALM2016
 #' x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+#' @seealso \code{\link{SALM2016}}
 #' @export
 #'
 cleanMeasureCode <- function(var) {
@@ -98,12 +110,16 @@ cleanMeasureCode <- function(var) {
                 "ALL.RATE",
                 var)
 
-
+  # ---- Recoding ALL.AGE.RATE
+  valuesToReplace = c("ALL.DOMESTIC.AGE.RATE")
+  var <- ifelse(var %in% valuesToReplace,
+                "ALL.AGE.RATE",
+                var)
 
   # ---- Recoding AGESTANDARDISED.RATE
   valuesToReplace = c("ALL.DOMESTIC.AGESTANDARDISED.RATE")
   var <- ifelse(var %in% valuesToReplace,
-                "AGESTANDARDISED.RATE",
+                "ALL.AGESTANDARDISED.RATE",
                 var)
 
   return(var)

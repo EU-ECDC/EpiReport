@@ -1,20 +1,39 @@
-#' Get the seasonality graph
+#' Get the Seasonality graph
 #'
-#' Function returning the plot
+#' Function returning the plot describing the seasonality of the disease
+#' that will be included in the Annual Epidemiological Report (AER)
+#' (see reports already available on the ECDC dedicated web page
+#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
 #'
-#' @param x dataset
-#' @param disease character string, disease name
-#' @param year numeric, year to produce the report for
+#' @param x dataframe, raw disease-specific dataset (see more information in the vignette)
+#' (default reportParameters <- EpiReport::SALM2016)
+#' @param disease character string, disease name (default "SALM")
+#' @param year numeric, year to produce the report for (default 2016)
 #' @param reportParameters dataset of parameters for the report
-#' @param MSCode dataset containing the correspondence table of geo code and labels
-#' @param index figure number
-#' @param doc Word document
-#' @return Word doc a ggplot2 preview
+#' (default reportParameters <- EpiReport::AERparams)
+#' @param MSCode dataset containing the correspondence table of geographical code and labels
+#' (default MSCode <- EpiReport::MSCode)
+#' @param index integer, figure number
+#' @param doc Word document (see \code{officer} package)
+#' @return Word doc or a ggplot2 preview
+#' @seealso \code{\link{plotSeasonality}}
+#' \code{\link{AERparams}} \code{\link{MSCode}}
+#' \code{\link{getAER}} \code{\link{officer}}
+#' @examples
+#'
+#' # --- Please Note! AER plots use the font "Tahoma"
+#' # --- To download this font, use the commands below
+#' library(extrafont)
+#' font_import(pattern = 'tahoma')
+#' loadfonts(device = "win")
+#'
+#' # --- Plot using the default dataset
+#' getSeason()
+#'
 #' @export
-getSeason <- function(x, #to improve with variables??
-                     #HealthTopic MeasureCode TimeUnit TimeCode GeoCode N
-                     disease = "SALM", year = 2016,
-                     reportParameters, MSCode, index = 1, doc){
+getSeason <- function(x,
+                      disease = "SALM", year = 2016,
+                      reportParameters, MSCode, index = 1, doc){
 
   ## ----
   ## Setting default arguments if missing
@@ -26,6 +45,12 @@ getSeason <- function(x, #to improve with variables??
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
   if(missing(index)) { index <- 1 }
+
+
+  ## ----
+  ## Preparing the data
+  ## ----
+  x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
 
 
   ## ----
@@ -46,7 +71,8 @@ getSeason <- function(x, #to improve with variables??
     ## ----
 
     # --- Filtering on the disease of interest
-    x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit", "TimeCode", "GeoCode", "N"))
+    x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
+                            "TimeCode", "GeoCode", "N"))
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the necessary variables.'))
     }
@@ -54,13 +80,15 @@ getSeason <- function(x, #to improve with variables??
     # --- Filtering on the disease of interest
     x <- dplyr::filter(x, x$HealthTopicCode == disease)
     if(nrow(x) == 0) {
-      stop(paste('The dataset does not include the selected disease "', disease, '".'))
+      stop(paste('The dataset does not include the selected disease "',
+                 disease, '".'))
     }
 
     # --- Filtering on Yearly data only
     x <- dplyr::filter(x, x$TimeUnit == "M")
     if(nrow(x) == 0) {
-      stop(paste('The dataset does not include the required time unit \'M\' for the selected disease "', disease, '".'))
+      stop(paste('The dataset does not include the required time unit \'M\'',
+                 'for the selected disease "', disease, '".'))
     }
 
     # --- Filtering on 5 year period monthly data
@@ -70,14 +98,17 @@ getSeason <- function(x, #to improve with variables??
                          rep(studyPeriodMonth, times = 5), sep="-")
     x <- dplyr::filter(x, x$TimeCode %in% studyPeriod)
     if(nrow(x) == 0) {
-      stop(paste('The dataset does not include the required 5-year study period for the selected disease "', disease, '".'))
+      stop(paste('The dataset does not include the required 5-year study period for the selected disease "',
+                 disease, '".'))
     }
 
     # --- Filtering for analysis at country and EU-EEA level only, no EU level
     MS <- MSCode$GeoCode[!is.na(MSCode$EUEEA)]
     x <- dplyr::filter(x, x$GeoCode %in% MS)
     if(nrow(x) == 0) {
-      stop(paste('The dataset does not include any \'GeoCode\' at EUEEA level (see MSCode dataset) for the selected disease "', disease, '".'))
+      stop(paste('The dataset does not include any \'GeoCode\' at EUEEA level',
+                 '(see MSCode dataset) for the selected disease "',
+                 disease, '".'))
     }
 
     # --- Filtering on MeasureCode indicators
@@ -135,12 +166,12 @@ getSeason <- function(x, #to improve with variables??
     ## ----
 
     p <- plotSeasonality(data = agg,
-                                xvar = "TimeCode",
-                                yvar = "N",
-                                min4years = "Min4Years",
-                                max4years = "Max4Years",
-                                mean4years = "Mean4Years",
-                                year = year)
+                         xvar = "TimeCode",
+                         yvar = "N",
+                         min4years = "Min4Years",
+                         max4years = "Max4Years",
+                         mean4years = "Mean4Years",
+                         year = year)
 
 
     if(missing(doc)) {
@@ -172,7 +203,8 @@ getSeason <- function(x, #to improve with variables??
 
   if(reportParameters$TSSeasonalityGraphUse == "N") {
     message(paste('According to the parameter table \'AERparams\', this disease "',
-                  disease, '" does not include any seasonal graph in the AER report.', sep = ""))
+                  disease, '" does not include any seasonal graph in the AER report.',
+                  sep = ""))
     if(missing(doc)) {
       return()
     } else {
@@ -190,20 +222,25 @@ getSeason <- function(x, #to improve with variables??
   }else{
     return(doc)
   }
-  }
+}
 
 
-#' AER
+#' AER Seasonal line graph
 #'
-#' This function ...
-#' @param data Your data frame
-#' @param xvar Variable on the x-axis in quotes; e.g. age group
-#' @param yvar Variable on the y-axis in quotes with the rate or number of cases
-#' @param min4years var...
-#' @param max4years var...
-#' @param mean4years var..
-#' @param year Var...
+#' This function draws a line graph describing the seasonality of the selected disease,
+#' using the AER style.
+#' @param data dataframe containing the variables to plot
+#' @param xvar character string, variable on the x-axis in quotes (default "TimeCode")
+#' @param yvar character string, variable on the y-axis in quotes (default "N")
+#' @param min4years character string, variable including the minimum
+#' number of cases over the past 4 years in quotes (default "Min4Years")
+#' @param max4years character string, variable including the maximum
+#' number of cases over the past 4 years in quotes in quotes (default "Max4Years")
+#' @param mean4years character string, variable including the mean of the
+#' number of cases over the past 4 years in quotes in quotes (default "Mean4Years")
+#' @param year numeric, year to produce the report for (default 2016)
 #' @keywords seasonality
+#' @seealso \code{\link{getSeason}} \code{\link{getAER}}
 #' @export
 plotSeasonality <- function(data,
                             xvar = "TimeCode",
@@ -241,17 +278,17 @@ plotSeasonality <- function(data,
                                             "Mean" = paste("Mean (", year - 4 , "\U2013", year - 1, ")", sep = ""))) +
     ggplot2::scale_fill_manual("", values = "grey80") +
     ggplot2::theme(
-      axis.text = ggplot2::element_text(size = 8),
-      axis.title = ggplot2::element_text(size = 9),
+      axis.text = ggplot2::element_text(size = 8, family = "Tahoma"),
+      axis.title = ggplot2::element_text(size = 9, family = "Tahoma"),
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       panel.background = ggplot2::element_blank(),
       axis.line = ggplot2::element_line(colour = "#767171"),
       legend.position = "right",
       legend.title = ggplot2::element_blank(),
-      legend.text = ggplot2::element_text(size=8),
+      legend.text = ggplot2::element_text(size=8, family = "Tahoma"),
       legend.key = ggplot2::element_blank(),
-      legend.key.width = ggplot2::unit(0.8, "cm")) +
+      legend.key.width = ggplot2::unit(0.8, "cm"))+
     ggplot2::guides(
       color = ggplot2::guide_legend(
         override.aes = list(linetype = c("longdash", "solid"),

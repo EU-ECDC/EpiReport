@@ -7,7 +7,7 @@
 shapeECDCFlexTable(ft, headers, fsize, fname, maincolor)
 }
 \arguments{
-\item{ft}{fletable to shape into ECDC table layout}
+\item{ft}{flextable (see \code{flextable} package), table to shape into ECDC table layout}
 
 \item{headers}{dataframe including the multiple headers to add to the flextable
 (n.b. the first column should contain the names of the flextable object)}
@@ -16,11 +16,15 @@ shapeECDCFlexTable(ft, headers, fsize, fname, maincolor)
 
 \item{fname}{character, font name (defaut = "Tahoma")}
 
-\item{maincolor}{character string, hexadecial code for the header background color}
+\item{maincolor}{character string, hexadecimal code for the header background color}
 }
 \value{
-flextable object
+flextable object (see \code{flextable} package)
 }
 \description{
 Shaping the final table (layout)
+}
+\seealso{
+\code{\link{getTableByMS}}
+\code{\link{shapeECDCFlexTable}} \code{\link{flextable}}
 }

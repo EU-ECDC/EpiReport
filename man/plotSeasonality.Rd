@@ -2,28 +2,35 @@
 % Please edit documentation in R/AER_seasonality_graph.R
 \name{plotSeasonality}
 \alias{plotSeasonality}
-\title{AER}
+\title{AER Seasonal line graph}
 \usage{
 plotSeasonality(data, xvar = "TimeCode", yvar = "N",
   min4years = "Min4Years", max4years = "Max4Years",
   mean4years = "Mean4Years", year = 2016)
 }
 \arguments{
-\item{data}{Your data frame}
+\item{data}{dataframe containing the variables to plot}
 
-\item{xvar}{Variable on the x-axis in quotes; e.g. age group}
+\item{xvar}{character string, variable on the x-axis in quotes (default "TimeCode")}
 
-\item{yvar}{Variable on the y-axis in quotes with the rate or number of cases}
+\item{yvar}{character string, variable on the y-axis in quotes (default "N")}
 
-\item{min4years}{var...}
+\item{min4years}{character string, variable including the minimum
+number of cases over the past 4 years in quotes (default "Min4Years")}
 
-\item{max4years}{var...}
+\item{max4years}{character string, variable including the maximum
+number of cases over the past 4 years in quotes in quotes (default "Max4Years")}
 
-\item{mean4years}{var..}
+\item{mean4years}{character string, variable including the mean of the
+number of cases over the past 4 years in quotes in quotes (default "Mean4Years")}
 
-\item{year}{Var...}
+\item{year}{numeric, year to produce the report for (default 2016)}
 }
 \description{
-This function ...
+This function draws a line graph describing the seasonality of the selected disease,
+using the AER style.
+}
+\seealso{
+\code{\link{getSeason}} \code{\link{getAER}}
 }
 \keyword{seasonality}

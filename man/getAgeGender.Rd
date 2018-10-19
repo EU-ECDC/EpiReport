@@ -2,29 +2,51 @@
 % Please edit documentation in R/AER_age_gender_bar.R
 \name{getAgeGender}
 \alias{getAgeGender}
-\title{Get the age and gender bar graph}
+\title{Get the Age and Gender bar graph}
 \usage{
 getAgeGender(x, disease = "SALM", year = 2016, reportParameters,
   geoCode = "EU_EEA31", index = 1, doc)
 }
 \arguments{
-\item{x}{dataset}
+\item{x}{dataframe, raw disease-specific dataset
+(see more information in the vignette)}
 
-\item{disease}{character string, disease name}
+\item{disease}{character string, disease name (default "SALM")}
 
-\item{year}{numeric, year to produce the report for}
+\item{year}{numeric, year to produce the report for (default 2016)}
 
-\item{reportParameters}{dataset of parameters for the report}
+\item{reportParameters}{dataset of parameters for the report
+(default reportParameters <- EpiReport::AERparams)}
 
-\item{geoCode}{character string, geoCode to run the analysis on (default: EU_EEA31)}
+\item{geoCode}{character string, geoCode to run the analysis on
+(default "EU_EEA31")}
 
-\item{index}{figure number}
+\item{index}{integer, figure number}
 
-\item{doc}{Word document}
+\item{doc}{Word document (see \code{officer} package)}
 }
 \value{
-Word doc a ggplot2 preview
+Word doc or a ggplot2 preview
 }
 \description{
-Function returning the plot
+Function returning the age and gender bar graph that will be included
+in the Annual Epidemiological Report (AER)
+(see reports already available on the ECDC dedicated web page
+https://ecdc.europa.eu/en/annual-epidemiological-reports)
+}
+\examples{
+
+# --- Please note! AER plots use the font "Tahoma"
+# --- To download this font, use the commands below
+library(extrafont)
+font_import(pattern = 'tahoma')
+loadfonts(device = "win")
+
+# --- Plot using the default dataset
+getAgeGender()
+
+}
+\seealso{
+\code{\link{plotAgeGender}} \code{\link{plotAge}}
+\code{\link{AERparams}}
 }

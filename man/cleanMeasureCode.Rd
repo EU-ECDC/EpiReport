@@ -7,15 +7,19 @@
 cleanMeasureCode(var)
 }
 \arguments{
-\item{var}{variable to clean}
+\item{var}{vector variable, variable to clean}
 }
 \value{
-cleaned variable
+cleaned vector variable
 }
 \description{
-Clean the MeasureCode variable
+Clean the MeasureCode variable and replace the specific codes with the generic ones
+(e.g. ACCUTE.AGE_GENDER.RATE will be replaced by CONFIRMED.AGE_GENDER.RATE)
 }
 \examples{
 x <- EpiReport::SALM2016
 x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+}
+\seealso{
+\code{\link{SALM2016}}
 }

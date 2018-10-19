@@ -2,37 +2,43 @@
 % Please edit documentation in R/AER_maps.R
 \name{includeMap}
 \alias{includeMap}
-\title{Function including the PNG map}
+\title{Include the PNG map (Word)}
 \usage{
 includeMap(disease, year, reportParameters, index, pathPNG, doc, pop,
   namePNGsuffix, unit, mapBookmark, captionBookmark)
 }
 \arguments{
-\item{disease}{character string, disease name}
+\item{disease}{character string, disease name (default "SALM")}
 
-\item{year}{numeric, year to produce the report for}
+\item{year}{numeric, year to produce the report for (default 2016)}
 
-\item{reportParameters}{dataset of parameters for the report}
+\item{reportParameters}{dataset of parameters for the report
+(default reportParameters <- EpiReport::AERparams)}
 
-\item{index}{figure number}
+\item{index}{integer, figure number}
 
-\item{pathPNG}{character string, path to the folder containing the maps in PNG}
+\item{pathPNG}{character string, full path to the folder containing the maps in PNG}
 
-\item{doc}{Word document}
+\item{doc}{Word document (see \code{officer} package)}
 
-\item{pop}{Label of the type of population used in the caption}
+\item{pop}{character string, label of the type of population used in the caption}
 
-\item{namePNGsuffix}{Suffix of the PNG file name of the map}
+\item{namePNGsuffix}{character string, suffix of the PNG file name of the map}
 
-\item{unit}{Label of the unit used in the caption}
+\item{unit}{character string, label of the unit used in the caption}
 
-\item{mapBookmark}{Bookmark for the map in the Word document}
+\item{mapBookmark}{character string, label of the bookmark in the Word document}
 
-\item{captionBookmark}{Bookmark for the caption in the Word document}
+\item{captionBookmark}{character string, label of the bookmark for the caption in the Word document}
 }
 \value{
 Word doc
 }
 \description{
-Function including the PNG map
+Function including the disease-specific PNG map in the Word document
+at the specific bookmark location
+}
+\seealso{
+\code{\link{getMap}} \code{\link{previewMap}}
+\code{\link{getAER}}
 }

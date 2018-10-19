@@ -2,32 +2,53 @@
 % Please edit documentation in R/AER_report.R
 \name{getAER}
 \alias{getAER}
-\title{Produce the AER report}
+\title{Produce the AER Word report}
 \usage{
 getAER(template, outputPath, x, disease, year, reportParameters, MSCode, pathPNG)
 }
 \arguments{
-\item{template}{The word document in which to add the table.
+\item{template}{doc (see \code{officer} package), the word document in which to add the AER outputs.
 Default value is the empty template included in the package getTemplate().}
 
-\item{outputPath}{The path for the word output.
+\item{outputPath}{character string, the full path where to generate the AER Word output.
 Default value is the current working directory getwd().}
 
-\item{x}{dataset including required data for AER}
+\item{x}{dataframe, raw disease-specific dataset (see more information in the vignette)
+(default reportParameters <- EpiReport::SALM2016)}
 
-\item{disease}{character string, disease name}
+\item{disease}{character string, disease name (default "SALM")}
 
-\item{year}{numeric, year to produce the report for}
+\item{year}{numeric, year to produce the report for (default 2016)}
 
-\item{reportParameters}{dataset of parameters for the report}
+\item{reportParameters}{dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)}
 
-\item{MSCode}{dataset of corresponding table of GeoCode names and codes}
+\item{MSCode}{dataset of corresponding table of GeoCode names and codes
+(default reportParameters <- EpiReport::MSCode)}
 
-\item{pathPNG}{character string, path to the folder containing the maps in PNG}
+\item{pathPNG}{character string, the full path to the folder containing
+the maps in PNG to include in the final report}
 }
 \value{
 A word document
 }
 \description{
-Function to generate the AER Word report
+Function to generate the Word ECDC Annual Epidemiological Report (AER)
+including all disease-specific outputs in the Word bookmark location
+(see reports already available on the ECDC dedicated web page
+https://ecdc.europa.eu/en/annual-epidemiological-reports)
+}
+\examples{
+# --- Generating the AER report using the default Salmonellosis dataset
+getAER()
+
+# --- Or using external data (example below)
+# ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+# output <- "C:/EpiReport/doc/"
+# pathMap <- "C:/EpiReport/maps/"
+# getAER(disease = "ZIKV", year = 2016, x = ZIKV2016, outputPath = output, pathPNG = pathMap)
+
+}
+\seealso{
+\code{\link{getTemplate}} \code{\link{MSCode}}
+\code{\link{AERparams}}
 }

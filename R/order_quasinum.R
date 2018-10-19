@@ -1,10 +1,13 @@
+#' Order 'quasinumerical' categorical vectors (increasing order)
+#'
 #' A function to order 'quasinumerical' (i.e. categorical with values such as "15-30" or "<18") integer vectors into
 #' increasing order. Currently handles away the following non-numerical characters "-", ">", "<", ">=", "<=", "+".
 #'
-#' @param x A character vector with 'quasinumerical' values
+#' @param x character vector with 'quasinumerical' values
 #' @author Tommi Karki
 #' @keywords order
 #' @export
+#' @seealso \code{\link{getAgeGender}} and \code{\link{plotAgeGender}} / \code{\link{plotAge}}
 #' @examples
 #' age1 <- c("<1", "1-15", "16-24", ">65", "25-65")
 #' age2 <- c("0-4", "5-10", ">65", "25-64", "11-25")

@@ -2,24 +2,28 @@
 % Please edit documentation in R/AER_maps.R
 \name{previewMap}
 \alias{previewMap}
-\title{Function including the PNG map}
+\title{Preview the PNG map}
 \usage{
 previewMap(disease, year, reportParameters, pathPNG, namePNGsuffix)
 }
 \arguments{
-\item{disease}{character string, disease name}
+\item{disease}{character string, disease name (default "SALM")}
 
-\item{year}{numeric, year to produce the report for}
+\item{year}{numeric, year to produce the report for (default 2016)}
 
-\item{reportParameters}{dataset of parameters for the report}
+\item{reportParameters}{dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)}
 
-\item{pathPNG}{character string, path to the folder containing the maps in PNG}
+\item{pathPNG}{character string, full path to the folder containing the maps in PNG}
 
-\item{namePNGsuffix}{Suffix of the PNG file name of the map}
+\item{namePNGsuffix}{character string, suffix of the PNG file name of the map}
 }
 \value{
 Preview
 }
 \description{
-Function including the PNG map
+Function preview the disease-specific PNG map
+}
+\seealso{
+\code{\link{getMap}} \code{\link{includeMap}}
+\code{\link{getAER}}
 }

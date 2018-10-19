@@ -2,13 +2,12 @@
 % Please edit documentation in R/order_quasinum.R
 \name{order_quasinum}
 \alias{order_quasinum}
-\title{A function to order 'quasinumerical' (i.e. categorical with values such as "15-30" or "<18") integer vectors into
-increasing order. Currently handles away the following non-numerical characters "-", ">", "<", ">=", "<=", "+".}
+\title{Order 'quasinumerical' categorical vectors (increasing order)}
 \usage{
 order_quasinum(x)
 }
 \arguments{
-\item{x}{A character vector with 'quasinumerical' values}
+\item{x}{character vector with 'quasinumerical' values}
 }
 \description{
 A function to order 'quasinumerical' (i.e. categorical with values such as "15-30" or "<18") integer vectors into
@@ -32,6 +31,9 @@ order_quasinum(age4)
 
 age5
 order_quasinum(age5)
+}
+\seealso{
+\code{\link{getAgeGender}} and \code{\link{plotAgeGender}} / \code{\link{plotAge}}
 }
 \author{
 Tommi Karki

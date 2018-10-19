@@ -2,29 +2,44 @@
 % Please edit documentation in R/AER_tables.R
 \name{getTableByMS}
 \alias{getTableByMS}
-\title{Get the table}
+\title{Get the disease-specific AER Table}
 \usage{
 getTableByMS(x, disease = "Salmonellosis", year = 2016,
   reportParameters, MSCode, index = 1, doc)
 }
 \arguments{
-\item{x}{dataset including required data for AER}
+\item{x}{dataframe, raw disease-specific dataset (see more information in the vignette)
+(default reportParameters <- EpiReport::SALM2016)}
 
-\item{disease}{character string, disease name}
+\item{disease}{character string, disease name (default "SALM")}
 
-\item{year}{numeric, year to produce the report for}
+\item{year}{numeric, year to produce the report for (default 2016)}
 
-\item{reportParameters}{dataset of parameters for the report}
+\item{reportParameters}{dataset of parameters for the report
+(default reportParameters <- EpiReport::AERparams)}
 
-\item{MSCode}{dataset containing the correspondence table of geo code and labels}
+\item{MSCode}{dataset containing the correspondence table of geographical code
+and labels (default MSCode <- EpiReport::MSCode)}
 
-\item{index}{figure number}
+\item{index}{integer, figure number}
 
 \item{doc}{Word document (see \code{officer} package)}
 }
 \value{
-Word doc or FlexTable preview
+Word doc or FlexTable preview (see \code{flextable} package)
 }
 \description{
-Function returning the table
+Function returning the table (flextable) that will be included
+in the Annual Epidemiological Report (AER)
+(see reports already available on the ECDC dedicated web page
+https://ecdc.europa.eu/en/annual-epidemiological-reports)
+}
+\examples{
+# --- Draft the table using the default Salmonellosis dataset
+getTableByMS()
+}
+\seealso{
+\code{\link{getAER}} \code{\link{flextable}}
+\code{\link{shapeECDCFlexTable}} \code{\link{cleanECDCTable}}
+\code{\link{AERparams}} \code{\link{MSCode}}
 }
