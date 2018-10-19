@@ -32,7 +32,7 @@ The EpiReport package allows the user to draft the ECDC Annual Epidemiological R
 in Microsoft Word format for a given disease.
 
 It is specifically designed to generate, through standalone functions, 
-each disease-specific outputs presented in these reports, using ECDC Atlas export data. 
+each disease-specific output presented in these reports, using ECDC Atlas export data. 
 
 
 Package details below:
@@ -61,7 +61,7 @@ Link to the ECDC AER reports | `r pkgUrl`
 
 ## Background
 
-ECDC's Annual Epidemiological Report is available as a series of individual 
+ECDC's annual epidemiological report is available as a series of individual 
 epidemiological disease reports. Reports are published on the ECDC website 
 https://ecdc.europa.eu/en/annual-epidemiological-reports as they become available.
 
@@ -107,17 +107,19 @@ communicable diseases in the Community. Official Journal, OJ L 268, 03/10/1998 p
 
 ## 1. Datasets to be used in the Epidemiological Report package
 
+### 1.1. Disease dataset specification
+
 Two types of datasets can be used:
 
 * The default dataset included in the `EpiReport` package which includes 
 Salmonellosis data for 2016 exported from the ECDC Atlas (restricted access): `EpiReport::SALM2016`;
-* A complete ECDC Atlas export (csv format) or any dataset specified as described below.
+* A complete ECDC Atlas export (csv format from the ECDC Atlas restricted access) 
+or any dataset specified as described below.
 
-
-### Disease dataset specification (naming, format, description)
+Description of each variable required in the disease dataset (naming and format):
 
 * `HealthTopicCode`: Character string, disease code 
-(see also the reports parameter table);
+(see also the reports parameter table Tab.3);
 * `MeasurePopulation`: Character string, population characteristics 
 (e.g. All cases,  Confirmed cases, Serotype AGONA, Serotype BAREILLY etc.). 
 * `MeasureCode`: Character string, code of the indicators available 
@@ -155,27 +157,71 @@ knitr::kable(my_dataset[sample(1:nrow(EpiReport::SALM2016), 10), ],
 
 
 
-### Report parameters dataset specificiation
+### 1.2. Report parameters dataset specification
 
 The internal dataset `EpiReport::AERparams` describes the parameters to use 
 for each output of each disease report.
 
+If the user wishes to set different parameters for one of the 53 covered diseases, 
+or if the user wishes to analyse an additional disease not covered by the default 
+parameter table, it is possible to use an external dataset as long as it is 
+specified as described below and in the help page `?EpiReport::AERparams`.
+All functions of the `EpiReport` package can then be fed with this specific parameter table.
+
+List of the main parameters included:
+
+* `HealthTopic`: Character string, disease code that should match 
+with the health topic code from the disease-specific dataset (see Tab.1)
+* `MeasurePopulation`: Character string, population to present in the report: 
+either `ALL` cases or `CONFIRMED` cases only.
+* `TableUse`: Character string, specifying whether to include the table in the AER report and which table to include:
+    + `NO`: No table included
+    + `COUNT`: Table presenting the __number of cases__ by Member State by year
+    + `RATE`: Table presenting the __rates__ of cases by Member State by year
+    + `ASR`: Table presenting the __age-standardised__ rates of cases 
+    by Member State by year
+* `AgeGenderUse`: Character string, specifying whether to include the age and gender
+bar graph in the AER report and which type of graph to include:
+    + `NO`: No graph included
+    + `AG-COUNT`: Bar graph presenting the __number of cases__ by age and gender
+    + `AG-RATE`: Bar graph presenting the __rates__ of cases by age and gender
+    + `AG-PROP`: Bar graph presenting the __proportion__ of cases by age and gender
+    + `A-RATE`: Bar graph presenting the __rates__ of cases by age
+* `TSTrendGraphUse`: Yes/No, specifying whether to include a line graph describing 
+the trend of the disease over the time.
+* `TSSeasonalityGraphUse`: Yes/No, specifying whether to include a line graph
+describing the seasonality of the disease.
+* `MapNumbersUse`: Yes/No, specifying whether to include the map presenting 
+the __number of cases__ by Member State.
+* `MapRatesUse`: Yes/No, specifying whether to include the map presenting 
+the __rates__ of cases by Member State.
+* `MapASRUse`: Yes/No, specifying whether to include the map presenting 
+the __age-standardised rates__ of cases by Member State.
+
+
 
 ```{r, echo=FALSE, results='asis'}
 my_dataset <- EpiReport::AERparams
+my_dataset <- dplyr::select(my_dataset, 
+                            c("HealthTopic", "MeasurePopulation",
+                              "TableUse", "AgeGenderUse",
+                              "TSTrendGraphUse", "TSSeasonalityGraphUse",
+                              "MapNumbersUse", "MapRatesUse", "MapASRUse"))
 knitr::kable(my_dataset[sample(1:nrow(EpiReport::AERparams), 5), ], 
              row.names = FALSE,
              format = "html", table.attr = 'class="myTable"',
-             caption = "__Tab.2 Example of parameters__")
+             caption = "__Tab.2 Example of the main column of the parameter dataset__")
 ```
 
 
 
-### Member States correspondance table dataset
+### 1.3. Member States correspondence table dataset
 
-The internal dataset `EpiReport::MSCode` provides the correspondance table 
-of the geographical code used in the disease dataset, and the geographical label 
-to use throughout the report. Additional information on EU/EEA affiliation is also available.
+The internal dataset `EpiReport::MSCode` provides the correspondence table 
+of the geographical code used `GeoCode` in the disease dataset, 
+and the geographical label `Country` to use throughout the report. 
+Additional information on the EU/EEA affiliation is also available in column `EUEEA`.
+
 
 ```{r, echo=FALSE, results='asis'}
 my_dataset <- EpiReport::MSCode
@@ -189,15 +235,17 @@ knitr::kable(my_dataset[sample(1:nrow(EpiReport::MSCode), 5), ],
 
 ## 2. How to generate the Annual Epidemiological Report in Microsoft Word format
 
-To generate an Annual Epidemiological Report using the default dataset included 
-in the `EpiReport` package with Salmonellosis data for 2016, use the function `getAER()`.
-By default, the Salmonellosis 2016 report will be generated and stored in your working directory (see `getwd()`)
+To generate an Annual Epidemiological Report, we can use the default dataset 
+included in the `EpiReport` package presenting Salmonellosis data for 2016.
+
+Calling the function `getAER()`, the Salmonellosis 2016 report will be generated 
+and stored in your working directory (see `getwd()`) by default.
 
 ```{r, eval=FALSE}
 getAER()
 ```
 
-Please specify the full path to the final folder if necessary:
+Please specify the full path to the output folder if necessary:
 
 ```{r, eval=FALSE}
 output <- "C:/EpiReport/doc/"
@@ -205,32 +253,17 @@ getAER(outputPath = output)
 ```
 
 
-### Word template
 
-By default, an empty template is used to produce the report. 
-In order to modify this template, please first dowload the default template 
-using the function `getTemplate()`.
-
-```{r, eval = FALSE}
-getTemplate(output_path = "C:/EpiReport/template")
-```
-
-Then apply the modifications required, save it and use it as a new template 
-when producing the AER report as described below.
-
-```{r, eval = FALSE}
-getAER(template = "C:/EpiReport/template/New_AER_Template.docx",
-       outputPath = output)
-```
-
-
-### External disease-specific datset
+### 2.1. External disease dataset
 
 To generate the report using an external dataset, please use the syntax below.
-In the following example, Pertussis 2016 TESSy data is used to produce the corresponding AER report.
+
+In the following example, Pertussis 2016 TESSy data (in csv format, in the `/data` 
+folder) is used to produce the corresponding AER report.
+
 Pertussis PNG maps have previously been created and stored in a specific folder `/maps`. 
 
-```{r, warning=FALSE, eval=FALSE}
+```{r, warning=FALSE}
 # --- Importing the dataset
 PERT2016 <- read.table("data/PERT2016.csv", 
                        sep = ",", 
@@ -240,74 +273,261 @@ PERT2016 <- read.table("data/PERT2016.csv",
 # --- Specifying the folder containing pertussis maps
 pathMap <- paste(getwd(), "/maps", sep = "")
 
-# --- Importing the Tahoma font for the report
+# --- (optional) Importing the Tahoma font for the report
 extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
 extrafont::loadfonts(device = "win", quiet = TRUE)
+
+# --- (optional) Setting the local language in English for month label
+Sys.setlocale("LC_TIME", "C")
 
 # --- Producing the report
 EpiReport::getAER(disease = "PERT", 
        year = 2016, 
        x = PERT2016, 
-       outputPath = getwd(), 
        pathPNG = pathMap)
 ```
 
+Please note that the font `Tahoma` is used in the plot axis and legend.
+It is advised to import this font using the `extrafont` package and the command
+`font_import` and `loadfonts`. 
+
+However, it is optional as the user can prefer to generate the plots with the default
+`Arial` font. In that case, warnings will appear in the console for each plot.
 
 
-## 3. AER table
+
+### 2.2. Word template
+
+By default, an empty ECDC template (Microsoft Word) is used to produce the AER report. 
+In order to modify this template, please first download the default template 
+using the function `getTemplate()`.
+
+You can store this Microsoft Word template in a specific folder `/template`.
+
+```{r, eval = FALSE}
+getTemplate(output_path = "C:/EpiReport/template")
+```
+
+Then, apply the modifications required, save it and use it as a new Microsoft
+Word template when producing the AER report as described below.
+
+```{r, eval = FALSE}
+getAER(template = "C:/EpiReport/template/New_AER_Template.docx",
+       outputPath = "C:/EpiReport/doc/")
+```
+
+Please make sure that the Microsoft Word bookmarks are preserved throughout the 
+modifications to the template. The bookmarks specify the location where to include
+each AER outputs.
+
+
+
+## 3. How to generate each AER outputs independently
+
+The `EpiReport` package allows the user to generate each AER output 
+independently of the Microsoft Word report.
+
+The ECDC annual epidemiological Report includes five types of outputs:
+
+* __Table__: Distribution of cases by Member State over the last five years with:
+    + the number of cases only;
+    + the number of cases and the corresponding rate  per 100 000 population or
+    + the number of cases, the rate and the age-standardised rate  per 100 000 population.
+* __Seasonal plot__: Distribution of cases at EU/EEA level, by month,
+over the past five years.
+* __Trend plot__: Trend and number of cases at EU/EEA level, by month,
+over the past five years.
+* __Map__: Distribution of cases by country presenting either:
+    + the number of cases;
+    + the rates per 100 000 population;
+    + the age-standardised rates per 100 000 population.
+* __Age and gender bar graph__: Distribution of cases at EU/EEA level:
+    + by age and gender and using:
+        + the number of cases
+        + the rate
+        + the proportion of cases
+    + by age only and using the rate.
+
+
+
+### 3.1. Table: distribution of cases by Member State
+
+The function `getTableByMS()` generates a `flextable` object (see package
+`flextable`) presenting the number of cases by Member State over the last five years.
+
+By default, the function will use the internal Salmonellosis 2016 data and
+present the number of confirmed cases and the corresponding rate for each year,
+with a focus on 2016 and age-standardised rates.
 
 ```{r}
 EpiReport::getTableByMS()
 ```
 
+<center> ___Table. Distribution of confirmed salmonellosis cases, EU/EEA, 2012-2016___ </center>
 
 
-## 4. Seasonal plot
+This table can be drafted using external data, and specifying the disease code 
+and the year to use as reference in the report. 
+
+In the example below, we use Zika virus data. According to the report parameters,
+the table for this disease should present the number of reported cases 
+over the last five years and by Member State.
+
+
+```{r}
+ZIKV2016 <- read.table("data/ZIKV2016.csv", 
+                       sep = ",", 
+                       header = TRUE, 
+                       stringsAsFactors = FALSE)
+EpiReport::getTableByMS(x = ZIKV2016, 
+             disease = "ZIKV", 
+             year = 2016)
+```
+
+<center> ___Table. Distribution of Zika virus infection cases, EU/EEA, 2012-2016___ </center>
+
+
+
+### 3.2. Seasonal plot: distribution of cases by month
+
+The function `getSeason()` generates a ggplot (see package `ggplot2`) presenting 
+the distribution of cases at EU/EEA level, by month, over the past five years.
+
+The plot includes:
+
+* The number of cases by month in the reference year (green solid line)
+* The mean number of cases by month in the four previous years (grey dashed line)
+* The minimum number of cases by month in the four previous years (grey area)
+* The maximum number of cases by month in the four previous years (grey area)
+
+By default, the function will use the internal Salmonellosis 2016 data.
+
 
 ```{r, fig.width = 7}
-# --- Importing the Tahoma font for the report
-extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
-extrafont::loadfonts(device = "win", quiet = TRUE)
-
-# --- Setting the local language as English
-Sys.setlocale("LC_TIME", "C")
-
 # --- Salmonellosis 2016 plot
 EpiReport::getSeason()
 ```
 
-## 5. Trend plot
+___Figure. Distribution of confirmed salmonellosis cases by month, EU/EEA, 2016 and 2012-2015___
+
+
+The plot can also be drafted using external data, and specifying the disease dataset,
+the disease code and the year to use as reference in the report.
+
+In the example below, we use Pertussis 2016 data.
+
 
 ```{r, fig.width = 7}
-# --- Importing the Tahoma font for the report
-extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
-extrafont::loadfonts(device = "win", quiet = TRUE)
+# --- Pertussis 2016 plot
+EpiReport::getSeason(x = PERT2016,
+                     disease = "PERT",
+                     year = 2016)
+```
 
-# --- Setting the local language as English
-Sys.setlocale("LC_TIME", "C")
+___Figure. Distribution of pertussis cases by month, EU/EEA, 2016 and 2012-2015___
 
+
+### 3.3. Trend plot: trend and number of cases by month
+
+The function `getTrend()` generates a ggplot (see package `ggplot2`) presenting
+the trend and the number of cases at EU/EEA level, by month, over the past five years.
+
+The plot includes:
+
+* The number of cases by month over the 5-year period (grey solid line)
+* The moving average of the number of cases by month (green solid line)
+
+By default, the function will use the internal Salmonellosis 2016 data.
+
+```{r, fig.width = 7}
 # --- Salmonellosis 2016 plot
 EpiReport::getTrend()
 ```
 
+___Figure. Trend and number of confirmed salmonellosis cases, EU/EEA by month, 2012-2016___
 
-## 6. Maps
 
-```{r}
-# --- Salmonellosis 2016 plot
-EpiReport::getMap()
-```
+The plot can also be drafted using external data, and specifying the disease dataset,
+the disease code and the year to use as reference in the report.
 
-## 7. Age and gender bargraph
+In the example below, we use again Pertussis 2016 data.
 
 
 ```{r, fig.width = 7}
-# --- Importing the Tahoma font for the report
-extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
-extrafont::loadfonts(device = "win", quiet = TRUE)
+# --- Pertussis 2016 plot
+EpiReport::getTrend(x = PERT2016,
+                    disease = "PERT",
+                    year = 2016)
+```
 
-# --- Salmonellosis 2016 plot
-EpiReport::getAgeGender()
+___Figure. Trend and number of pertussis cases, EU/EEA by month, 2012-2016___
+
+
+
+### 3.4. Maps
+
+The function `getMap()` provides with a preview of the PNG map associated with the disease.
+
+By default, the function will use the internal Salmonellosis 2016 PNG maps.
+According to the report parameters, the corresponding map should present 
+the notification rate of confirmed salmonellosis cases.
+
+
+```{r, fig.width = 7, fig.height=5, fig.retina=4, results='hide'}
+# --- Salmonellosis 2016 map
+EpiReport::getMap()
+```
+
+___Figure. Distribution of confirmed salmonellosis cases per 100 000 population by country, EU/EEA, 2016___
+
+
+The map can also be included using external PNG files, and specifying 
+the disease code and the year to use as reference in the report. 
+The corresponding syntax is described below (pertussis map not available).
+
+```{r, eval = FALSE}
+# --- Pertussis 2016 map
+EpiReport::getMap(disease = "PERT", 
+                  year = 2016, 
+                  pathPNG = "C:/EpiReport/maps/")
 ```
 
 
+
+### 3.5. Age and gender bar graph
+
+The function `getAgeGender()` generates a ggplot (see package `ggplot2`) 
+presenting in a bar graph the distribution of cases at EU/EEA level by age and gender.
+
+The bar graph uses either:
+
+* The number of cases,
+* The rate per 100 000 cases,
+* The proportion of cases.
+
+By default, the function will use the internal Salmonellosis 2016 data with 
+the rate of confirmed cases per 100 000 population.
+
+
+```{r, fig.width = 7}
+# --- Salmonellosis 2016 bar graph
+EpiReport::getAgeGender()
+```
+
+___Figure. Distribution of confirmed salmonellosis cases per 100 000 population, by age and gender, EU/EEA, 2016___
+
+
+The bar graph can also be drafted using external data, and specifying the disease 
+dataset, the disease code and the year to use as reference in the report.
+
+In the example below, we use Zika 2016 data.
+
+
+```{r, fig.width = 7}
+# --- Zika 2016 bar graph
+EpiReport::getAgeGender(x = ZIKV2016, 
+                        disease = "ZIKV", 
+                        year = 2016)
+```
+
+___Figure. Distribution of Zika virus infection proportion (%), by age and gender, EU/EEA, 2016___
