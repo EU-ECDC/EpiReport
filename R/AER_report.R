@@ -1,15 +1,20 @@
 #' Get AER Word template
 #'
-#' Function to export the standard Word template for ECDC Annual Epidemiological Report (AER)
+#' Function to export the generic Microsoft Word template for the ECDC
+#' annual epidemiological report (AER) \cr
 #' (see reports already available on the ECDC dedicated web page
-#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
+#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' @param output_path character string, the full path where to create the Word output.
-#' Defaut location will be the current working directory (default getwd())
+#' Defaut location will be the current working directory (default \code{getwd()})
+#'
 #' @usage getTemplate(output_path)
+#'
 #' @return A word document
+#'
 #' @examples
-#' getTemplate(output_path = "C:/R/AER")
+#' # getTemplate(output_path = "C:/R/AER")
+#'
 #' @export
 #'
 getTemplate <- function(output_path){
@@ -43,10 +48,10 @@ getTemplate <- function(output_path){
 
 #' Produce the AER Word report
 #'
-#' Function to generate the Word ECDC Annual Epidemiological Report (AER)
-#' including all disease-specific outputs in the Word bookmark location
+#' Function to generate the Microsoft Word ECDC annual epidemiological report (AER)
+#' including all disease-specific outputs at the Word bookmark location \cr
 #' (see reports already available on the ECDC dedicated web page
-#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
+#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' @param template doc (see \code{officer} package), the word document in which to add the AER outputs.
 #' Default value is the empty template included in the package getTemplate().
@@ -61,9 +66,12 @@ getTemplate <- function(output_path){
 #' (default reportParameters <- EpiReport::MSCode)
 #' @param pathPNG character string, the full path to the folder containing
 #' the maps in PNG to include in the final report
+#'
 #' @usage getAER(template, outputPath, x, disease, year, reportParameters, MSCode, pathPNG)
+#'
 #' @seealso \code{\link{getTemplate}} \code{\link{MSCode}}
-#' \code{\link{AERparams}}
+#' \code{\link{AERparams}} \code{\link{SALM2016}}
+#'
 #' @examples
 #' # --- Generating the AER report using the default Salmonellosis dataset
 #' getAER()
@@ -75,7 +83,9 @@ getTemplate <- function(output_path){
 #' # getAER(disease = "ZIKV", year = 2016, x = ZIKV2016, outputPath = output, pathPNG = pathMap)
 #'
 #' @return A word document
+#'
 #' @export
+#'
 getAER <- function(template,
                    outputPath = getwd(),
                    x, disease = "SALM", year = 2016,
@@ -213,7 +223,6 @@ getAER <- function(template,
   ## ----
   ## Bar graph
   ## ----
-  # index <- index + 1
 
   doc <- EpiReport::getAgeGender(x = x,
                                  disease = disease,

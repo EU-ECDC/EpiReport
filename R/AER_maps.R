@@ -12,14 +12,19 @@
 #' @param index integer, figure number
 #' @param pathPNG character string, full path to the folder containing the maps in PNG
 #' @param doc Word document (see \code{officer} package)
+#'
 #' @return Word doc an image preview
+#'
 #' @seealso \code{\link{getAER}}
 #' \code{\link{includeMap}} \code{\link{previewMap}}
 #' \code{\link{AERparams}}
+#'
 #' @examples
 #' # --- Preview of the PNG map using the default Salmonellosis dataset
 #' getMap()
+#'
 #' @export
+#'
 getMap <- function(disease = "SALM", year = 2016,
                    reportParameters, index = 1, pathPNG, doc){
 
@@ -160,10 +165,14 @@ getMap <- function(disease = "SALM", year = 2016,
 #' @param unit character string, label of the unit used in the caption
 #' @param mapBookmark character string, label of the bookmark in the Word document
 #' @param captionBookmark character string, label of the bookmark for the caption in the Word document
+#'
 #' @return Word doc
+#'
 #' @seealso \code{\link{getMap}} \code{\link{previewMap}}
 #' \code{\link{getAER}}
+#'
 #' @export
+#'
 includeMap <- function(disease, year, reportParameters,
                        index, pathPNG, doc,
                        pop, namePNGsuffix, unit,
@@ -208,10 +217,14 @@ includeMap <- function(disease, year, reportParameters,
 #' @param reportParameters dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)
 #' @param pathPNG character string, full path to the folder containing the maps in PNG
 #' @param namePNGsuffix character string, suffix of the PNG file name of the map
+#'
 #' @return Preview
+#'
 #' @seealso \code{\link{getMap}} \code{\link{includeMap}}
 #' \code{\link{getAER}}
+#'
 #' @export
+#'
 previewMap <- function(disease, year, reportParameters,
                        pathPNG, namePNGsuffix){
 

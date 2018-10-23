@@ -15,9 +15,12 @@
 #' (default "EU_EEA31")
 #' @param index integer, figure number
 #' @param doc Word document (see \code{officer} package)
+#'
 #' @return Word doc or a ggplot2 preview
+#'
 #' @seealso \code{\link{plotAgeGender}} \code{\link{plotAge}}
 #' \code{\link{AERparams}}
+#'
 #' @examples
 #'
 #' # --- Please note! AER plots use the font "Tahoma"
@@ -30,6 +33,7 @@
 #' getAgeGender()
 #'
 #' @export
+#'
 getAgeGender <- function(x,
                          disease = "SALM", year = 2016,
                          reportParameters, geoCode = "EU_EEA31", index = 1, doc){
@@ -293,8 +297,11 @@ getAgeGender <- function(x,
 #' @param group character string, the grouping variable in quotes, e.g. gender as in the AER.
 #' (default "YLabel)
 #' @param ytitle character string, y-axis title; (default "Rate").
+#'
 #' @keywords age gender bargraph
+#'
 #' @seealso \code{\link{getAgeGender}} and \code{\link{plotAge}}
+#'
 #' @examples
 #' # --- Create dummy data
 #' mydat <- data.frame(Gender=c("F", "F", "M", "M"),
@@ -313,7 +320,9 @@ getAgeGender <- function(x,
 #'               yvar = "NumberOfCases",
 #'               group = "Gender",
 #'               ytitle = "Number of cases")
+#'
 #' @export
+#'
 plotAgeGender <- function(data,
                           xvar = "XLabel",
                           yvar = "ZValue",
@@ -370,8 +379,11 @@ plotAgeGender <- function(data,
 #' @param fill_color1 character string, hexadecimal colour to use in the graph;
 #' (default to ECDC green "#65B32E")
 #' @param ytitle character string, y-axis title; (default "Rate").
+#'
 #' @keywords age bargraph
+#'
 #' @seealso \code{\link{getAgeGender}} and \code{\link{plotAgeGender}}
+#'
 #' @examples
 #'
 #' # --- Create dummy data
@@ -385,6 +397,7 @@ plotAgeGender <- function(data,
 #'         ytitle = "Number of cases")
 #'
 #' @export
+#'
 plotAge <- function(data,
                     xvar = "XLabel",
                     yvar = "YValue",
