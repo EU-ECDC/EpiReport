@@ -73,6 +73,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h4 class="author"><em>EpiConcept / European Centre for Disease Prevention and Control (ECDC)</em></h4>
 
 
+<div id="TOC">
+<ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#background">Background</a></li>
+<li><a href="#datasets-to-be-used-in-the-epidemiological-report-package">1. Datasets to be used in the Epidemiological Report package</a><ul>
+<li><a href="#disease-dataset-specification">1.1. Disease dataset specification</a></li>
+<li><a href="#report-parameters-dataset-specification">1.2. Report parameters dataset specification</a></li>
+<li><a href="#member-states-correspondence-table-dataset">1.3. Member States correspondence table dataset</a></li>
+</ul></li>
+<li><a href="#how-to-generate-the-annual-epidemiological-report-in-microsoft-word-format">2. How to generate the Annual Epidemiological Report in Microsoft Word format</a><ul>
+<li><a href="#external-disease-dataset">2.1. External disease dataset</a></li>
+<li><a href="#word-template">2.2. Word template</a></li>
+</ul></li>
+<li><a href="#how-to-generate-each-aer-outputs-independently">3. How to generate each AER outputs independently</a><ul>
+<li><a href="#table-distribution-of-cases-by-member-state">3.1. Table: distribution of cases by Member State</a></li>
+<li><a href="#seasonal-plot-distribution-of-cases-by-month">3.2. Seasonal plot: distribution of cases by month</a></li>
+<li><a href="#trend-plot-trend-and-number-of-cases-by-month">3.3. Trend plot: trend and number of cases by month</a></li>
+<li><a href="#maps-distribution-of-cases-by-member-state">3.4. Maps: distribution of cases by Member State</a></li>
+<li><a href="#age-and-gender-bar-graph">3.5. Age and gender bar graph</a></li>
+</ul></li>
+</ul>
+</div>
 
 <style>
   .myTable td {
@@ -81,10 +103,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </style>
 <div id="description" class="section level2">
 <h2>Description</h2>
-<p>The EpiReport package allows the user to draft the ECDC Annual Epidemiological Report (AER) in Microsoft Word format for a given disease.</p>
+<p>The EpiReport package allows the user to draft the ECDC Annual Epidemiological Report (AER) (see <a href="https://ecdc.europa.eu/en/annual-epidemiological-reports" class="uri">https://ecdc.europa.eu/en/annual-epidemiological-reports</a>) in Microsoft Word format for a given disease.</p>
 <p>Through standalone functions, the package is specifically designed to generate each disease-specific output presented in these reports, using ECDC Atlas export data.</p>
 <p>Package details below:</p>
-<table>
+<table style="width:38%;">
+<colgroup>
+<col width="13%"></col>
+<col width="23%"></col>
+</colgroup>
 <thead>
 <tr class="header">
 <th>Package</th>
@@ -102,11 +128,22 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 <tr class="odd">
 <td>Authors</td>
-<td>c(</td>
+<td>Lore Merdrignac <a href="mailto:l.merdrignac@epiconcept.fr">l.merdrignac@epiconcept.fr</a>,<br /> Author of the package and original code<br /><br />Tommi Karki <a href="mailto:tommi.karki@ecdc.europa.eu">tommi.karki@ecdc.europa.eu</a>,<br /> Project manager and package maintainer<br /><br />Esther Kissling <a href="mailto:e.kissling@epiconcept.fr">e.kissling@epiconcept.fr</a>,<br /> Project manager<br /><br />Joana Gomes Dias <a href="mailto:joana.gomes.dias@ecdc.europa.eu">joana.gomes.dias@ecdc.europa.eu</a>,<br /> Project manager</td>
+</tr>
+<tr class="even">
+<td>Maintainer</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>License</td>
+<td>EUPL</td>
+</tr>
+<tr class="even">
+<td>Link to the ECDC AER reports</td>
+<td><a href="https://ecdc.europa.eu/en/annual-epidemiological-reports" class="uri">https://ecdc.europa.eu/en/annual-epidemiological-reports</a></td>
 </tr>
 </tbody>
 </table>
-<p>person( given = “Lore”, family = “Merdrignac”, role = c(“aut”, “ctr”), email = “<a href="mailto:l.merdrignac@epiconcept.fr">l.merdrignac@epiconcept.fr</a>”, comment = “Author of the package and original code”), person( given = “Tommi”, family = “Karki”, role = c(“aut”, “fnd”, “cre”), email = “<a href="mailto:tommi.karki@ecdc.europa.eu">tommi.karki@ecdc.europa.eu</a>”, comment = “Project manager and package maintainer”), person( given = “Esther”, family = “Kissling”, role = c(“aut”, “ctr”), email = “<a href="mailto:e.kissling@epiconcept.fr">e.kissling@epiconcept.fr</a>”, comment = “Project manager”), person( given = “Joana”, family = “Gomes Dias”, role = c(“aut”, “fnd”), email = “<a href="mailto:joana.gomes.dias@ecdc.europa.eu">joana.gomes.dias@ecdc.europa.eu</a>”, comment = “Project manager”)) Maintainer | License | EUPL Link to the ECDC AER reports | <a href="https://ecdc.europa.eu/en/annual-epidemiological-reports" class="uri">https://ecdc.europa.eu/en/annual-epidemiological-reports</a></p>
 </div>
 <div id="background" class="section level2">
 <h2>Background</h2>
@@ -190,19 +227,19 @@ SALM
 Confirmed cases
 </td>
 <td style="text-align:left;">
-CONFIRMED.AGE.RATE
+CONFIRMED.AGE.PROPORTION
 </td>
 <td style="text-align:left;">
 M
 </td>
 <td style="text-align:left;">
-2015-10
+2016-09
 </td>
 <td style="text-align:left;">
-PL
+FI
 </td>
 <td style="text-align:left;">
-5-14
+25-44
 </td>
 <td style="text-align:left;">
 NA
@@ -211,10 +248,45 @@ NA
 NA
 </td>
 <td style="text-align:right;">
+31.3559322
+</td>
+<td style="text-align:right;">
+118
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.GENDER.RATE
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2015-05
+</td>
+<td style="text-align:left;">
+RO
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
 NA
 </td>
 <td style="text-align:right;">
-989
+NA
+</td>
+<td style="text-align:right;">
+0.4326742
+</td>
+<td style="text-align:right;">
+89
 </td>
 </tr>
 <tr>
@@ -231,10 +303,150 @@ CONFIRMED.AGE.RATE
 M
 </td>
 <td style="text-align:left;">
-2012-11
+2012-05
 </td>
 <td style="text-align:left;">
-EU_EEA31
+DK
+</td>
+<td style="text-align:left;">
+65+
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1.1362650
+</td>
+<td style="text-align:right;">
+66
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE.RATE
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2016-07
+</td>
+<td style="text-align:left;">
+CY
+</td>
+<td style="text-align:left;">
+25-44
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.GENDER.RATE
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2014-01
+</td>
+<td style="text-align:left;">
+EE
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0.1626230
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE_GENDER.COUNT
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+2012
+</td>
+<td style="text-align:left;">
+FR
+</td>
+<td style="text-align:left;">
+65+
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+601
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+8705
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE.RATE
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2012-07
+</td>
+<td style="text-align:left;">
+CY
 </td>
 <td style="text-align:left;">
 15-24
@@ -246,45 +458,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+0.7461350
 </td>
 <td style="text-align:right;">
-6853
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.AGE.RATE
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2014-04
-</td>
-<td style="text-align:left;">
-NL
-</td>
-<td style="text-align:left;">
-0-4
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0.5221858
-</td>
-<td style="text-align:right;">
-59
+24
 </td>
 </tr>
 <tr>
@@ -301,45 +478,10 @@ CONFIRMED.AGE.PROPORTION
 M
 </td>
 <td style="text-align:left;">
-2012-05
+2014-06
 </td>
 <td style="text-align:left;">
-EE
-</td>
-<td style="text-align:left;">
-65+
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-9.5238095
-</td>
-<td style="text-align:right;">
-21
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.AGE.RATE
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2013-01
-</td>
-<td style="text-align:left;">
-EE
+CY
 </td>
 <td style="text-align:left;">
 45-64
@@ -351,10 +493,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-0.2865050
+16.6666667
 </td>
 <td style="text-align:right;">
-5
+6
 </td>
 </tr>
 <tr>
@@ -371,13 +513,13 @@ CONFIRMED.GENDER.COUNT
 M
 </td>
 <td style="text-align:left;">
-2015-07
+2016-10
 </td>
 <td style="text-align:left;">
-IS
+PL
 </td>
 <td style="text-align:left;">
-Female
+Male
 </td>
 <td style="text-align:left;">
 NA
@@ -386,10 +528,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-3.0000000
+NA
 </td>
 <td style="text-align:right;">
-7
+1119
 </td>
 </tr>
 <tr>
@@ -406,48 +548,13 @@ CONFIRMED.AGE.COUNT
 M
 </td>
 <td style="text-align:left;">
-2013-11
+2016-03
 </td>
 <td style="text-align:left;">
-MT
+DE
 </td>
 <td style="text-align:left;">
-15-24
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-0.0000000
-</td>
-<td style="text-align:right;">
-11
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.COUNT
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2015-09
-</td>
-<td style="text-align:left;">
-AT
-</td>
-<td style="text-align:left;">
-NA
+5-14
 </td>
 <td style="text-align:left;">
 NA
@@ -456,80 +563,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-225.0000000
+124.0000000
 </td>
 <td style="text-align:right;">
-225
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.AGE.PROPORTION
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2016-04
-</td>
-<td style="text-align:left;">
-MT
-</td>
-<td style="text-align:left;">
-15-24
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-25.0000000
-</td>
-<td style="text-align:right;">
-9
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.AGE.PROPORTION
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2016-08
-</td>
-<td style="text-align:left;">
-EL
-</td>
-<td style="text-align:left;">
-25-44
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-7.6271186
-</td>
-<td style="text-align:right;">
-119
+906
 </td>
 </tr>
 </tbody>
@@ -602,80 +639,22 @@ MapASRUse
 <tbody>
 <tr>
 <td style="text-align:left;">
-CHOL
+PLAG
 </td>
 <td style="text-align:left;">
-CONFIRMED
+NA
 </td>
 <td style="text-align:left;">
-COUNT
+NO
 </td>
 <td style="text-align:left;">
-AG-COUNT
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-Y
+NO
 </td>
 <td style="text-align:left;">
 N
 </td>
 <td style="text-align:left;">
 N
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-HAEINF
-</td>
-<td style="text-align:left;">
-CONFIRMED
-</td>
-<td style="text-align:left;">
-ASR
-</td>
-<td style="text-align:left;">
-AG-RATE
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-N
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-BOTU
-</td>
-<td style="text-align:left;">
-CONFIRMED
-</td>
-<td style="text-align:left;">
-ASR
-</td>
-<td style="text-align:left;">
-AG-RATE
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-Y
 </td>
 <td style="text-align:left;">
 N
@@ -689,25 +668,25 @@ N
 </tr>
 <tr>
 <td style="text-align:left;">
-DIPH
+POLI
 </td>
 <td style="text-align:left;">
 ALL
 </td>
 <td style="text-align:left;">
-COUNT
+NO
 </td>
 <td style="text-align:left;">
-AG-RATE
+NO
 </td>
 <td style="text-align:left;">
-Y
+N
 </td>
 <td style="text-align:left;">
-Y
+N
 </td>
 <td style="text-align:left;">
-Y
+N
 </td>
 <td style="text-align:left;">
 N
@@ -745,6 +724,64 @@ Y
 N
 </td>
 </tr>
+<tr>
+<td style="text-align:left;">
+CHLAM
+</td>
+<td style="text-align:left;">
+CONFIRMED
+</td>
+<td style="text-align:left;">
+RATE
+</td>
+<td style="text-align:left;">
+AG-RATE
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SYPH
+</td>
+<td style="text-align:left;">
+CONFIRMED
+</td>
+<td style="text-align:left;">
+RATE
+</td>
+<td style="text-align:left;">
+AG-RATE
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+N
+</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -771,21 +808,10 @@ EUEEA
 <tbody>
 <tr>
 <td style="text-align:left;">
-Italy
+Malta
 </td>
 <td style="text-align:left;">
-IT
-</td>
-<td style="text-align:left;">
-EU
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Poland
-</td>
-<td style="text-align:left;">
-PL
+MT
 </td>
 <td style="text-align:left;">
 EU
@@ -793,21 +819,10 @@ EU
 </tr>
 <tr>
 <td style="text-align:left;">
-Croatia
+Greece
 </td>
 <td style="text-align:left;">
-HR
-</td>
-<td style="text-align:left;">
-EU
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Portugal
-</td>
-<td style="text-align:left;">
-PT
+EL
 </td>
 <td style="text-align:left;">
 EU
@@ -815,10 +830,32 @@ EU
 </tr>
 <tr>
 <td style="text-align:left;">
-Spain
+Hungary
 </td>
 <td style="text-align:left;">
-ES
+HU
+</td>
+<td style="text-align:left;">
+EU
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Slovenia
+</td>
+<td style="text-align:left;">
+SI
+</td>
+<td style="text-align:left;">
+EU
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Austria
+</td>
+<td style="text-align:left;">
+AT
 </td>
 <td style="text-align:left;">
 EU
@@ -983,8 +1020,8 @@ EpiReport<span class="op">::</span><span class="kw">getTrend</span>(<span class=
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p><strong><em>Figure. Trend and number of pertussis cases, EU/EEA by month, 2012-2016</em></strong></p>
 </div>
-<div id="maps" class="section level3">
-<h3>3.4. Maps</h3>
+<div id="maps-distribution-of-cases-by-member-state" class="section level3">
+<h3>3.4. Maps: distribution of cases by Member State</h3>
 <p>The function <code>getMap()</code> provides with a preview of the PNG map associated with the disease.</p>
 <p>By default, the function will use the internal Salmonellosis 2016 PNG maps. According to the report parameters, the corresponding map should present the notification rate of confirmed salmonellosis cases.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># --- Salmonellosis 2016 map</span>

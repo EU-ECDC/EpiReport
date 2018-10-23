@@ -7,7 +7,13 @@ knitr::opts_chunk$set(
 ## ---- echo = FALSE-------------------------------------------------------
 pkgVersion <- packageDescription("EpiReport")$Version
 pkgDate <- packageDescription("EpiReport")$Date
-authorsString <- packageDescription("EpiReport")$Author
+authorsString <- gsub("^ *|(?<= ) |\n| *$", "", 
+                      packageDescription("EpiReport")$Authors, perl = TRUE)
+authorList <- eval(parse(text = authorsString))
+pkgAuthors <- paste(format(authorList, 
+                           include = c("given", "family", "email", "comment"), 
+                           braces = list(email = c("<", ">,<br />"), comment = c("", ""))), 
+                    collapse = "<br /><br />")
 pkgMaintainer <- packageDescription("EpiReport")$Maintainer
 pkgLicense <- packageDescription("EpiReport")$License
 pkgUrl <- packageDescription("EpiReport")$URL

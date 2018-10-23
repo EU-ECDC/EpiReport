@@ -7,13 +7,13 @@
 filterDisease(dis, reportParameters)
 }
 \arguments{
-\item{dis}{ccharacter string, disease code}
+\item{dis}{character string, disease code}
 
 \item{reportParameters}{dataset of parameters for the report
-(default reportParameters <- EpiReport::AERparams)}
+(default \code{EpiReport::AERparams})}
 }
 \value{
-dataframe with one row (from the AERparams dataframe)
+dataframe with one row (from the \code{AERparams} dataframe)
 corresponding to the parameters of the selected disease
 }
 \description{
@@ -23,6 +23,7 @@ Filter disease parameters
 disease <- "SALM"
 reportParameters <- EpiReport::AERparams
 reportParameters <- filterDisease(disease, reportParameters)
+
 }
 \seealso{
 \code{\link{AERparams}}

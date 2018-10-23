@@ -472,7 +472,7 @@ ___Figure. Trend and number of pertussis cases, EU/EEA by month, 2012-2016___
 
 
 
-### 3.4. Maps
+### 3.4. Maps: distribution of cases by Member State
 
 The function `getMap()` provides with a preview of the PNG map associated with the disease.
 

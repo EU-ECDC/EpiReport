@@ -7,18 +7,64 @@
 cleanMeasureCode(var)
 }
 \arguments{
-\item{var}{vector variable, variable to clean}
+\item{var}{character string vector variable, variable to clean}
 }
 \value{
 cleaned vector variable
 }
 \description{
 Clean the MeasureCode variable and replace the specific codes with the generic ones
-(e.g. ACCUTE.AGE_GENDER.RATE will be replaced by CONFIRMED.AGE_GENDER.RATE)
+(e.g. \code{ACCUTE.AGE_GENDER.RATE} will be replaced by \code{CONFIRMED.AGE_GENDER.RATE})
+}
+\details{
+\itemize{
+    \item{\code{ALL.COUNT}} will replace the following codes:
+    \itemize{
+        \item \code{ALL.DOMESTIC.COUNT}
+        \item \code{AGELT1.COUNT}
+    }
+    \item{\code{ALL.RATE}} will replace the following codes:
+    \itemize{
+        \item \code{ALL.DOMESTIC.AGE.RATE}
+    }
+    \item{\code{ALL.AGE.RATE}} will replace the following codes:
+    \itemize{
+        \item \code{ALL.DOMESTIC.AGE.RATE}
+    }
+    \item{\code{ALL.AGESTANDARDISED.RATE}} will replace the following codes:
+    \itemize{
+        \item \code{ALL.DOMESTIC.AGESTANDARDISED.RATE}
+    }
+    \item{\code{CONFIRMED.COUNT}} will replace the following codes:
+    \itemize{
+        \item \code{ALL.LABCONFIRMED.COUNT}
+        \item \code{CONFIRMED.LABCONFIRMED.COUNT}
+        \item \code{CONFIRMED.AGELT1.COUNT}
+        \item \code{TYPHOID.COUNT}
+    }
+    \item{\code{CONFIRMED.RATE}} will replace the following codes:
+    \itemize{
+        \item \code{CONFIRMED.LABCONFIRMED.RATE}
+        \item \code{CONFIRMED.AGELT1.RATE}
+        \item \code{TYPHOID.RATE}
+    }
+    \item{\code{CONFIRMED.AGESTANDARDISED.RATE}} will replace the following codes:
+    \itemize{
+        \item \code{CONFIRMED.LABCONFIRMED.AGESTANDARDISED.RATE}
+    }
+    \item{\code{CONFIRMED.AGE_GENDER.RATE}} will replace the following codes:
+    \itemize{
+        \item \code{CONFIRMED.LABCONFIRMED.AGE_GENDER.RATE}
+        \item \code{TYPHOID.AGE_GENDER.RATE}
+        \item \code{ACCUTE.AGE_GENDER.RATE}
+    }
+
+}
 }
 \examples{
 x <- EpiReport::SALM2016
 x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+
 }
 \seealso{
 \code{\link{SALM2016}}

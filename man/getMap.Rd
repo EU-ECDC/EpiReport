@@ -33,6 +33,7 @@ https://ecdc.europa.eu/en/annual-epidemiological-reports)
 \examples{
 # --- Preview of the PNG map using the default Salmonellosis dataset
 getMap()
+
 }
 \seealso{
 \code{\link{getAER}}

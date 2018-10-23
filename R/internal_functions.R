@@ -1,12 +1,14 @@
 #' Capitalise the first letter
 #'
-#' Capitalise the first letter
+#' Capitalise the first letter of a character string
 #'
 #' @param str character string to capitalise as a title
 #' @return character string
+#'
 #' @examples
 #' my_title <- "number of salmonellosis cases by age group"
 #' toCapTitle(my_title)
+#'
 #' @export
 #'
 toCapTitle <- function(str) {
@@ -20,16 +22,20 @@ toCapTitle <- function(str) {
 #'
 #' Filter disease parameters
 #'
-#' @param dis ccharacter string, disease code
+#' @param dis character string, disease code
 #' @param reportParameters dataset of parameters for the report
-#' (default reportParameters <- EpiReport::AERparams)
-#' @return dataframe with one row (from the AERparams dataframe)
+#' (default \code{EpiReport::AERparams})
+#'
+#' @return dataframe with one row (from the \code{AERparams} dataframe)
 #' corresponding to the parameters of the selected disease
+#'
 #' @examples
 #' disease <- "SALM"
 #' reportParameters <- EpiReport::AERparams
 #' reportParameters <- filterDisease(disease, reportParameters)
+#'
 #' @seealso \code{\link{AERparams}}
+#'
 #' @export
 #'
 filterDisease <- function(dis, reportParameters) {
@@ -49,14 +55,64 @@ filterDisease <- function(dis, reportParameters) {
 #' Clean the MeasureCode variable
 #'
 #' Clean the MeasureCode variable and replace the specific codes with the generic ones
-#' (e.g. ACCUTE.AGE_GENDER.RATE will be replaced by CONFIRMED.AGE_GENDER.RATE)
+#' (e.g. \code{ACCUTE.AGE_GENDER.RATE} will be replaced by \code{CONFIRMED.AGE_GENDER.RATE})
 #'
-#' @param var vector variable, variable to clean
+#' \itemize{
+#'     \item{\code{ALL.COUNT}} will replace the following codes:
+#'     \itemize{
+#'         \item \code{ALL.DOMESTIC.COUNT}
+#'         \item \code{AGELT1.COUNT}
+#'     }
+#'     \item{\code{ALL.RATE}} will replace the following codes:
+#'     \itemize{
+#'         \item \code{ALL.DOMESTIC.AGE.RATE}
+#'     }
+#'     \item{\code{ALL.AGE.RATE}} will replace the following codes:
+#'     \itemize{
+#'         \item \code{ALL.DOMESTIC.AGE.RATE}
+#'     }
+#'     \item{\code{ALL.AGESTANDARDISED.RATE}} will replace the following codes:
+#'     \itemize{
+#'         \item \code{ALL.DOMESTIC.AGESTANDARDISED.RATE}
+#'     }
+#'     \item{\code{CONFIRMED.COUNT}} will replace the following codes:
+#'     \itemize{
+#'         \item \code{ALL.LABCONFIRMED.COUNT}
+#'         \item \code{CONFIRMED.LABCONFIRMED.COUNT}
+#'         \item \code{CONFIRMED.AGELT1.COUNT}
+#'         \item \code{TYPHOID.COUNT}
+#'     }
+#'     \item{\code{CONFIRMED.RATE}} will replace the following codes:
+#'     \itemize{
+#'         \item \code{CONFIRMED.LABCONFIRMED.RATE}
+#'         \item \code{CONFIRMED.AGELT1.RATE}
+#'         \item \code{TYPHOID.RATE}
+#'     }
+#'     \item{\code{CONFIRMED.AGESTANDARDISED.RATE}} will replace the following codes:
+#'     \itemize{
+#'         \item \code{CONFIRMED.LABCONFIRMED.AGESTANDARDISED.RATE}
+#'     }
+#'     \item{\code{CONFIRMED.AGE_GENDER.RATE}} will replace the following codes:
+#'     \itemize{
+#'         \item \code{CONFIRMED.LABCONFIRMED.AGE_GENDER.RATE}
+#'         \item \code{TYPHOID.AGE_GENDER.RATE}
+#'         \item \code{ACCUTE.AGE_GENDER.RATE}
+#'     }
+#'
+#'
+#' }
+#'
+#'
+#' @param var character string vector variable, variable to clean
+#'
 #' @return cleaned vector variable
+#'
 #' @examples
 #' x <- EpiReport::SALM2016
 #' x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+#'
 #' @seealso \code{\link{SALM2016}}
+#'
 #' @export
 #'
 cleanMeasureCode <- function(var) {

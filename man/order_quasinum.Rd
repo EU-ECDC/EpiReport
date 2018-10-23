@@ -10,11 +10,13 @@ order_quasinum(x)
 \item{x}{character vector with 'quasinumerical' values}
 }
 \description{
-A function to order 'quasinumerical' (i.e. categorical with values such as "15-30" or "<18") integer vectors into
-increasing order. Currently handles away the following non-numerical characters "-", ">", "<", ">=", "<=", "+".
+A function to order 'quasinumerical' (i.e. categorical with values
+such as "15-30" or "<18") integer vectors into increasing order.
+Currently handles away the following non-numerical characters
+"-", ">", "<", ">=", "<=", "+".
 }
 \examples{
-age1 <- c("<1", "1-15", "16-24", ">65", "25-65")
+age1 <- c("<1", "1-15", "16-25", ">65", "26-65")
 age2 <- c("0-4", "5-10", ">65", "25-64", "11-25")
 age3 <- c("5-10", ">65", "25-64", "11-25", "<=4")
 age4 <- c(">=65", "<18", "18-64")

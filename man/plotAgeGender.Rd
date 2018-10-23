@@ -49,6 +49,7 @@ plotAgeGender(mydat,
               yvar = "NumberOfCases",
               group = "Gender",
               ytitle = "Number of cases")
+
 }
 \seealso{
 \code{\link{getAgeGender}} and \code{\link{plotAge}}
