@@ -1,7 +1,9 @@
 #' Order 'quasinumerical' categorical vectors (increasing order)
 #'
-#' A function to order 'quasinumerical' (i.e. categorical with values such as "15-30" or "<18") integer vectors into
-#' increasing order. Currently handles away the following non-numerical characters "-", ">", "<", ">=", "<=", "+".
+#' A function to order 'quasinumerical' (i.e. categorical with values
+#' such as "15-30" or "<18") integer vectors into increasing order.
+#' Currently handles away the following non-numerical characters
+#' "-", ">", "<", ">=", "<=", "+".
 #'
 #' @param x character vector with 'quasinumerical' values
 #' @author Tommi Karki
