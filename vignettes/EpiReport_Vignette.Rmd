@@ -3,9 +3,9 @@ title: "The 'Epidemiological Report' Package"
 author: "EpiConcept / European Centre for Disease Prevention and Control (ECDC)"
 output: 
   rmarkdown::html_vignette:
-    toc: false
+    toc: yes
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{The 'Epidemiological Report' Package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -29,9 +29,9 @@ knitr::opts_chunk$set(
 ## Description
 
 The EpiReport package allows the user to draft the ECDC Annual Epidemiological Report (AER) 
-in Microsoft Word format for a given disease.
+(see https://ecdc.europa.eu/en/annual-epidemiological-reports) in Microsoft Word format for a given disease.
 
-It is specifically designed to generate, through standalone functions, 
+Through standalone functions, the package is specifically designed to generate
 each disease-specific output presented in these reports, using ECDC Atlas export data. 
 
 
@@ -40,18 +40,24 @@ Package details below:
 ```{r, echo = FALSE}
 pkgVersion <- packageDescription("EpiReport")$Version
 pkgDate <- packageDescription("EpiReport")$Date
-authorsString <- packageDescription("EpiReport")$Author
+authorsString <- gsub("^ *|(?<= ) |\n| *$", "", 
+                      packageDescription("EpiReport")$Authors, perl = TRUE)
+authorList <- eval(parse(text = authorsString))
+pkgAuthors <- paste(format(authorList, 
+                           include = c("given", "family", "email", "comment"), 
+                           braces = list(email = c("<", ">,<br />"), comment = c("", ""))), 
+                    collapse = "<br /><br />")
 pkgMaintainer <- packageDescription("EpiReport")$Maintainer
 pkgLicense <- packageDescription("EpiReport")$License
 pkgUrl <- packageDescription("EpiReport")$URL
 ```
 
 
-Package | Description  
-------- | -------------
+Package   | Description     
+--------- | ----------------
 Version | `r pkgVersion`
 Published | `r pkgDate`
-Authors | `r authorsString`
+Authors | `r pkgAuthors`
 Maintainer | `r pkgMaintainer`
 License | `r pkgLicense`
 Link to the ECDC AER reports | `r pkgUrl`
@@ -109,12 +115,13 @@ communicable diseases in the Community. Official Journal, OJ L 268, 03/10/1998 p
 
 ### 1.1. Disease dataset specification
 
-Two types of datasets can be used:
+Three types of datasets can be used:
 
 * The default dataset included in the `EpiReport` package which includes 
-Salmonellosis data for 2016 exported from the ECDC Atlas (restricted access): `EpiReport::SALM2016`;
-* A complete ECDC Atlas export (csv format from the ECDC Atlas restricted access) 
-or any dataset specified as described below.
+Salmonellosis data for 2012-2016 exported from the ECDC Atlas (restricted access): `EpiReport::SALM2016`;
+* A complete ECDC Atlas export (csv format from the ECDC Atlas restricted access 
+http://atlas.ecdc.europa.eu/public/index.aspx)
+* Any dataset specified as described below.
 
 Description of each variable required in the disease dataset (naming and format):
 
@@ -159,7 +166,7 @@ knitr::kable(my_dataset[sample(1:nrow(EpiReport::SALM2016), 10), ],
 
 ### 1.2. Report parameters dataset specification
 
-The internal dataset `EpiReport::AERparams` describes the parameters to use 
+The internal dataset `EpiReport::AERparams` describes the parameters to be used 
 for each output of each disease report.
 
 If the user wishes to set different parameters for one of the 53 covered diseases, 
@@ -236,7 +243,7 @@ knitr::kable(my_dataset[sample(1:nrow(EpiReport::MSCode), 5), ],
 ## 2. How to generate the Annual Epidemiological Report in Microsoft Word format
 
 To generate an Annual Epidemiological Report, we can use the default dataset 
-included in the `EpiReport` package presenting Salmonellosis data for 2016.
+included in the `EpiReport` package presenting Salmonellosis data 2012-2016.
 
 Calling the function `getAER()`, the Salmonellosis 2016 report will be generated 
 and stored in your working directory (see `getwd()`) by default.
@@ -287,12 +294,13 @@ EpiReport::getAER(disease = "PERT",
        pathPNG = pathMap)
 ```
 
+
 Please note that the font `Tahoma` is used in the plot axis and legend.
 It is advised to import this font using the `extrafont` package and the command
 `font_import` and `loadfonts`. 
 
-However, it is optional as the user can prefer to generate the plots with the default
-`Arial` font. In that case, warnings will appear in the console for each plot.
+However, if the users prefer the use of the default `Arial` in plots, it is optional. 
+In that case, warnings will appear in the console for each plot.
 
 
 
@@ -337,7 +345,7 @@ The ECDC annual epidemiological Report includes five types of outputs:
 over the past five years.
 * __Trend plot__: Trend and number of cases at EU/EEA level, by month,
 over the past five years.
-* __Map__: Distribution of cases by country presenting either:
+* __Map__: Distribution of cases by Member State presenting either:
     + the number of cases;
     + the rates per 100 000 population;
     + the age-standardised rates per 100 000 population.
@@ -355,7 +363,7 @@ over the past five years.
 The function `getTableByMS()` generates a `flextable` object (see package
 `flextable`) presenting the number of cases by Member State over the last five years.
 
-By default, the function will use the internal Salmonellosis 2016 data and
+By default, the function will use the internal Salmonellosis 2012-2016 data and
 present the number of confirmed cases and the corresponding rate for each year,
 with a focus on 2016 and age-standardised rates.
 
@@ -400,7 +408,7 @@ The plot includes:
 * The minimum number of cases by month in the four previous years (grey area)
 * The maximum number of cases by month in the four previous years (grey area)
 
-By default, the function will use the internal Salmonellosis 2016 data.
+By default, the function will use the internal Salmonellosis 2012-2016 data.
 
 
 ```{r, fig.width = 7}
@@ -414,7 +422,7 @@ ___Figure. Distribution of confirmed salmonellosis cases by month, EU/EEA, 2016 
 The plot can also be drafted using external data, and specifying the disease dataset,
 the disease code and the year to use as reference in the report.
 
-In the example below, we use Pertussis 2016 data.
+In the example below, we use Pertussis 2012-2016 data.
 
 
 ```{r, fig.width = 7}
@@ -435,9 +443,9 @@ the trend and the number of cases at EU/EEA level, by month, over the past five 
 The plot includes:
 
 * The number of cases by month over the 5-year period (grey solid line)
-* The moving average of the number of cases by month (green solid line)
+* The 12-month moving average of the number of cases by month (green solid line)
 
-By default, the function will use the internal Salmonellosis 2016 data.
+By default, the function will use the internal Salmonellosis 2012-2016 data.
 
 ```{r, fig.width = 7}
 # --- Salmonellosis 2016 plot
@@ -450,7 +458,7 @@ ___Figure. Trend and number of confirmed salmonellosis cases, EU/EEA by month, 2
 The plot can also be drafted using external data, and specifying the disease dataset,
 the disease code and the year to use as reference in the report.
 
-In the example below, we use again Pertussis 2016 data.
+In the example below, we use again Pertussis 2012-2016 data.
 
 
 ```{r, fig.width = 7}
@@ -505,7 +513,7 @@ The bar graph uses either:
 * The rate per 100 000 cases,
 * The proportion of cases.
 
-By default, the function will use the internal Salmonellosis 2016 data with 
+By default, the function will use the internal Salmonellosis 2012-2016 data with 
 the rate of confirmed cases per 100 000 population.
 
 
@@ -520,7 +528,7 @@ ___Figure. Distribution of confirmed salmonellosis cases per 100 000 population,
 The bar graph can also be drafted using external data, and specifying the disease 
 dataset, the disease code and the year to use as reference in the report.
 
-In the example below, we use Zika 2016 data.
+In the example below, we use Zika 2012-2016 data.
 
 
 ```{r, fig.width = 7}
