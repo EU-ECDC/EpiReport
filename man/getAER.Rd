@@ -32,10 +32,10 @@ the maps in PNG to include in the final report}
 A word document
 }
 \description{
-Function to generate the Word ECDC Annual Epidemiological Report (AER)
-including all disease-specific outputs in the Word bookmark location
+Function to generate the Microsoft Word ECDC annual epidemiological report (AER)
+including all disease-specific outputs at the Word bookmark location \cr
 (see reports already available on the ECDC dedicated web page
-https://ecdc.europa.eu/en/annual-epidemiological-reports)
+\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 # --- Generating the AER report using the default Salmonellosis dataset
@@ -50,5 +50,5 @@ getAER()
 }
 \seealso{
 \code{\link{getTemplate}} \code{\link{MSCode}}
-\code{\link{AERparams}}
+\code{\link{AERparams}} \code{\link{SALM2016}}
 }

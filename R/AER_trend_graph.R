@@ -213,14 +213,19 @@ getTrend <- function(x,
 #'
 #' This function draws a line graph with 12-month moving average, using the AER style.
 #' Expects aggregated data and pre-calculated 12-month moving average.
+#'
 #' @param data dataframe containing the variables to plot
 #' @param xvar character string, variable on the x-axis in quotes (default "TimeCode")
 #' @param yvar character string, variable on the y-axis in quotes (default "N")
 #' @param movAverage character string, variable including
 #' the moving average per each time unit in quotes (default "MAV")
+#'
 #' @keywords moving average, trend
+#'
 #' @seealso \code{\link{getTrend}} \code{\link{getAER}}
+#'
 #' @export
+#'
 plotTS12MAvg <- function(data,
                          xvar = "TimeCode",
                          yvar = "N",

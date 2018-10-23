@@ -8,16 +8,18 @@ getTemplate(output_path)
 }
 \arguments{
 \item{output_path}{character string, the full path where to create the Word output.
-Defaut location will be the current working directory (default getwd())}
+Defaut location will be the current working directory (default \code{getwd()})}
 }
 \value{
 A word document
 }
 \description{
-Function to export the standard Word template for ECDC Annual Epidemiological Report (AER)
+Function to export the generic Microsoft Word template for the ECDC
+annual epidemiological report (AER) \cr
 (see reports already available on the ECDC dedicated web page
-https://ecdc.europa.eu/en/annual-epidemiological-reports)
+\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
-getTemplate(output_path = "C:/R/AER")
+# getTemplate(output_path = "C:/R/AER")
+
 }

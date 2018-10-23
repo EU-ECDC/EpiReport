@@ -15,10 +15,13 @@
 #' (default MSCode <- EpiReport::MSCode)
 #' @param index integer, figure number
 #' @param doc Word document (see \code{officer} package)
+#'
 #' @return Word doc or a ggplot2 preview
+#'
 #' @seealso \code{\link{plotSeasonality}}
 #' \code{\link{AERparams}} \code{\link{MSCode}}
 #' \code{\link{getAER}} \code{\link{officer}}
+#'
 #' @examples
 #'
 #' # --- Please Note! AER plots use the font "Tahoma"
@@ -31,6 +34,7 @@
 #' getSeason()
 #'
 #' @export
+#'
 getSeason <- function(x,
                       disease = "SALM", year = 2016,
                       reportParameters, MSCode, index = 1, doc){
@@ -229,6 +233,7 @@ getSeason <- function(x,
 #'
 #' This function draws a line graph describing the seasonality of the selected disease,
 #' using the AER style.
+#'
 #' @param data dataframe containing the variables to plot
 #' @param xvar character string, variable on the x-axis in quotes (default "TimeCode")
 #' @param yvar character string, variable on the y-axis in quotes (default "N")
@@ -239,9 +244,13 @@ getSeason <- function(x,
 #' @param mean4years character string, variable including the mean of the
 #' number of cases over the past 4 years in quotes in quotes (default "Mean4Years")
 #' @param year numeric, year to produce the report for (default 2016)
+#'
 #' @keywords seasonality
+#'
 #' @seealso \code{\link{getSeason}} \code{\link{getAER}}
+#'
 #' @export
+#'
 plotSeasonality <- function(data,
                             xvar = "TimeCode",
                             yvar = "N",
