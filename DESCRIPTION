@@ -1,15 +1,15 @@
 Package: EpiReport
 Type: Package
 Title: ECDC Annual Epidemiological Report
-Version: 1.0
+Version: 0.1.0
 Date: 2018-10-26
 Authors@R: c( 
   person( given = "Lore", family = "Merdrignac", 
           role = c("aut", "ctr"), email = "l.merdrignac@epiconcept.fr", comment = "Author of the package and original code"),
   person( given = "Tommi", family = "Karki", 
-          role = c("aut", "fnd", "cre"), email = "tommi.karki@ecdc.europa.eu", comment = "Project manager and package maintainer"),
+          role = c("aut", "fnd", "cre"), email = "tommi.karki@ecdc.europa.eu", comment = "Package maintainer"),
   person( given = "Esther", family = "Kissling", 
-          role = c("aut", "ctr"), email = "e.kissling@epiconcept.fr", comment = "Project manager"),
+          role = c("aut", "ctr"), email = "e.kissling@epiconcept.fr"),
   person( given = "Joana", family = "Gomes Dias", 
           role = c("aut", "fnd"), email = "joana.gomes.dias@ecdc.europa.eu", comment = "Project manager")) 
 Description: The EpiReport package allows the user to draft the ECDC Annual 

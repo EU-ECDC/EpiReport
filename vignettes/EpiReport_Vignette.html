@@ -10,7 +10,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="author" content="EpiConcept / European Centre for Disease Prevention and Control (ECDC)" />
+<meta name="author" content="European Centre for Disease Prevention and Control (ECDC)" />
 
 
 <title>The Epidemiological Report Package</title>
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">The ‘Epidemiological Report’ Package</h1>
-<h4 class="author"><em>EpiConcept / European Centre for Disease Prevention and Control (ECDC)</em></h4>
+<h4 class="author"><em>European Centre for Disease Prevention and Control (ECDC)</em></h4>
 
 
 <div id="TOC">
@@ -103,7 +103,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </style>
 <div id="description" class="section level2">
 <h2>Description</h2>
-<p>The EpiReport package allows the user to draft the ECDC Annual Epidemiological Report (AER) (see <a href="https://ecdc.europa.eu/en/annual-epidemiological-reports" class="uri">https://ecdc.europa.eu/en/annual-epidemiological-reports</a>) in Microsoft Word format for a given disease.</p>
+<p>The EpiReport package allows the user to draft an epidemilogical report similar to the ECDC Annual Epidemiological Report (AER) (see <a href="https://ecdc.europa.eu/en/annual-epidemiological-reports" class="uri">https://ecdc.europa.eu/en/annual-epidemiological-reports</a>) in Microsoft Word format for a given disease.</p>
 <p>Through standalone functions, the package is specifically designed to generate each disease-specific output presented in these reports, using ECDC Atlas export data.</p>
 <p>Package details below:</p>
 <table style="width:38%;">
@@ -120,7 +120,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <tbody>
 <tr class="odd">
 <td>Version</td>
-<td>1.0</td>
+<td>0.1.0</td>
 </tr>
 <tr class="even">
 <td>Published</td>
@@ -128,7 +128,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 <tr class="odd">
 <td>Authors</td>
-<td>Lore Merdrignac <a href="mailto:l.merdrignac@epiconcept.fr">l.merdrignac@epiconcept.fr</a>,<br /> Author of the package and original code<br /><br />Tommi Karki <a href="mailto:tommi.karki@ecdc.europa.eu">tommi.karki@ecdc.europa.eu</a>,<br /> Project manager and package maintainer<br /><br />Esther Kissling <a href="mailto:e.kissling@epiconcept.fr">e.kissling@epiconcept.fr</a>,<br /> Project manager<br /><br />Joana Gomes Dias <a href="mailto:joana.gomes.dias@ecdc.europa.eu">joana.gomes.dias@ecdc.europa.eu</a>,<br /> Project manager</td>
+<td>Lore Merdrignac <a href="mailto:l.merdrignac@epiconcept.fr">l.merdrignac@epiconcept.fr</a>,<br /> Author of the package and original code<br /><br />Tommi Karki <a href="mailto:tommi.karki@ecdc.europa.eu">tommi.karki@ecdc.europa.eu</a>,<br /> Package maintainer<br /><br />Esther Kissling <a href="mailto:e.kissling@epiconcept.fr">e.kissling@epiconcept.fr</a>,<br /><br /><br />Joana Gomes Dias <a href="mailto:joana.gomes.dias@ecdc.europa.eu">joana.gomes.dias@ecdc.europa.eu</a>,<br /> Project manager</td>
 </tr>
 <tr class="even">
 <td>Maintainer</td>
@@ -227,54 +227,19 @@ SALM
 Confirmed cases
 </td>
 <td style="text-align:left;">
-CONFIRMED.AGE.COUNT
+CONFIRMED.AGE.RATE
 </td>
 <td style="text-align:left;">
 M
 </td>
 <td style="text-align:left;">
-2012-11
+2015-12
 </td>
 <td style="text-align:left;">
-AT
+IS
 </td>
 <td style="text-align:left;">
-45-64
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-20.000000
-</td>
-<td style="text-align:right;">
-138
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.AGE.PROPORTION
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2013-10
-</td>
-<td style="text-align:left;">
-DK
-</td>
-<td style="text-align:left;">
-15-24
+25-44
 </td>
 <td style="text-align:left;">
 NA
@@ -283,220 +248,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-20.000000
+1.115997
 </td>
 <td style="text-align:right;">
-95
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.COUNT
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2015-09
-</td>
-<td style="text-align:left;">
-RO
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-223.000000
-</td>
-<td style="text-align:right;">
-223
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.GENDER.RATE
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2016-06
-</td>
-<td style="text-align:left;">
-CY
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1.453869
-</td>
-<td style="text-align:right;">
-8
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.AGE.COUNT
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2013-02
-</td>
-<td style="text-align:left;">
-HU
-</td>
-<td style="text-align:left;">
-45-64
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-29.000000
-</td>
-<td style="text-align:right;">
-211
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.GENDER.RATE
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2015-10
-</td>
-<td style="text-align:left;">
-SK
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-10.291394
-</td>
-<td style="text-align:right;">
-557
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.COUNT
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2015-09
-</td>
-<td style="text-align:left;">
-LU
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-24.000000
-</td>
-<td style="text-align:right;">
-24
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.GENDER.RATE
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2015-10
-</td>
-<td style="text-align:left;">
-DE
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-2.009087
-</td>
-<td style="text-align:right;">
-1707
+2
 </td>
 </tr>
 <tr>
@@ -513,10 +268,10 @@ CONFIRMED.GENDER.COUNT
 M
 </td>
 <td style="text-align:left;">
-2015-01
+2013-10
 </td>
 <td style="text-align:left;">
-NL
+SI
 </td>
 <td style="text-align:left;">
 Female
@@ -528,10 +283,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-27.000000
+7.000000
 </td>
 <td style="text-align:right;">
-57
+26
 </td>
 </tr>
 <tr>
@@ -542,31 +297,276 @@ SALM
 Confirmed cases
 </td>
 <td style="text-align:left;">
-CONFIRMED.AGE_GENDER.RATE
+CONFIRMED.AGE.RATE
 </td>
 <td style="text-align:left;">
-Y
+M
 </td>
 <td style="text-align:left;">
-2016
+2014-11
 </td>
 <td style="text-align:left;">
-DE
+BE
 </td>
 <td style="text-align:left;">
 65+
 </td>
 <td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1.203505
+</td>
+<td style="text-align:right;">
+196
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.GENDER.RATE
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2012-05
+</td>
+<td style="text-align:left;">
+UK
+</td>
+<td style="text-align:left;">
 Female
 </td>
-<td style="text-align:right;">
-12.63892
+<td style="text-align:left;">
+NA
 </td>
 <td style="text-align:right;">
-2.000000
+NA
 </td>
 <td style="text-align:right;">
-12858
+1.034409
+</td>
+<td style="text-align:right;">
+654
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.GENDER.RATE
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2014-01
+</td>
+<td style="text-align:left;">
+EU28
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4594
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE.COUNT
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2016-02
+</td>
+<td style="text-align:left;">
+ES
+</td>
+<td style="text-align:left;">
+5-14
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+168.000000
+</td>
+<td style="text-align:right;">
+619
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.COUNT
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2012-05
+</td>
+<td style="text-align:left;">
+SE
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+175.000000
+</td>
+<td style="text-align:right;">
+175
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.GENDER.COUNT
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2015-06
+</td>
+<td style="text-align:left;">
+CZ
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+552.000000
+</td>
+<td style="text-align:right;">
+1153
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGESTANDARDISED.RATE
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+2012
+</td>
+<td style="text-align:left;">
+MT
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+19.727449
+</td>
+<td style="text-align:right;">
+88
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.GENDER.COUNT
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2014-01
+</td>
+<td style="text-align:left;">
+IE
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6.000000
+</td>
+<td style="text-align:right;">
+17
 </td>
 </tr>
 </tbody>
@@ -639,7 +639,7 @@ MapASRUse
 <tbody>
 <tr>
 <td style="text-align:left;">
-MENI
+ECHI
 </td>
 <td style="text-align:left;">
 CONFIRMED
@@ -651,16 +651,45 @@ ASR
 AG-RATE
 </td>
 <td style="text-align:left;">
-Y
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
 </td>
 <td style="text-align:left;">
 Y
 </td>
 <td style="text-align:left;">
-Y
+N
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SPOX
 </td>
 <td style="text-align:left;">
-Y
+CONFIRMED
+</td>
+<td style="text-align:left;">
+NO
+</td>
+<td style="text-align:left;">
+NO
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
 </td>
 <td style="text-align:left;">
 N
@@ -697,7 +726,7 @@ N
 </tr>
 <tr>
 <td style="text-align:left;">
-MUMP
+CHIK
 </td>
 <td style="text-align:left;">
 ALL
@@ -718,7 +747,7 @@ Y
 Y
 </td>
 <td style="text-align:left;">
-Y
+N
 </td>
 <td style="text-align:left;">
 N
@@ -726,10 +755,10 @@ N
 </tr>
 <tr>
 <td style="text-align:left;">
-RABI
+PLAG
 </td>
 <td style="text-align:left;">
-CONFIRMED
+NA
 </td>
 <td style="text-align:left;">
 NO
@@ -745,35 +774,6 @@ N
 </td>
 <td style="text-align:left;">
 N
-</td>
-<td style="text-align:left;">
-N
-</td>
-<td style="text-align:left;">
-N
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-DIPH
-</td>
-<td style="text-align:left;">
-ALL
-</td>
-<td style="text-align:left;">
-COUNT
-</td>
-<td style="text-align:left;">
-AG-RATE
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-Y
 </td>
 <td style="text-align:left;">
 N
@@ -808,43 +808,10 @@ EUEEA
 <tbody>
 <tr>
 <td style="text-align:left;">
-France
+Netherlands
 </td>
 <td style="text-align:left;">
-FR
-</td>
-<td style="text-align:left;">
-EU
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Czech Republic
-</td>
-<td style="text-align:left;">
-CZ
-</td>
-<td style="text-align:left;">
-EU
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-United Kingdom
-</td>
-<td style="text-align:left;">
-UK
-</td>
-<td style="text-align:left;">
-EU
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Denmark
-</td>
-<td style="text-align:left;">
-DK
+NL
 </td>
 <td style="text-align:left;">
 EU
@@ -859,6 +826,39 @@ NO
 </td>
 <td style="text-align:left;">
 EEA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Portugal
+</td>
+<td style="text-align:left;">
+PT
+</td>
+<td style="text-align:left;">
+EU
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+EU-EEA
+</td>
+<td style="text-align:left;">
+EU_EEA31
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Greece
+</td>
+<td style="text-align:left;">
+EL
+</td>
+<td style="text-align:left;">
+EU
 </td>
 </tr>
 </tbody>
