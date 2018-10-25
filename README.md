@@ -1,9 +1,9 @@
 # '_EpiReport_' package
-EpiConcept / European Centre for Disease Prevention and Control (ECDC)
+European Centre for Disease Prevention and Control (ECDC)
 
 # Description
 
-The EpiReport package allows the user to draft the __ECDC Annual Epidemiological 
+The EpiReport package allows the user to draft an epidemilogical report similar to the __ECDC Annual Epidemiological 
 Reports__ (see https://ecdc.europa.eu/en/annual-epidemiological-reports) 
 in Microsoft Word format for a given disease `getAER()`.
 
