@@ -8,7 +8,7 @@ Reports__ (see https://ecdc.europa.eu/en/annual-epidemiological-reports)
 in Microsoft Word format for a given disease `getAER()`.
 
 Through standalone functions, the package is specifically designed to generate
-each disease-specific output presented in these reports, using ECDC Atlas export data. 
+each disease-specific output presented in these reports. 
 
 The package includes:
 
@@ -22,11 +22,9 @@ over the past five years `getTrend()`
 `getAgeGender()`
 
 
-Three types of datasets can be used:
+Two types of datasets can be used:
 
 * The default dataset included in the `EpiReport` package which includes 
-Salmonellosis data for 2012-2016 exported from the ECDC Atlas (restricted access): `EpiReport::SALM2016`;
-* A complete ECDC Atlas export from http://atlas.ecdc.europa.eu/public/index.aspx 
-(csv format from the ECDC Atlas restricted access)
+Salmonellosis data for 2012-2016: `EpiReport::SALM2016`;
 * Any dataset specified as described in the package vignette.
 
