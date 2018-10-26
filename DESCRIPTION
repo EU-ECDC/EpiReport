@@ -16,8 +16,7 @@ Description: The EpiReport package allows the user to draft the reports similar 
   Epidemiological Reports (see https://ecdc.europa.eu/en/annual-epidemiological-reports) 
   in Microsoft Word format for a given disease. 
   Through standalone functions, the package is specifically designed 
-  to generate each disease-specific output presented in these reports, 
-  using ECDC Atlas export data.
+  to generate each disease-specific output presented in these reports.
   The package includes:
   - Table with the distribution of cases by Member State over the last five years
   - Seasonal plot with the distribution of cases at EU/EEA level, by month, 
@@ -25,9 +24,9 @@ Description: The EpiReport package allows the user to draft the reports similar 
   - Trend plot with the trend and number of cases at EU/EEA level, by month, 
   over the past five years
   - Age and gender bar graph__ with the distribution of cases at EU/EEA level
-  Three types of datasets can be used:
+  Two types of datasets can be used:
   - The default dataset included in the `EpiReport` package which includes 
-  Salmonellosis data for 2012-2016.
+  Salmonellosis data for 2012-2016;
   - Any dataset specified as described in the package vignette.
 Depends: R (>= 3.4.0)
 License: EUPL
