@@ -115,12 +115,10 @@ communicable diseases in the Community. Official Journal, OJ L 268, 03/10/1998 p
 
 ### 1.1. Disease dataset specification
 
-Three types of datasets can be used:
+Two types of datasets can be used:
 
 * The default dataset included in the `EpiReport` package which includes 
-Salmonellosis data for 2012-2016 exported from the ECDC Atlas (restricted access): `EpiReport::SALM2016`;
-* A complete ECDC Atlas export (csv format from the ECDC Atlas restricted access 
-http://atlas.ecdc.europa.eu/public/index.aspx)
+Salmonellosis data for 2012-2016: `EpiReport::SALM2016`;
 * Any dataset specified as described below.
 
 Description of each variable required in the disease dataset (naming and format):
@@ -159,7 +157,7 @@ my_dataset <- dplyr::select(my_dataset,
 knitr::kable(my_dataset[sample(1:nrow(EpiReport::SALM2016), 10), ], 
              row.names = FALSE,
              format = "html", table.attr = 'class="myTable"',
-             caption = "__Tab.1 Example of Salmonellosis data exported from the ECDC Atlas (restricted access)__")
+             caption = "__Tab.1 Example of Salmonellosis data 2012-2016")
 ```
 
 
@@ -169,7 +167,7 @@ knitr::kable(my_dataset[sample(1:nrow(EpiReport::SALM2016), 10), ],
 The internal dataset `EpiReport::AERparams` describes the parameters to be used 
 for each output of each disease report.
 
-If the user wishes to set different parameters for one of the 53 covered diseases, 
+If the user wishes to set different parameters for one of the 53 covered health topics, 
 or if the user wishes to analyse an additional disease not covered by the default 
 parameter table, it is possible to use an external dataset as long as it is 
 specified as described below and in the help page `?EpiReport::AERparams`.
@@ -217,7 +215,7 @@ my_dataset <- dplyr::select(my_dataset,
 knitr::kable(my_dataset[sample(1:nrow(EpiReport::AERparams), 5), ], 
              row.names = FALSE,
              format = "html", table.attr = 'class="myTable"',
-             caption = "__Tab.2 Example of the main column of the parameter dataset__")
+             caption = "__Tab.2 Example of the main columns of the parameter dataset__")
 ```
 
 
@@ -240,9 +238,9 @@ knitr::kable(my_dataset[sample(1:nrow(EpiReport::MSCode), 5), ],
 
 
 
-## 2. How to generate the Annual Epidemiological Report in Microsoft Word format
+## 2. How to generate the Epidemiological Report in Microsoft Word format
 
-To generate an Annual Epidemiological Report, we can use the default dataset 
+To generate a similar report to Annual Epidemiological Report, we can use the default dataset 
 included in the `EpiReport` package presenting Salmonellosis data 2012-2016.
 
 Calling the function `getAER()`, the Salmonellosis 2016 report will be generated 
@@ -266,7 +264,7 @@ getAER(outputPath = output)
 To generate the report using an external dataset, please use the syntax below.
 
 In the following example, Pertussis 2016 TESSy data (in csv format, in the `/data` 
-folder) is used to produce the corresponding AER report.
+folder) is used to produce the corresponding report.
 
 Pertussis PNG maps have previously been created and stored in a specific folder `/maps`. 
 
@@ -306,7 +304,7 @@ In that case, warnings will appear in the console for each plot.
 
 ### 2.2. Word template
 
-By default, an empty ECDC template (Microsoft Word) is used to produce the AER report. 
+By default, an empty ECDC template (Microsoft Word) is used to produce the report. 
 In order to modify this template, please first download the default template 
 using the function `getTemplate()`.
 
@@ -326,13 +324,13 @@ getAER(template = "C:/EpiReport/template/New_AER_Template.docx",
 
 Please make sure that the Microsoft Word bookmarks are preserved throughout the 
 modifications to the template. The bookmarks specify the location where to include
-each AER outputs.
+each outputs.
 
 
 
-## 3. How to generate each AER outputs independently
+## 3. How to generate each epidemiological outputs independently
 
-The `EpiReport` package allows the user to generate each AER output 
+The `EpiReport` package allows the user to generate each epidemiological output 
 independently of the Microsoft Word report.
 
 The ECDC annual epidemiological Report includes five types of outputs:
