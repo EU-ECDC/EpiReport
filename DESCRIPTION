@@ -12,7 +12,7 @@ Authors@R: c(
           role = c("aut", "ctr"), email = "e.kissling@epiconcept.fr"),
   person( given = "Joana", family = "Gomes Dias", 
           role = c("aut", "fnd"), email = "joana.gomes.dias@ecdc.europa.eu", comment = "Project manager")) 
-Description: The EpiReport package allows the user to draft the reports similar to the ECDC Annual 
+Description: The EpiReport package allows the user to draft an epidemiological report similar to the ECDC Annual 
   Epidemiological Reports (see https://ecdc.europa.eu/en/annual-epidemiological-reports) 
   in Microsoft Word format for a given disease. 
   Through standalone functions, the package is specifically designed 
