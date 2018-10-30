@@ -2,44 +2,68 @@
 % Please edit documentation in R/AER_table.R
 \name{getTableByMS}
 \alias{getTableByMS}
-\title{Get the disease-specific AER Table}
+\title{Get disease-specific table: distribution of cases by Member State (GeoCode)}
 \usage{
-getTableByMS(x, disease = "Salmonellosis", year = 2016,
-  reportParameters, MSCode, index = 1, doc)
+getTableByMS(x = EpiReport::SALM2016, disease = "SALM", year = 2016,
+  reportParameters = EpiReport::AERparams, MSCode = EpiReport::MSCode,
+  index = 1, doc)
 }
 \arguments{
-\item{x}{dataframe, raw disease-specific dataset (see more information in the vignette)
-(default reportParameters <- EpiReport::SALM2016)}
+\item{x}{dataframe, raw disease-specific dataset (see specification of the dataset in the
+package vignette with \code{browseVignettes(package = "EpiReport")})
+(default \code{SALM2016})}
 
-\item{disease}{character string, disease name (default "SALM")}
+\item{disease}{character string, disease code (default \code{"SALM"}).
+Please make sure the disease code is included in the disease-specific dataset x
+in the \code{HealthTopicCode} variable.}
 
-\item{year}{numeric, year to produce the report for (default 2016)}
+\item{year}{numeric, year to produce the table for (default \code{2016}).
+Please make sure the year is included in the disease-specific dataset x in the \code{TimeCode} variable.}
 
-\item{reportParameters}{dataset of parameters for the report
-(default reportParameters <- EpiReport::AERparams)}
+\item{reportParameters}{dataframe, dataset including the required parameters for the report
+production (default \code{AERparams}) (see specification of the dataset in the
+package vignette with \code{browseVignettes(package = "EpiReport")})}
 
-\item{MSCode}{dataset containing the correspondence table of geographical code
-and labels (default MSCode <- EpiReport::MSCode)}
+\item{MSCode}{dataframe, correspondence table of GeoCode names and codes
+(default \code{MSCode}) (see specification of the dataset in the
+package vignette with \code{browseVignettes(package = "EpiReport")})}
 
 \item{index}{integer, figure number}
 
-\item{doc}{Word document (see \code{officer} package)}
+\item{doc}{Word document (see \code{officer} package) in which to add the table
+at the bookmark location.
+If doc is missing, \code{getTable} returns the \code{flextable} table object.}
 }
 \value{
-Word doc or FlexTable preview (see \code{flextable} package)
+Word doc or \code{flextable} object (see \code{flextable} package)
 }
 \description{
-Function returning the table (flextable) that will be included
-in the Annual Epidemiological Report (AER)
-(see reports already available on the ECDC dedicated web page
-https://ecdc.europa.eu/en/annual-epidemiological-reports)
+Function returning the table (\code{flextable}) that will be included
+in the epidemiological report at the bookmark location \code{'TABLE1_BOOKMARK'}
+of the template report. An additional caption will be included at the location
+of the bookmark \code{'TABLE1_CAPTION'}. \cr
+(see Table.1 of the ECDC annual reports
+\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+}
+\details{
+The current version of the \code{EpiReport} package includes three types of table
+(see detailed specification of the tables in the
+package vignette with \code{browseVignettes(package = "EpiReport")}):
+\itemize{
+   \item{\code{COUNT} - }{Table presenting the number of cases by Member State (GeoCode) over a 5-year period};
+   \item{\code{RATE} - }{Table presenting the number of cases and rates by Member State (GeoCode) over a 5-year period};
+   \item{\code{ASR} - }{Table presenting the number of cases and rates by Member State (GeoCode) over a 5-year period,
+   including age-standardised rates for the most recent year.}
+}
 }
 \examples{
 # --- Draft the table using the default Salmonellosis dataset
 getTableByMS()
+
 }
 \seealso{
-\code{\link{getAER}} \code{\link{flextable}}
-\code{\link{shapeECDCFlexTable}} \code{\link{cleanECDCTable}}
-\code{\link{AERparams}} \code{\link{MSCode}}
+Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+Required Packages: \code{\link{flextable}} \code{\link{officer}} \cr
+Internal functions: \code{\link{shapeECDCFlexTable}} \code{\link{cleanECDCTable}} \cr
+Default datasets: \code{\link{AERparams}} \code{\link{MSCode}}
 }

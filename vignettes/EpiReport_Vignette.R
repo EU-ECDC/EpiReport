@@ -27,7 +27,7 @@ my_dataset <- dplyr::select(my_dataset,
 knitr::kable(my_dataset[sample(1:nrow(EpiReport::SALM2016), 10), ], 
              row.names = FALSE,
              format = "html", table.attr = 'class="myTable"',
-             caption = "__Tab.1 Example of Salmonellosis data exported from the ECDC Atlas (restricted access)__")
+             caption = "__Tab.1 Example of Salmonellosis data 2012-2016")
 
 ## ---- echo=FALSE, results='asis'-----------------------------------------
 my_dataset <- EpiReport::AERparams
@@ -39,7 +39,7 @@ my_dataset <- dplyr::select(my_dataset,
 knitr::kable(my_dataset[sample(1:nrow(EpiReport::AERparams), 5), ], 
              row.names = FALSE,
              format = "html", table.attr = 'class="myTable"',
-             caption = "__Tab.2 Example of the main column of the parameter dataset__")
+             caption = "__Tab.2 Example of the main columns of the parameter dataset__")
 
 ## ---- echo=FALSE, results='asis'-----------------------------------------
 my_dataset <- EpiReport::MSCode

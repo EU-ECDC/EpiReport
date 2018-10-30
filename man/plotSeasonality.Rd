@@ -2,7 +2,7 @@
 % Please edit documentation in R/AER_seasonality_graph.R
 \name{plotSeasonality}
 \alias{plotSeasonality}
-\title{AER Seasonal line graph}
+\title{Seasonality line graph}
 \usage{
 plotSeasonality(data, xvar = "TimeCode", yvar = "N",
   min4years = "Min4Years", max4years = "Max4Years",
@@ -11,26 +11,37 @@ plotSeasonality(data, xvar = "TimeCode", yvar = "N",
 \arguments{
 \item{data}{dataframe containing the variables to plot}
 
-\item{xvar}{character string, variable on the x-axis in quotes (default "TimeCode")}
+\item{xvar}{character string, name of the time variable on the x-axis in quotes
+(default \code{"TimeCode"})}
 
-\item{yvar}{character string, variable on the y-axis in quotes (default "N")}
+\item{yvar}{character string, name of the variable to plot on the y-axis in quotes
+(default \code{"N"}), number of cases by month in the reference year (green solid line)}
 
-\item{min4years}{character string, variable including the minimum
-number of cases over the past 4 years in quotes (default "Min4Years")}
+\item{min4years}{character string, name of the variable to plot in quotes including the minimum
+number of cases by month over the past 4 years (default \code{"Min4Years"})}
 
-\item{max4years}{character string, variable including the maximum
-number of cases over the past 4 years in quotes in quotes (default "Max4Years")}
+\item{max4years}{character string, name of the variable to plot in quotes including the maximum
+number of cases by month over the past 4 years (default \code{"Max4Years"})}
 
-\item{mean4years}{character string, variable including the mean of the
-number of cases over the past 4 years in quotes in quotes (default "Mean4Years")}
+\item{mean4years}{character string, name of the variable to plot in quotes including the mean of the
+number of cases by month over the past 4 years (default \code{"Mean4Years"})}
 
-\item{year}{numeric, year to produce the report for (default 2016)}
+\item{year}{numeric, year to produce the graph for (default \code{2016}).}
 }
 \description{
-This function draws a line graph describing the seasonality of the selected disease,
-using the AER style.
+This function draws a line graph describing the seasonality of the selected disease
+over the past 5 years. \cr
+The graph includes the distribution of cases, by month, over the past five years, with:
+\itemize{
+   \item{\code{yvar}: }{The number of cases by month in the reference year (green solid line)}
+   \item{\code{mean4years}: }{The mean number of cases by month in the four previous years (grey dashed line)}
+   \item{\code{min4years}: }{The minimum number of cases by month in the four previous years (grey area)}
+   \item{\code{max4years}: }{The maximum number of cases by month in the four previous years (grey area)}
+}
+Expects aggregated data and pre-calculated min, max and mean figures.
 }
 \seealso{
-\code{\link{getSeason}} \code{\link{getAER}}
+Global function: \code{\link{getSeason}}  \cr
+Required Packages: \code{\link{ggplot2}}
 }
 \keyword{seasonality}

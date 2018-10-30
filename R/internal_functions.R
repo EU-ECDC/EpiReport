@@ -1,6 +1,6 @@
-#' Capitalise the first letter
+#' Capitalise first letter
 #'
-#' Capitalise the first letter of a character string
+#' Capitalise the first letter of a character string in order to use it as title
 #'
 #' @param str character string to capitalise as a title
 #' @return character string
@@ -20,11 +20,11 @@ toCapTitle <- function(str) {
 
 #' Filter disease parameters
 #'
-#' Filter disease parameters
+#' Filter the table of parameters for the report on the given disease
 #'
 #' @param dis character string, disease code
 #' @param reportParameters dataset of parameters for the report
-#' (default \code{EpiReport::AERparams})
+#' (default \code{AERparams})
 #'
 #' @return dataframe with one row (from the \code{AERparams} dataframe)
 #' corresponding to the parameters of the selected disease
@@ -54,7 +54,7 @@ filterDisease <- function(dis, reportParameters) {
 
 #' Clean the MeasureCode variable
 #'
-#' Clean the MeasureCode variable and replace the specific codes with the generic ones
+#' Clean the MeasureCode variable and replace the specific codes with the generic ones \cr
 #' (e.g. \code{ACCUTE.AGE_GENDER.RATE} will be replaced by \code{CONFIRMED.AGE_GENDER.RATE})
 #'
 #' \itemize{
@@ -101,7 +101,6 @@ filterDisease <- function(dis, reportParameters) {
 #'
 #'
 #' }
-#'
 #'
 #' @param var character string vector variable, variable to clean
 #'

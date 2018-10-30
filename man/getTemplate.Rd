@@ -2,7 +2,7 @@
 % Please edit documentation in R/AER_report.R
 \name{getTemplate}
 \alias{getTemplate}
-\title{Get AER Word template}
+\title{Get epidemiological report (empty) template}
 \usage{
 getTemplate(output_path)
 }
@@ -14,12 +14,19 @@ Defaut location will be the current working directory (default \code{getwd()})}
 A word document
 }
 \description{
-Function to export the generic Microsoft Word template for the ECDC
-annual epidemiological report (AER) \cr
-(see reports already available on the ECDC dedicated web page
-\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+Function to export the generic Microsoft Word empty template (included in
+the \code{EpiReport} package) used to produce the
+epidemiological report similar to the ECDC Annual Epidemiological Report (AER).
+The modified version of the template can then be used to produce the final
+epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \cr
+(see the package vignette "The Epidemiological Report Package" with
+\code{browseVignettes("EpiReport")})  \cr
+(see ECDC annual epidemilogical reports \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
-# getTemplate(output_path = "C:/R/AER")
+getTemplate(output_path = "C:/R/AER")
 
+}
+\seealso{
+\code{\link{getAER}}
 }

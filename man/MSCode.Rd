@@ -3,19 +3,25 @@
 \docType{data}
 \name{MSCode}
 \alias{MSCode}
-\title{Dataset correspondence table for country names and code}
-\format{A data frame with 32 rows and 2 variables:
+\title{Dataset correspondence table between country names and country code}
+\format{A data frame with 32 rows and 3 variables:
 \describe{
-  \item{Country}{Country name}
-  \item{GeoCode}{Country code}
-  \item{EUEEA}{For each country, EU or EEA depending on the country}
+  \item{Country}{Full name of the country / Member State e.g. Austria, Belgium, etc.}
+  \item{GeoCode}{Associated code (see \code{GeoCode} variable
+     on the \code{SALM2016} internal dataset) e.g. AT, BE, BG, etc.}
+  \item{EUEEA}{For each Member State, variable specifying in the country
+     is part of the EU or EEA.}
 }}
 \usage{
 MSCode
 }
 \description{
-Dataset correspondence table for country names, code and EU or EEA.
-EUEEA code and name is included in a additional row in the dataframe for
-the EUEEA summary of table 1 in the AER report
+Dataframe providing the correspondence table of the geographical code \code{GeoCode}
+used in the disease dataset, and the geographical label \code{Country} to use
+throughout the report. Additional information on the EU/EEA affiliation
+is also available in column \code{EUEEA}.
+}
+\seealso{
+\code{\link{SALM2016}}
 }
 \keyword{datasets}

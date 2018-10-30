@@ -2,26 +2,36 @@
 % Please edit documentation in R/AER_trend_graph.R
 \name{plotTS12MAvg}
 \alias{plotTS12MAvg}
-\title{AER Time series with 12-month moving average}
+\title{Time series with 12-month moving average}
 \usage{
 plotTS12MAvg(data, xvar = "TimeCode", yvar = "N", movAverage = "MAV")
 }
 \arguments{
 \item{data}{dataframe containing the variables to plot}
 
-\item{xvar}{character string, variable on the x-axis in quotes (default "TimeCode")}
+\item{xvar}{character string, name of the time variable to plot on the x-axis
+in quotes (default \code{"TimeCode"})}
 
-\item{yvar}{character string, variable on the y-axis in quotes (default "N")}
+\item{yvar}{character string, name of the variable to plot on the y-axis in quotes
+(default \code{"N"}), number of cases by month over the 5-year period (grey solid line)}
 
-\item{movAverage}{character string, variable including
-the moving average per each time unit in quotes (default "MAV")}
+\item{movAverage}{character string, name of the variable to plot in quotes including
+the moving average per each time unit (default \code{"MAV"})}
 }
 \description{
-This function draws a line graph with 12-month moving average, using the AER style.
+This function draws a line graph describing the trend of the selected disease
+over the past 5 years. \cr
+The graph includes the trend and  number of cases at EU/EEA level, by month,
+over the past five years, with:
+\itemize{
+   \item{\code{yvar}: }{The number of cases by month over the 5-year period (grey solid line)}
+   \item{\code{movAverage}: }{The 12-month moving average of the number of cases by month (green solid line)}
+}
 Expects aggregated data and pre-calculated 12-month moving average.
 }
 \seealso{
-\code{\link{getTrend}} \code{\link{getAER}}
+Global function: \code{\link{getTrend}}  \cr
+Required Packages: \code{\link{ggplot2}}
 }
 \keyword{average,}
 \keyword{moving}

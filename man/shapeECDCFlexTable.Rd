@@ -2,29 +2,31 @@
 % Please edit documentation in R/AER_table.R
 \name{shapeECDCFlexTable}
 \alias{shapeECDCFlexTable}
-\title{Shaping the final table}
+\title{Shaping the final table (layout, title, color, font)}
 \usage{
 shapeECDCFlexTable(ft, headers, fsize, fname, maincolor)
 }
 \arguments{
 \item{ft}{flextable (see \code{flextable} package), table to shape into ECDC table layout}
 
-\item{headers}{dataframe including the multiple headers to add to the flextable
-(n.b. the first column should contain the names of the flextable object)}
+\item{headers}{dataframe including the multiple headers to add to the flextable object.
+Please note that the column \code{col_keys} should contain the names of the flextable object
+(i.e. \code{col_key = names(x)}), accordingly to \code{\link{set_header_df}}.}
 
-\item{fsize}{numeric, font to use (defaut = 7)}
+\item{fsize}{numeric, font to use (Default 7)}
 
-\item{fname}{character, font name (defaut = "Tahoma")}
+\item{fname}{character, font name (Default \code{"Tahoma"})}
 
-\item{maincolor}{character string, hexadecimal code for the header background color}
+\item{maincolor}{character string, hexadecimal code for the header background
+color (Default \code{"#69AE23"})}
 }
 \value{
 flextable object (see \code{flextable} package)
 }
 \description{
-Shaping the final table (layout)
+Shaping the final table including titles, adding background color, specifying font name and size.
 }
 \seealso{
-\code{\link{getTableByMS}}
-\code{\link{shapeECDCFlexTable}} \code{\link{flextable}}
+Global function: \code{\link{getTableByMS}} \cr
+Required package \code{\link{flextable}}
 }

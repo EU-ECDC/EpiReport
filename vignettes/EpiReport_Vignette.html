@@ -82,13 +82,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><a href="#report-parameters-dataset-specification">1.2. Report parameters dataset specification</a></li>
 <li><a href="#member-states-correspondence-table-dataset">1.3. Member States correspondence table dataset</a></li>
 </ul></li>
-<li><a href="#how-to-generate-the-annual-epidemiological-report-in-microsoft-word-format">2. How to generate the Annual Epidemiological Report in Microsoft Word format</a><ul>
+<li><a href="#how-to-generate-the-epidemiological-report-in-microsoft-word-format">2. How to generate the Epidemiological Report in Microsoft Word format</a><ul>
 <li><a href="#external-disease-dataset">2.1. External disease dataset</a></li>
 <li><a href="#word-template">2.2. Word template</a></li>
 </ul></li>
-<li><a href="#how-to-generate-each-aer-outputs-independently">3. How to generate each AER outputs independently</a><ul>
+<li><a href="#how-to-generate-each-epidemiological-outputs-independently">3. How to generate each epidemiological outputs independently</a><ul>
 <li><a href="#table-distribution-of-cases-by-member-state">3.1. Table: distribution of cases by Member State</a></li>
-<li><a href="#seasonal-plot-distribution-of-cases-by-month">3.2. Seasonal plot: distribution of cases by month</a></li>
+<li><a href="#seasonality-plot-distribution-of-cases-by-month">3.2. Seasonality plot: distribution of cases by month</a></li>
 <li><a href="#trend-plot-trend-and-number-of-cases-by-month">3.3. Trend plot: trend and number of cases by month</a></li>
 <li><a href="#maps-distribution-of-cases-by-member-state">3.4. Maps: distribution of cases by Member State</a></li>
 <li><a href="#age-and-gender-bar-graph">3.5. Age and gender bar graph</a></li>
@@ -124,7 +124,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 <tr class="even">
 <td>Published</td>
-<td>2018-10-26</td>
+<td>2018-10-31</td>
 </tr>
 <tr class="odd">
 <td>Authors</td>
@@ -157,10 +157,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>1. Datasets to be used in the Epidemiological Report package</h2>
 <div id="disease-dataset-specification" class="section level3">
 <h3>1.1. Disease dataset specification</h3>
-<p>Three types of datasets can be used:</p>
+<p>Two types of datasets can be used:</p>
 <ul>
-<li>The default dataset included in the <code>EpiReport</code> package which includes Salmonellosis data for 2012-2016 exported from the ECDC Atlas (restricted access): <code>EpiReport::SALM2016</code>;</li>
-<li>A complete ECDC Atlas export (csv format from the ECDC Atlas restricted access <a href="http://atlas.ecdc.europa.eu/public/index.aspx" class="uri">http://atlas.ecdc.europa.eu/public/index.aspx</a>)</li>
+<li>The default dataset included in the <code>EpiReport</code> package which includes Salmonellosis data for 2012-2016: <code>EpiReport::SALM2016</code>;</li>
 <li>Any dataset specified as described below.</li>
 </ul>
 <p>Description of each variable required in the disease dataset (naming and format):</p>
@@ -171,15 +170,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><code>TimeUnit</code>: Character string, unit of the time variable <code>TimeCode</code> (e.g. <code>M</code> for monthly data, <code>Y</code> for yearly data).</li>
 <li><code>TimeCode</code>: Character string, time variable including dates in any formats available i.e. yearly data (e.g. 2001) or monthly data (e.g. 2001-01);</li>
 <li><code>GeoCode</code>: Character string, geographical level in coded format (e.g. <code>AT</code> for Austria, <code>BE</code> for Belgium, <code>BG</code> for Bulgaria, see also the <code>EpiReport::MSCode</code> table, correspondence table for Member State labels and codes);</li>
-<li><code>XLabel</code>: The label associated with the x-axis in the AER report (see <code>getAgeGender()</code> and <code>plotAgeGender()</code> bar graph for the age variable);</li>
-<li><code>YLabel</code>: The label associated with the y-axis in the AER report (see <code>getAgeGender()</code> and <code>plotAgeGender()</code> bar graph for the grouping variable gender);</li>
+<li><code>XLabel</code>: The label associated with the x-axis in the epidemiological report (see <code>getAgeGender()</code> and <code>plotAgeGender()</code> bar graph for the age variable);</li>
+<li><code>YLabel</code>: The label associated with the y-axis in the epidemiological report (see <code>getAgeGender()</code> and <code>plotAgeGender()</code> bar graph for the grouping variable gender);</li>
 <li><code>ZValue</code>: The value associated with the stratification of <code>XLabel</code> and <code>YLabel</code> in the age and gender bar graph (see <code>getAgeGender()</code> and <code>plotAgeGender()</code>);</li>
-<li><code>YValue</code>: The value and the label associated with the y-axis in the AER report (see <code>plotAge</code> bar graph for the variable age, or <code>getTableByMS()</code> for the number of cases, rate or age-standardised rate in the table by Member States by year);</li>
+<li><code>YValue</code>: The value associated with the y-axis in the epidemiological report (see <code>plotAge</code> bar graph for the variable age, or <code>getTableByMS()</code> for the number of cases, rate or age-standardised rate in the table by Member States by year);</li>
 <li><code>N</code>: Integer, number of cases (see <code>getTrend()</code> and <code>getSeason()</code> line graph).</li>
 </ul>
 <table class="myTable">
 <caption>
-<strong>Tab.1 Example of Salmonellosis data exported from the ECDC Atlas (restricted access)</strong>
+__Tab.1 Example of Salmonellosis data 2012-2016
 </caption>
 <thead>
 <tr>
@@ -227,77 +226,7 @@ SALM
 Confirmed cases
 </td>
 <td style="text-align:left;">
-CONFIRMED.AGE.RATE
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2015-12
-</td>
-<td style="text-align:left;">
-IS
-</td>
-<td style="text-align:left;">
-25-44
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1.115997
-</td>
-<td style="text-align:right;">
-2
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.GENDER.COUNT
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2013-10
-</td>
-<td style="text-align:left;">
-SI
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-7.000000
-</td>
-<td style="text-align:right;">
-26
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.AGE.RATE
+CONFIRMED.GENDER.RATE
 </td>
 <td style="text-align:left;">
 M
@@ -306,77 +235,7 @@ M
 2014-11
 </td>
 <td style="text-align:left;">
-BE
-</td>
-<td style="text-align:left;">
-65+
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1.203505
-</td>
-<td style="text-align:right;">
-196
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.GENDER.RATE
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2012-05
-</td>
-<td style="text-align:left;">
-UK
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-1.034409
-</td>
-<td style="text-align:right;">
-654
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.GENDER.RATE
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2014-01
-</td>
-<td style="text-align:left;">
-EU28
+SK
 </td>
 <td style="text-align:left;">
 Male
@@ -388,10 +247,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-NA
+8.071056
 </td>
 <td style="text-align:right;">
-4594
+430
 </td>
 </tr>
 <tr>
@@ -408,10 +267,10 @@ CONFIRMED.AGE.COUNT
 M
 </td>
 <td style="text-align:left;">
-2016-02
+2014-08
 </td>
 <td style="text-align:left;">
-ES
+RO
 </td>
 <td style="text-align:left;">
 5-14
@@ -423,115 +282,10 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-168.000000
+42.000000
 </td>
 <td style="text-align:right;">
-619
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.COUNT
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2012-05
-</td>
-<td style="text-align:left;">
-SE
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-175.000000
-</td>
-<td style="text-align:right;">
-175
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.GENDER.COUNT
-</td>
-<td style="text-align:left;">
-M
-</td>
-<td style="text-align:left;">
-2015-06
-</td>
-<td style="text-align:left;">
-CZ
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-552.000000
-</td>
-<td style="text-align:right;">
-1153
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SALM
-</td>
-<td style="text-align:left;">
-Confirmed cases
-</td>
-<td style="text-align:left;">
-CONFIRMED.AGESTANDARDISED.RATE
-</td>
-<td style="text-align:left;">
-Y
-</td>
-<td style="text-align:left;">
-2012
-</td>
-<td style="text-align:left;">
-MT
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-19.727449
-</td>
-<td style="text-align:right;">
-88
+199
 </td>
 </tr>
 <tr>
@@ -551,10 +305,10 @@ M
 2014-01
 </td>
 <td style="text-align:left;">
-IE
+LT
 </td>
 <td style="text-align:left;">
-Female
+Male
 </td>
 <td style="text-align:left;">
 NA
@@ -563,10 +317,255 @@ NA
 NA
 </td>
 <td style="text-align:right;">
-6.000000
+24.000000
 </td>
 <td style="text-align:right;">
-17
+52
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE.PROPORTION
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+2016
+</td>
+<td style="text-align:left;">
+NO
+</td>
+<td style="text-align:left;">
+5-14
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+8.208092
+</td>
+<td style="text-align:right;">
+865
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE.PROPORTION
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2014-07
+</td>
+<td style="text-align:left;">
+BE
+</td>
+<td style="text-align:left;">
+0-4
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+40.239044
+</td>
+<td style="text-align:right;">
+253
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE.COUNT
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2016-04
+</td>
+<td style="text-align:left;">
+FR
+</td>
+<td style="text-align:left;">
+45-64
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+109.000000
+</td>
+<td style="text-align:right;">
+579
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE.PROPORTION
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+2014
+</td>
+<td style="text-align:left;">
+EE
+</td>
+<td style="text-align:left;">
+65+
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+8.695652
+</td>
+<td style="text-align:right;">
+92
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE.PROPORTION
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2016-06
+</td>
+<td style="text-align:left;">
+EE
+</td>
+<td style="text-align:left;">
+45-64
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+28.571429
+</td>
+<td style="text-align:right;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.GENDER.RATE
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2012-02
+</td>
+<td style="text-align:left;">
+ES
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+278
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SALM
+</td>
+<td style="text-align:left;">
+Confirmed cases
+</td>
+<td style="text-align:left;">
+CONFIRMED.AGE.PROPORTION
+</td>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+2016-01
+</td>
+<td style="text-align:left;">
+BG
+</td>
+<td style="text-align:left;">
+25-44
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
 </td>
 </tr>
 </tbody>
@@ -575,19 +574,19 @@ NA
 <div id="report-parameters-dataset-specification" class="section level3">
 <h3>1.2. Report parameters dataset specification</h3>
 <p>The internal dataset <code>EpiReport::AERparams</code> describes the parameters to be used for each output of each disease report.</p>
-<p>If the user wishes to set different parameters for one of the 53 covered diseases, or if the user wishes to analyse an additional disease not covered by the default parameter table, it is possible to use an external dataset as long as it is specified as described below and in the help page <code>?EpiReport::AERparams</code>. All functions of the <code>EpiReport</code> package can then be fed with this specific parameter table.</p>
+<p>If the user wishes to set different parameters for one of the 53 covered health topics, or if the user wishes to analyse an additional disease not covered by the default parameter table, it is possible to use an external dataset as long as it is specified as described below and in the help page <code>?EpiReport::AERparams</code>. All functions of the <code>EpiReport</code> package can then be fed with this specific parameter table.</p>
 <p>List of the main parameters included:</p>
 <ul>
 <li><code>HealthTopic</code>: Character string, disease code that should match with the health topic code from the disease-specific dataset (see Tab.1)</li>
 <li><code>MeasurePopulation</code>: Character string, population to present in the report: either <code>ALL</code> cases or <code>CONFIRMED</code> cases only.</li>
-<li><code>TableUse</code>: Character string, specifying whether to include the table in the AER report and which table to include:
+<li><code>TableUse</code>: Character string, specifying whether to include the table in the epidemiological report and which table to include:
 <ul>
 <li><code>NO</code>: No table included</li>
 <li><code>COUNT</code>: Table presenting the <strong>number of cases</strong> by Member State by year</li>
 <li><code>RATE</code>: Table presenting the <strong>rates</strong> of cases by Member State by year</li>
 <li><code>ASR</code>: Table presenting the <strong>age-standardised</strong> rates of cases by Member State by year</li>
 </ul></li>
-<li><code>AgeGenderUse</code>: Character string, specifying whether to include the age and gender bar graph in the AER report and which type of graph to include:
+<li><code>AgeGenderUse</code>: Character string, specifying whether to include the age and gender bar graph in the epidemiological report and which type of graph to include:
 <ul>
 <li><code>NO</code>: No graph included</li>
 <li><code>AG-COUNT</code>: Bar graph presenting the <strong>number of cases</strong> by age and gender</li>
@@ -603,7 +602,7 @@ NA
 </ul>
 <table class="myTable">
 <caption>
-<strong>Tab.2 Example of the main column of the parameter dataset</strong>
+<strong>Tab.2 Example of the main columns of the parameter dataset</strong>
 </caption>
 <thead>
 <tr>
@@ -639,7 +638,7 @@ MapASRUse
 <tbody>
 <tr>
 <td style="text-align:left;">
-ECHI
+MALA
 </td>
 <td style="text-align:left;">
 CONFIRMED
@@ -651,42 +650,13 @@ ASR
 AG-RATE
 </td>
 <td style="text-align:left;">
-N
-</td>
-<td style="text-align:left;">
-N
-</td>
-<td style="text-align:left;">
-N
+Y
 </td>
 <td style="text-align:left;">
 Y
 </td>
 <td style="text-align:left;">
-N
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-SPOX
-</td>
-<td style="text-align:left;">
-CONFIRMED
-</td>
-<td style="text-align:left;">
-NO
-</td>
-<td style="text-align:left;">
-NO
-</td>
-<td style="text-align:left;">
-N
-</td>
-<td style="text-align:left;">
-N
-</td>
-<td style="text-align:left;">
-N
+Y
 </td>
 <td style="text-align:left;">
 N
@@ -726,13 +696,13 @@ N
 </tr>
 <tr>
 <td style="text-align:left;">
-CHIK
+HANTA
 </td>
 <td style="text-align:left;">
 ALL
 </td>
 <td style="text-align:left;">
-ASR
+RATE
 </td>
 <td style="text-align:left;">
 AG-RATE
@@ -755,13 +725,42 @@ N
 </tr>
 <tr>
 <td style="text-align:left;">
-PLAG
+LIST
 </td>
 <td style="text-align:left;">
-NA
+CONFIRMED
 </td>
 <td style="text-align:left;">
-NO
+ASR
+</td>
+<td style="text-align:left;">
+AG-RATE
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+N
+</td>
+<td style="text-align:left;">
+Y
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LGV
+</td>
+<td style="text-align:left;">
+CONFIRMED
+</td>
+<td style="text-align:left;">
+COUNT
 </td>
 <td style="text-align:left;">
 NO
@@ -787,7 +786,7 @@ N
 </div>
 <div id="member-states-correspondence-table-dataset" class="section level3">
 <h3>1.3. Member States correspondence table dataset</h3>
-<p>The internal dataset <code>EpiReport::MSCode</code> provides the correspondence table of the geographical code used <code>GeoCode</code> in the disease dataset, and the geographical label <code>Country</code> to use throughout the report. Additional information on the EU/EEA affiliation is also available in column <code>EUEEA</code>.</p>
+<p>The internal dataset <code>EpiReport::MSCode</code> provides the correspondence table of the geographical code <code>GeoCode</code> used in the disease dataset, and the geographical label <code>Country</code> to use throughout the report. Additional information on the EU/EEA affiliation is also available in column <code>EUEEA</code>.</p>
 <table class="myTable">
 <caption>
 <strong>Tab.3 Example of geographical code and associated label</strong>
@@ -808,24 +807,13 @@ EUEEA
 <tbody>
 <tr>
 <td style="text-align:left;">
-Netherlands
+Latvia
 </td>
 <td style="text-align:left;">
-NL
+LV
 </td>
 <td style="text-align:left;">
 EU
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Norway
-</td>
-<td style="text-align:left;">
-NO
-</td>
-<td style="text-align:left;">
-EEA
 </td>
 </tr>
 <tr>
@@ -841,21 +829,32 @@ EU
 </tr>
 <tr>
 <td style="text-align:left;">
-EU-EEA
+Iceland
 </td>
 <td style="text-align:left;">
-EU_EEA31
+IS
 </td>
 <td style="text-align:left;">
-NA
+EEA
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Greece
+Liechtenstein
 </td>
 <td style="text-align:left;">
-EL
+LI
+</td>
+<td style="text-align:left;">
+EEA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Slovenia
+</td>
+<td style="text-align:left;">
+SI
 </td>
 <td style="text-align:left;">
 EU
@@ -865,9 +864,9 @@ EU
 </table>
 </div>
 </div>
-<div id="how-to-generate-the-annual-epidemiological-report-in-microsoft-word-format" class="section level2">
-<h2>2. How to generate the Annual Epidemiological Report in Microsoft Word format</h2>
-<p>To generate an Annual Epidemiological Report, we can use the default dataset included in the <code>EpiReport</code> package presenting Salmonellosis data 2012-2016.</p>
+<div id="how-to-generate-the-epidemiological-report-in-microsoft-word-format" class="section level2">
+<h2>2. How to generate the Epidemiological Report in Microsoft Word format</h2>
+<p>To generate a similar report to Annual Epidemiological Report, we can use the default dataset included in the <code>EpiReport</code> package presenting Salmonellosis data 2012-2016.</p>
 <p>Calling the function <code>getAER()</code>, the Salmonellosis 2016 report will be generated and stored in your working directory (see <code>getwd()</code>) by default.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getAER</span>()</code></pre></div>
 <p>Please specify the full path to the output folder if necessary:</p>
@@ -876,7 +875,7 @@ EU
 <div id="external-disease-dataset" class="section level3">
 <h3>2.1. External disease dataset</h3>
 <p>To generate the report using an external dataset, please use the syntax below.</p>
-<p>In the following example, Pertussis 2016 TESSy data (in csv format, in the <code>/data</code> folder) is used to produce the corresponding AER report.</p>
+<p>In the following example, Pertussis 2016 TESSy data (in csv format, in the <code>/data</code> folder) is used to produce the corresponding report.</p>
 <p>Pertussis PNG maps have previously been created and stored in a specific folder <code>/maps</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># --- Importing the dataset</span>
 PERT2016 &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/PERT2016.csv&quot;</span>, 
@@ -912,18 +911,18 @@ EpiReport<span class="op">::</span><span class="kw">getAER</span>(<span class="d
 </div>
 <div id="word-template" class="section level3">
 <h3>2.2. Word template</h3>
-<p>By default, an empty ECDC template (Microsoft Word) is used to produce the AER report. In order to modify this template, please first download the default template using the function <code>getTemplate()</code>.</p>
+<p>By default, an empty ECDC template (Microsoft Word) is used to produce the report. In order to modify this template, please first download the default template using the function <code>getTemplate()</code>.</p>
 <p>You can store this Microsoft Word template in a specific folder <code>/template</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getTemplate</span>(<span class="dt">output_path =</span> <span class="st">&quot;C:/EpiReport/template&quot;</span>)</code></pre></div>
-<p>Then, apply the modifications required, save it and use it as a new Microsoft Word template when producing the AER report as described below.</p>
+<p>Then, apply the modifications required, save it and use it as a new Microsoft Word template when producing the epidemiological report as described below.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getAER</span>(<span class="dt">template =</span> <span class="st">&quot;C:/EpiReport/template/New_AER_Template.docx&quot;</span>,
        <span class="dt">outputPath =</span> <span class="st">&quot;C:/EpiReport/doc/&quot;</span>)</code></pre></div>
-<p>Please make sure that the Microsoft Word bookmarks are preserved throughout the modifications to the template. The bookmarks specify the location where to include each AER outputs.</p>
+<p>Please make sure that the Microsoft Word bookmarks are preserved throughout the modifications to the template. The bookmarks specify the location where to include each outputs.</p>
 </div>
 </div>
-<div id="how-to-generate-each-aer-outputs-independently" class="section level2">
-<h2>3. How to generate each AER outputs independently</h2>
-<p>The <code>EpiReport</code> package allows the user to generate each AER output independently of the Microsoft Word report.</p>
+<div id="how-to-generate-each-epidemiological-outputs-independently" class="section level2">
+<h2>3. How to generate each epidemiological outputs independently</h2>
+<p>The <code>EpiReport</code> package allows the user to generate each epidemiological output independently of the Microsoft Word report.</p>
 <p>The ECDC annual epidemiological Report includes five types of outputs:</p>
 <ul>
 <li><strong>Table</strong>: Distribution of cases by Member State over the last five years with:
@@ -932,7 +931,7 @@ EpiReport<span class="op">::</span><span class="kw">getAER</span>(<span class="d
 <li>the number of cases and the corresponding rate per 100 000 population or</li>
 <li>the number of cases, the rate and the age-standardised rate per 100 000 population.</li>
 </ul></li>
-<li><strong>Seasonal plot</strong>: Distribution of cases at EU/EEA level, by month, over the past five years.</li>
+<li><strong>Seasonality plot</strong>: Distribution of cases at EU/EEA level, by month, over the past five years.</li>
 <li><strong>Trend plot</strong>: Trend and number of cases at EU/EEA level, by month, over the past five years.</li>
 <li><strong>Map</strong>: Distribution of cases by Member State presenting either:
 <ul>
@@ -974,8 +973,8 @@ EpiReport<span class="op">::</span><span class="kw">getTableByMS</span>(<span cl
 <strong><em>Table. Distribution of Zika virus infection cases, EU/EEA, 2012-2016</em></strong>
 </center>
 </div>
-<div id="seasonal-plot-distribution-of-cases-by-month" class="section level3">
-<h3>3.2. Seasonal plot: distribution of cases by month</h3>
+<div id="seasonality-plot-distribution-of-cases-by-month" class="section level3">
+<h3>3.2. Seasonality plot: distribution of cases by month</h3>
 <p>The function <code>getSeason()</code> generates a ggplot (see package <code>ggplot2</code>) presenting the distribution of cases at EU/EEA level, by month, over the past five years.</p>
 <p>The plot includes:</p>
 <ul>

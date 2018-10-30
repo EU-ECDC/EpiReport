@@ -2,40 +2,55 @@
 % Please edit documentation in R/AER_report.R
 \name{getAER}
 \alias{getAER}
-\title{Produce the AER Word report}
+\title{Get full disease-specific epidemiological report}
 \usage{
-getAER(template, outputPath, x, disease, year, reportParameters, MSCode, pathPNG)
+getAER(template = file.path(system.file(package = "EpiReport"),
+  "template/AER_template.docx"), outputPath = getwd(),
+  x = EpiReport::SALM2016, disease = "SALM", year = 2016,
+  reportParameters = EpiReport::AERparams, MSCode = EpiReport::MSCode,
+  pathPNG = system.file("maps", package = "EpiReport"))
 }
 \arguments{
-\item{template}{doc (see \code{officer} package), the word document in which to add the AER outputs.
-Default value is the empty template included in the package getTemplate().}
+\item{template}{doc (see \code{officer} package), the empty Word document template in which
+to include the table and plots disease-specific outputs.
+Default value is the empty template included in the package. See \code{getTemplate()}.}
 
-\item{outputPath}{character string, the full path where to generate the AER Word output.
-Default value is the current working directory getwd().}
+\item{outputPath}{character string, the full path where to generate the epidemiological
+report Word output.
+Default value is the current working directory \code{getwd()}.}
 
-\item{x}{dataframe, raw disease-specific dataset (see more information in the vignette)
-(default reportParameters <- EpiReport::SALM2016)}
+\item{x}{dataframe, raw disease-specific dataset (see specification of the dataset in the
+package vignette with \code{browseVignettes("EpiReport")})
+(default \code{SALM2016})}
 
-\item{disease}{character string, disease name (default "SALM")}
+\item{disease}{character string, disease code (default \code{"SALM"}).
+Please make sure the disease code is included in the disease-specific dataset x
+in the \code{HealthTopicCode} variable.}
 
-\item{year}{numeric, year to produce the report for (default 2016)}
+\item{year}{numeric, year to produce the report for (default \code{2016}).
+Please make sure the year is included in the disease-specific dataset x in the \code{TimeCode} variable.}
 
-\item{reportParameters}{dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)}
+\item{reportParameters}{dataframe, dataset including the required parameters for the report
+production (default \code{AERparams}) (see specification of the dataset in the
+package vignette with \code{browseVignettes(package = "EpiReport")})}
 
-\item{MSCode}{dataset of corresponding table of GeoCode names and codes
-(default reportParameters <- EpiReport::MSCode)}
+\item{MSCode}{dataframe, correspondence table of GeoCode names and codes
+(default \code{MSCode}) (see specification of the dataset in the
+package vignette with \code{browseVignettes(package = "EpiReport")})}
 
 \item{pathPNG}{character string, the full path to the folder containing
-the maps in PNG to include in the final report}
+the maps (in PNG) to include in the final report}
 }
 \value{
 A word document
 }
 \description{
-Function to generate the Microsoft Word ECDC annual epidemiological report (AER)
-including all disease-specific outputs at the Word bookmark location \cr
-(see reports already available on the ECDC dedicated web page
-\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+Function to generate the Microsoft Word epidemiological report
+(similar to the ECDC Annual Epidemiological Report (AER))
+including all disease-specific outputs at each output-specific bookmarks exact location. \cr
+(for further information on the outputs and the corresponding bookmarks,
+please see the package vignette "The Epidemiological Report Package" with \code{browseVignettes("EpiReport")})\cr
+(see ECDC AER \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 # --- Generating the AER report using the default Salmonellosis dataset
@@ -49,6 +64,9 @@ getAER()
 
 }
 \seealso{
-\code{\link{getTemplate}} \code{\link{MSCode}}
-\code{\link{AERparams}} \code{\link{SALM2016}}
+Default template: \code{\link{getTemplate}} \cr
+Default datasets: \code{\link{MSCode}}
+\code{\link{AERparams}} \code{\link{SALM2016}} \cr
+Disease-specific outputs: \code{\link{getTableByMS}}
+\code{\link{getSeason}} \code{\link{getTrend}} \code{\link{getMap}} \code{\link{getAgeGender}}
 }

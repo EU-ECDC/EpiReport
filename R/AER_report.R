@@ -1,19 +1,23 @@
-#' Get AER Word template
+#' Get epidemiological report (empty) template
 #'
-#' Function to export the generic Microsoft Word template for the ECDC
-#' annual epidemiological report (AER) \cr
-#' (see reports already available on the ECDC dedicated web page
-#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' Function to export the generic Microsoft Word empty template (included in
+#' the \code{EpiReport} package) used to produce the
+#' epidemiological report similar to the ECDC Annual Epidemiological Report (AER).
+#' The modified version of the template can then be used to produce the final
+#' epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \cr
+#' (see the package vignette "The Epidemiological Report Package" with
+#' \code{browseVignettes("EpiReport")})  \cr
+#' (see ECDC annual epidemilogical reports \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' @param output_path character string, the full path where to create the Word output.
 #' Defaut location will be the current working directory (default \code{getwd()})
 #'
-#' @usage getTemplate(output_path)
-#'
 #' @return A word document
 #'
 #' @examples
-#' # getTemplate(output_path = "C:/R/AER")
+#' getTemplate(output_path = "C:/R/AER")
+#'
+#' @seealso \code{\link{getAER}}
 #'
 #' @export
 #'
@@ -46,31 +50,43 @@ getTemplate <- function(output_path){
 
 
 
-#' Produce the AER Word report
+#' Get full disease-specific epidemiological report
 #'
-#' Function to generate the Microsoft Word ECDC annual epidemiological report (AER)
-#' including all disease-specific outputs at the Word bookmark location \cr
-#' (see reports already available on the ECDC dedicated web page
-#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' Function to generate the Microsoft Word epidemiological report
+#' (similar to the ECDC Annual Epidemiological Report (AER))
+#' including all disease-specific outputs at each output-specific bookmarks exact location. \cr
+#' (for further information on the outputs and the corresponding bookmarks,
+#' please see the package vignette "The Epidemiological Report Package" with \code{browseVignettes("EpiReport")})\cr
+#' (see ECDC AER \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param template doc (see \code{officer} package), the word document in which to add the AER outputs.
-#' Default value is the empty template included in the package getTemplate().
-#' @param outputPath character string, the full path where to generate the AER Word output.
-#' Default value is the current working directory getwd().
-#' @param x dataframe, raw disease-specific dataset (see more information in the vignette)
-#' (default reportParameters <- EpiReport::SALM2016)
-#' @param disease character string, disease name (default "SALM")
-#' @param year numeric, year to produce the report for (default 2016)
-#' @param reportParameters dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)
-#' @param MSCode dataset of corresponding table of GeoCode names and codes
-#' (default reportParameters <- EpiReport::MSCode)
+#' @param template doc (see \code{officer} package), the empty Word document template in which
+#' to include the table and plots disease-specific outputs.
+#' Default value is the empty template included in the package. See \code{getTemplate()}.
+#' @param outputPath character string, the full path where to generate the epidemiological
+#' report Word output.
+#' Default value is the current working directory \code{getwd()}.
+#' @param x dataframe, raw disease-specific dataset (see specification of the dataset in the
+#' package vignette with \code{browseVignettes("EpiReport")})
+#' (default \code{SALM2016})
+#' @param disease character string, disease code (default \code{"SALM"}).
+#' Please make sure the disease code is included in the disease-specific dataset x
+#' in the \code{HealthTopicCode} variable.
+#' @param year numeric, year to produce the report for (default \code{2016}).
+#' Please make sure the year is included in the disease-specific dataset x in the \code{TimeCode} variable.
+#' @param reportParameters dataframe, dataset including the required parameters for the report
+#' production (default \code{AERparams}) (see specification of the dataset in the
+#' package vignette with \code{browseVignettes(package = "EpiReport")})
+#' @param MSCode dataframe, correspondence table of GeoCode names and codes
+#' (default \code{MSCode}) (see specification of the dataset in the
+#' package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param pathPNG character string, the full path to the folder containing
-#' the maps in PNG to include in the final report
+#' the maps (in PNG) to include in the final report
 #'
-#' @usage getAER(template, outputPath, x, disease, year, reportParameters, MSCode, pathPNG)
-#'
-#' @seealso \code{\link{getTemplate}} \code{\link{MSCode}}
-#' \code{\link{AERparams}} \code{\link{SALM2016}}
+#' @seealso Default template: \code{\link{getTemplate}} \cr
+#' Default datasets: \code{\link{MSCode}}
+#' \code{\link{AERparams}} \code{\link{SALM2016}} \cr
+#' Disease-specific outputs: \code{\link{getTableByMS}}
+#' \code{\link{getSeason}} \code{\link{getTrend}} \code{\link{getMap}} \code{\link{getAgeGender}}
 #'
 #' @examples
 #' # --- Generating the AER report using the default Salmonellosis dataset
@@ -86,12 +102,14 @@ getTemplate <- function(output_path){
 #'
 #' @export
 #'
-getAER <- function(template,
+getAER <- function(template =  file.path(system.file(package = "EpiReport"), "template/AER_template.docx" ),
                    outputPath = getwd(),
-                   x, disease = "SALM", year = 2016,
-                   reportParameters,
-                   MSCode,
-                   pathPNG){
+                   x = EpiReport::SALM2016,
+                   disease = "SALM",
+                   year = 2016,
+                   reportParameters = EpiReport::AERparams,
+                   MSCode = EpiReport::MSCode,
+                   pathPNG = system.file("maps", package = "EpiReport")){
 
   ## ----
   ## Setting default arguments if missing
@@ -104,7 +122,7 @@ getAER <- function(template,
     outputPath <- getwd()
   }
   if(missing(x)) { x <- EpiReport::SALM2016 }
-  if(missing(disease)) { disease <- "SALM" }    # disease <- "SALM"
+  if(missing(disease)) { disease <- "SALM" }
   if(missing(year)) { year <- 2016 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
@@ -174,22 +192,6 @@ getAER <- function(template,
 
 
   ## ----
-  ## Seasonal plot
-  ## ----
-  doc <- EpiReport::getSeason(x = x,
-                              disease = disease,
-                              year = year,
-                              reportParameters = reportParameters,
-                              MSCode = MSCode,
-                              index = index,
-                              doc = doc)
-  index <- index + 1
-
-
-
-
-
-  ## ----
   ## Trend plot
   ## ----
   doc <- EpiReport::getTrend(x = x,
@@ -199,6 +201,22 @@ getAER <- function(template,
                              MSCode = MSCode,
                              index = index,
                              doc = doc)
+  index <- index + 1
+
+
+
+
+
+  ## ----
+  ## Seasonal plot
+  ## ----
+  doc <- EpiReport::getSeason(x = x,
+                              disease = disease,
+                              year = year,
+                              reportParameters = reportParameters,
+                              MSCode = MSCode,
+                              index = index,
+                              doc = doc)
   index <- index + 1
 
 

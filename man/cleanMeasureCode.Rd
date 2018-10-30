@@ -13,7 +13,7 @@ cleanMeasureCode(var)
 cleaned vector variable
 }
 \description{
-Clean the MeasureCode variable and replace the specific codes with the generic ones
+Clean the MeasureCode variable and replace the specific codes with the generic ones \cr
 (e.g. \code{ACCUTE.AGE_GENDER.RATE} will be replaced by \code{CONFIRMED.AGE_GENDER.RATE})
 }
 \details{
