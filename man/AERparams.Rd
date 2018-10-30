@@ -3,30 +3,43 @@
 \docType{data}
 \name{AERparams}
 \alias{AERparams}
-\title{Dataset including parameters for AER production}
-\format{A data frame with 53 rows (corresponding to the 53 diseases) and 28 variables:
+\title{Dataset describing the parameters for the epidemiological report production}
+\format{A data frame with 53 rows (corresponding to the 53 health topics) and 24 variables:
 \describe{
-  \item{HealthTopic}{Disease code e.g. ANTH, SALM, etc.}
+  \item{HealthTopic}{Disease code that should match with the health topic code
+     from the disease-specific dataset  e.g. \code{ANTH}, \code{SALM}, etc.}
   \item{DG}{(optional) Disease group e.g. FWD}
   \item{DP}{(optional) Disease programme e.g. FWD}
-  \item{Label}{Disease label e.g. salmonellosis, anthrax}
-  \item{FrequencyCategory}{(optional) Frequency of the disease e.g. VERY RARE, NON-RARE, etc.}
-  \item{MeasurePopulation}{Type of population presented for this disease e.g. all or confirmed cases}
+  \item{Label}{Disease label to be used in the report e.g. salmonellosis, anthrax}
+  \item{FrequencyCategory}{(optional) Frequency of the disease e.g. \code{VERY RARE}, \code{NON-RARE}, etc.}
+  \item{MeasurePopulation}{Type of population presented for this disease i.e. \code{ALL} or \code{CONFIRMED} cases}
   \item{DatePublicAtlas}{Date of latest availability in the public access of the Atlas}
-  \item{TableUse}{Type of table to present in the report e.g. NO table, ASR, RATE table, etc.}
-  \item{TableRatesLabel}{Label to use in the table for presenting rates}
-  \item{TableRatesNoDecimals}{Number of decimals to use for presenting rates}
-  \item{TableASRNoDecimals}{Number of descimals to use for presenting ASR}
-  \item{AgeGenderUse}{Type of age and gender bar graph to present e.g. NO graph, AG-RATE, AG-COUNT, etc.}
+  \item{TableUse}{Type of table to present in the report i.e. \code{NO} table,
+     \code{ASR} table presenting age-standardised rates, \code{RATE} table presenting rates
+     or \code{COUNT} table presenting the number of cases only.}
+  \item{TableRatesLabel}{Label to use in the table for rates e.g. \code{RATE PER 100000 POPULATION}}
+  \item{TableRatesNoDecimals}{Number of decimals to use when presenting rates}
+  \item{TableASRNoDecimals}{Number of descimals to use when presenting ASR}
+  \item{AgeGenderUse}{Type of age and gender bar graph to present i.e. \code{NO} graph,
+     \code{AG-COUNT} Bar graph presenting the number of cases by age and gender,
+     \code{AG-RATE} Bar graph presenting the rates of cases by age and gender,
+     \code{AG-PROP} Bar graph presenting the proportion of cases by age and gender,
+     \code{A-RATE} Bar graph presenting the rates of cases by age.}
   \item{AgeGenderBarGraphLabel}{Label to use in the age and gender bar graph}
-  \item{AgeGenderGraphNoDecimals}{Number of decimals to use for presenting rates in the age an dgender bar graph}
-  \item{TSTrendGraphUse}{Logical Y/N for trend line graph inclusion}
-  \item{TSSeasonalityGraphUse}{Logical Y/N for seasonal line graph inclusion}
+  \item{AgeGenderGraphNoDecimals}{Number of decimals to use when presenting rates
+     in the age an dgender bar graph}
+  \item{TSTrendGraphUse}{Logical Y/N specifying whether to include a line graph
+     describing the trend of the disease over the time}
+  \item{TSSeasonalityGraphUse}{Logical Y/N specifying whether to include
+     a line graph describing the seasonality of the disease}
   \item{TSSpecific}{Logical Y/N for specific line graph inclusion}
-  \item{MapNumbersUse}{Logical Y/N for map inclusion}
-  \item{MapRatesUse}{Logical Y/N for map inclusion}
+  \item{MapNumbersUse}{Logical Y/N specifying whether to include the map
+     presenting the number of cases by Member State}
+  \item{MapRatesUse}{Logical Y/N specifying whether to include the map
+     presenting the rates of cases by Member State}
   \item{MapRatesNoDecimals}{(optional) Number of decimals to use for presenting maps}
-  \item{MapASRUse}{Logical Y/N for map inclusion}
+  \item{MapASRUse}{Logical Y/N specifying whether to include the map
+     presenting the age-standardised rates of cases by Member State}
   \item{MapASRNoDecimals}{(optional) Number of decimals to use for presenting maps}
   \item{Transmission}{Not implemented yet}
   \item{TransmissionNoDecimals}{Not implemented yet}
@@ -35,7 +48,7 @@
 AERparams
 }
 \description{
-A dataset containing the parameters required to build the AER
-for all 53 diseases included in TESSy
+A dataset describing the parameters to be used for each output of each disease report
+for all 53 health topics included in TESSy
 }
 \keyword{datasets}

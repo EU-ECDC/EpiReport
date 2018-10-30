@@ -1,32 +1,58 @@
-#' Get the disease-specific Map
+#' Get disease-specific map: distribution of cases by Member State
 #'
-#' Function returning the disease-specific PNG map
-#' previously created and stored in a specific folder (see pathPNG)
-#' that will be included in the Annual Epidemiological Report (AER)
-#' (see reports already available on the ECDC dedicated web page
-#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
+#' Function returning the disease-specific PNG map previously created
+#' and stored in a specific folder (see \code{pathPNG} argument) and
+#' that will be included in the epidemiological report at the bookmark location
+#' of the template report, depending of the type of map.
+#' Three type of maps can be included in the report:
+#' \itemize{
+#'    \item{Bookmark \code{'MAP_NB_BOOKMARK'}: }{Distribution of cases by country.
+#'    An additional caption will be included at the location of the bookmark \code{'MAP_NB_CAPTION'}.}
+#'    \item{Bookmark \code{'MAP_RATE_BOOKMARK'}: }{Distribution of cases
+#'    per 100 000 population by country. An additional caption will be included
+#'    at the location of the bookmark \code{'MAP_RATE_CAPTION'}.}
+#'    \item{Bookmark \code{'MAP_ASR_BOOKMARK'}: }{Distribution of cases using
+#'    age-strandardised rates per 100 000 population by country.
+#'    An additional caption will be included at the location of the bookmark \code{'MAP_ASR_CAPTION'}.}
+#' }
+#' (see ECDC reports
+#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param disease character string, disease name (default "SALM")
-#' @param year numeric, year to produce the report for (default 2016)
-#' @param reportParameters dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)
+#' @param disease character string, disease code (default \code{"SALM"}).
+#' @param year numeric, year to produce the map for (default \code{2016}).
+#' @param reportParameters dataframe, dataset including the required parameters
+#' for the map and report production (default \code{AERparams}) (see specification
+#' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param index integer, figure number
 #' @param pathPNG character string, full path to the folder containing the maps in PNG
-#' @param doc Word document (see \code{officer} package)
+#' (default 'maps' folder included in the package \code{system.file("maps", package = "EpiReport")})
+#' @param doc Word document (see \code{officer} package) in which to add the maps
+#' at the bookmark location.
+#' If doc is missing, \code{getMap} returns a preview of the PNG image.
 #'
 #' @return Word doc an image preview
 #'
-#' @seealso \code{\link{getAER}}
-#' \code{\link{includeMap}} \code{\link{previewMap}}
-#' \code{\link{AERparams}}
+#' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+#' Required Packages: \code{\link{officer}} \cr
+#' Internal functions: \code{\link{includeMap}} \code{\link{previewMap}} \cr
+#' Default datasets: \code{\link{AERparams}}
 #'
 #' @examples
 #' # --- Preview of the PNG map using the default Salmonellosis dataset
 #' getMap()
 #'
+#' # --- Plot using external PNG image
+#' # --- Please see examples in the vignette
+#' browseVignettes(package = "EpiReport")
+#'
 #' @export
 #'
-getMap <- function(disease = "SALM", year = 2016,
-                   reportParameters, index = 1, pathPNG, doc){
+getMap <- function(disease = "SALM",
+                   year = 2016,
+                   reportParameters = EpiReport::AERparams,
+                   index = 1,
+                   pathPNG = system.file("maps", package = "EpiReport"),
+                   doc){
 
   ## ----
   ## Setting default arguments if missing
@@ -148,28 +174,35 @@ getMap <- function(disease = "SALM", year = 2016,
 
 
 
-#' Include the PNG map (Word)
+#' Includind PNG map in the Microsoft Word template
 #'
 #' Function including the disease-specific PNG map in the Word document
-#' at the specific bookmark location
+#' at the specific bookmark location.
 #'
-#' @param disease character string, disease name (default "SALM")
-#' @param year numeric, year to produce the report for (default 2016)
-#' @param reportParameters dataset of parameters for the report
-#' (default reportParameters <- EpiReport::AERparams)
+#' @param disease character string, disease code (default \code{"SALM"}).
+#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' @param reportParameters dataframe, dataset including the required parameters
+#' for the graph and report production (default \code{AERparams}) (see specification
+#' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param index integer, figure number
 #' @param pathPNG character string, full path to the folder containing the maps in PNG
-#' @param doc Word document (see \code{officer} package)
-#' @param pop character string, label of the type of population used in the caption
+#' (default 'maps' folder included in the package \code{system.file("maps", package = "EpiReport")})
+#' @param doc Word document (see \code{officer} package) in which to add
+#' the maps at the bookmark location
+#' @param pop character string, label of the type of population to use in the caption
+#' (e.g. \code{confirmed})
 #' @param namePNGsuffix character string, suffix of the PNG file name of the map
+#' (i.e. \code{"COUNT"}, \code{"RATE"} or \code{"AGESTANDARDISED"}.)
 #' @param unit character string, label of the unit used in the caption
-#' @param mapBookmark character string, label of the bookmark in the Word document
-#' @param captionBookmark character string, label of the bookmark for the caption in the Word document
+#' (e.g. \code{"per 100 000 population"})
+#' @param mapBookmark character string, label of the bookmark where to add
+#' the map in the Word document
+#' @param captionBookmark character string, label of the bookmark where to add
+#' the caption in the Word document
 #'
 #' @return Word doc
 #'
-#' @seealso \code{\link{getMap}} \code{\link{previewMap}}
-#' \code{\link{getAER}}
+#' @seealso Global function: \code{\link{getMap}}
 #'
 #' @export
 #'
@@ -208,20 +241,23 @@ includeMap <- function(disease, year, reportParameters,
 
 
 
-#' Preview the PNG map
+#' Previewing the PNG map
 #'
-#' Function preview the disease-specific PNG map
+#' Function previewing the disease-specific PNG map
 #'
-#' @param disease character string, disease name (default "SALM")
-#' @param year numeric, year to produce the report for (default 2016)
-#' @param reportParameters dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)
+#' @param disease character string, disease code (default \code{"SALM"}).
+#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' @param reportParameters dataframe, dataset including the required parameters
+#' for the graph and report production (default \code{AERparams}) (see specification
+#' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param pathPNG character string, full path to the folder containing the maps in PNG
+#' (default 'maps' folder included in the package \code{system.file("maps", package = "EpiReport")})
 #' @param namePNGsuffix character string, suffix of the PNG file name of the map
+#' (i.e. \code{"COUNT"}, \code{"RATE"} or \code{"AGESTANDARDISED"}.)
 #'
 #' @return Preview
 #'
-#' @seealso \code{\link{getMap}} \code{\link{includeMap}}
-#' \code{\link{getAER}}
+#' @seealso Global function: \code{\link{getMap}}
 #'
 #' @export
 #'

@@ -4,22 +4,28 @@
 \alias{cleanECDCTable}
 \title{Cleaning the final table}
 \usage{
-cleanECDCTable(x, Country, GeoCode)
+cleanECDCTable(x, Country = EpiReport::MSCode$Country,
+  GeoCode = EpiReport::MSCode$GeoCode)
 }
 \arguments{
-\item{x}{dataset to clean}
+\item{x}{dataframe, dataset to clean}
 
-\item{Country}{character vector, geo code of each Member State
-(default EpiReport::MSCode$Country)}
+\item{Country}{character vector, full names of the countries /
+Member States (e.g. Austria, Belgium, etc.) that will replace the GeoCodes
+included the x dataframe (Default \code{MSCode$Country})}
 
-\item{GeoCode}{character vector, corresponding geo labels of each Member State
-(default EpiReport::MSCode$GeoCode)}
+\item{GeoCode}{character vector, corresponding GeoCode of each Member State
+(e.g. AT, BE, etc.) to replace with the Country full names (Default \code{MSCode$GeoCode})}
 }
 \value{
-cleaned ECDC table
+cleaned ECDC dataframe
 }
 \description{
-Cleaning the final table: identifying missing reports with '-',
-replacing the Member State codes with Member State names,
-identifying not reporting Member States with '.'
+Cleaning the final table: identifying missing reports with \code{'-'},
+replacing the Member State codes with Member State names (see correspondence
+table \code{\link{MSCode}}), identifying not reporting Member States with \code{'.'}
+}
+\seealso{
+Global function: \code{\link{getTableByMS}} \cr
+Default dataset \code{\link{MSCode}}
 }

@@ -2,41 +2,64 @@
 % Please edit documentation in R/AER_maps.R
 \name{getMap}
 \alias{getMap}
-\title{Get the disease-specific Map}
+\title{Get disease-specific map: distribution of cases by Member State}
 \usage{
-getMap(disease = "SALM", year = 2016, reportParameters, index = 1,
-  pathPNG, doc)
+getMap(disease = "SALM", year = 2016,
+  reportParameters = EpiReport::AERparams, index = 1,
+  pathPNG = system.file("maps", package = "EpiReport"), doc)
 }
 \arguments{
-\item{disease}{character string, disease name (default "SALM")}
+\item{disease}{character string, disease code (default \code{"SALM"}).}
 
-\item{year}{numeric, year to produce the report for (default 2016)}
+\item{year}{numeric, year to produce the map for (default \code{2016}).}
 
-\item{reportParameters}{dataset of parameters for the report (default reportParameters <- EpiReport::AERparams)}
+\item{reportParameters}{dataframe, dataset including the required parameters
+for the map and report production (default \code{AERparams}) (see specification
+of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})}
 
 \item{index}{integer, figure number}
 
-\item{pathPNG}{character string, full path to the folder containing the maps in PNG}
+\item{pathPNG}{character string, full path to the folder containing the maps in PNG
+(default 'maps' folder included in the package \code{system.file("maps", package = "EpiReport")})}
 
-\item{doc}{Word document (see \code{officer} package)}
+\item{doc}{Word document (see \code{officer} package) in which to add the maps
+at the bookmark location.
+If doc is missing, \code{getMap} returns a preview of the PNG image.}
 }
 \value{
 Word doc an image preview
 }
 \description{
-Function returning the disease-specific PNG map
-previously created and stored in a specific folder (see pathPNG)
-that will be included in the Annual Epidemiological Report (AER)
-(see reports already available on the ECDC dedicated web page
-https://ecdc.europa.eu/en/annual-epidemiological-reports)
+Function returning the disease-specific PNG map previously created
+and stored in a specific folder (see \code{pathPNG} argument) and
+that will be included in the epidemiological report at the bookmark location
+of the template report, depending of the type of map.
+Three type of maps can be included in the report:
+\itemize{
+   \item{Bookmark \code{'MAP_NB_BOOKMARK'}: }{Distribution of cases by country.
+   An additional caption will be included at the location of the bookmark \code{'MAP_NB_CAPTION'}.}
+   \item{Bookmark \code{'MAP_RATE_BOOKMARK'}: }{Distribution of cases
+   per 100 000 population by country. An additional caption will be included
+   at the location of the bookmark \code{'MAP_RATE_CAPTION'}.}
+   \item{Bookmark \code{'MAP_ASR_BOOKMARK'}: }{Distribution of cases using
+   age-strandardised rates per 100 000 population by country.
+   An additional caption will be included at the location of the bookmark \code{'MAP_ASR_CAPTION'}.}
+}
+(see ECDC reports
+\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 # --- Preview of the PNG map using the default Salmonellosis dataset
 getMap()
 
+# --- Plot using external PNG image
+# --- Please see examples in the vignette
+browseVignettes(package = "EpiReport")
+
 }
 \seealso{
-\code{\link{getAER}}
-\code{\link{includeMap}} \code{\link{previewMap}}
-\code{\link{AERparams}}
+Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+Required Packages: \code{\link{officer}} \cr
+Internal functions: \code{\link{includeMap}} \code{\link{previewMap}} \cr
+Default datasets: \code{\link{AERparams}}
 }

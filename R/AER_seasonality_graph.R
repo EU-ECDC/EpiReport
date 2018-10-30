@@ -1,30 +1,51 @@
-#' Get the Seasonality graph
+#' Get disease-specific seasonality graph: distribution of cases by month
 #'
 #' Function returning the plot describing the seasonality of the disease
-#' that will be included in the Annual Epidemiological Report (AER)
-#' (see reports already available on the ECDC dedicated web page
-#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
+#' that will be included in the epidemiological report at the bookmark location
+#' \code{'TS_SEASON_BOOKMARK'} of the template report. \cr
+#' \cr
+#' The graph includes the distribution of cases at EU/EEA level, by month,
+#' over the past five years, with:
+#' \itemize{
+#'    \item{}{The number of cases by month in the reference year (green solid line)}
+#'    \item{}{The mean number of cases by month in the four previous years (grey dashed line)}
+#'    \item{}{The minimum number of cases by month in the four previous years (grey area)}
+#'    \item{}{The maximum number of cases by month in the four previous years (grey area)}
+#' }
+#' (see ECDC reports
+#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param x dataframe, raw disease-specific dataset (see more information in the vignette)
-#' (default reportParameters <- EpiReport::SALM2016)
-#' @param disease character string, disease name (default "SALM")
-#' @param year numeric, year to produce the report for (default 2016)
-#' @param reportParameters dataset of parameters for the report
-#' (default reportParameters <- EpiReport::AERparams)
-#' @param MSCode dataset containing the correspondence table of geographical code and labels
-#' (default MSCode <- EpiReport::MSCode)
+#' @param x dataframe, raw disease-specific dataset (see specification of the
+#' dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
+#' (default \code{SALM2016})
+#' @param disease character string, disease code (default \code{"SALM"}).
+#' Please make sure the disease code is included in the disease-specific dataset x
+#' in the \code{HealthTopicCode} variable.
+#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' Please make sure the year is included in the disease-specific dataset x
+#' in the \code{TimeCode} variable.
+#' @param reportParameters dataframe, dataset including the required parameters
+#' for the graph and report production (default \code{AERparams}) (see specification
+#' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
+#' @param MSCode dataframe, correspondence table of GeoCode names and codes
+#' (default \code{MSCode}) (see specification of the dataset in the
+#' package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param index integer, figure number
-#' @param doc Word document (see \code{officer} package)
+#' @param doc Word document (see \code{officer} package) in which to add the graph
+#' at the bookmark location.
+#' If doc is missing, \code{getSeason} returns the \code{ggplot2} object.
 #'
-#' @return Word doc or a ggplot2 preview
+#' @return Word doc or a ggplot2 object
 #'
-#' @seealso \code{\link{plotSeasonality}}
-#' \code{\link{AERparams}} \code{\link{MSCode}}
-#' \code{\link{getAER}} \code{\link{officer}}
+#' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+#' Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
+#' Internal functions: \code{\link{plotSeasonality}} \cr
+#' Default datasets: \code{\link{AERparams}} \code{\link{MSCode}}
 #'
 #' @examples
 #'
-#' # --- Please Note! AER plots use the font "Tahoma"
+#' # --- Please Note: ECDC AER plots use the font "Tahoma"
+#' # --- This is optional
 #' # --- To download this font, use the commands below
 #' library(extrafont)
 #' font_import(pattern = 'tahoma')
@@ -33,11 +54,19 @@
 #' # --- Plot using the default dataset
 #' getSeason()
 #'
+#' # --- Plot using external dataset
+#' # --- Please see examples in the vignette
+#' browseVignettes(package = "EpiReport")
+#'
 #' @export
 #'
-getSeason <- function(x,
-                      disease = "SALM", year = 2016,
-                      reportParameters, MSCode, index = 1, doc){
+getSeason <- function(x = EpiReport::SALM2016,
+                      disease = "SALM",
+                      year = 2016,
+                      reportParameters = EpiReport::AERparams,
+                      MSCode = EpiReport::MSCode,
+                      index = 1,
+                      doc){
 
   ## ----
   ## Setting default arguments if missing
@@ -54,6 +83,7 @@ getSeason <- function(x,
   ## ----
   ## Preparing the data
   ## ----
+
   x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
 
 
@@ -74,7 +104,7 @@ getSeason <- function(x,
     ## Filtering data
     ## ----
 
-    # --- Filtering on the disease of interest
+    # --- Filtering on the required variables
     x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
                             "TimeCode", "GeoCode", "N"))
     if(nrow(x) == 0) {
@@ -188,7 +218,7 @@ getSeason <- function(x,
       caption <- paste("Figure ", index, ". Distribution of ", pop,
                        reportParameters$Label, " cases by month, EU/EEA, ",
                        year, " and ", year-4, "\U2013", year-1, sep = "")
-      officer::cursor_bookmark(doc, id = "TS_TREND_BOOKMARK")
+      officer::cursor_bookmark(doc, id = "TS_SEASON_BOOKMARK")
       doc <- officer::body_add_par(doc,
                                    value = caption)
 
@@ -229,25 +259,36 @@ getSeason <- function(x,
 }
 
 
-#' AER Seasonal line graph
+#' Seasonality line graph
 #'
-#' This function draws a line graph describing the seasonality of the selected disease,
-#' using the AER style.
+#' This function draws a line graph describing the seasonality of the selected disease
+#' over the past 5 years. \cr
+#' The graph includes the distribution of cases, by month, over the past five years, with:
+#' \itemize{
+#'    \item{\code{yvar}: }{The number of cases by month in the reference year (green solid line)}
+#'    \item{\code{mean4years}: }{The mean number of cases by month in the four previous years (grey dashed line)}
+#'    \item{\code{min4years}: }{The minimum number of cases by month in the four previous years (grey area)}
+#'    \item{\code{max4years}: }{The maximum number of cases by month in the four previous years (grey area)}
+#' }
+#' Expects aggregated data and pre-calculated min, max and mean figures.
 #'
 #' @param data dataframe containing the variables to plot
-#' @param xvar character string, variable on the x-axis in quotes (default "TimeCode")
-#' @param yvar character string, variable on the y-axis in quotes (default "N")
-#' @param min4years character string, variable including the minimum
-#' number of cases over the past 4 years in quotes (default "Min4Years")
-#' @param max4years character string, variable including the maximum
-#' number of cases over the past 4 years in quotes in quotes (default "Max4Years")
-#' @param mean4years character string, variable including the mean of the
-#' number of cases over the past 4 years in quotes in quotes (default "Mean4Years")
-#' @param year numeric, year to produce the report for (default 2016)
+#' @param xvar character string, name of the time variable on the x-axis in quotes
+#' (default \code{"TimeCode"})
+#' @param yvar character string, name of the variable to plot on the y-axis in quotes
+#' (default \code{"N"}), number of cases by month in the reference year (green solid line)
+#' @param min4years character string, name of the variable to plot in quotes including the minimum
+#' number of cases by month over the past 4 years (default \code{"Min4Years"})
+#' @param max4years character string, name of the variable to plot in quotes including the maximum
+#' number of cases by month over the past 4 years (default \code{"Max4Years"})
+#' @param mean4years character string, name of the variable to plot in quotes including the mean of the
+#' number of cases by month over the past 4 years (default \code{"Mean4Years"})
+#' @param year numeric, year to produce the graph for (default \code{2016}).
 #'
 #' @keywords seasonality
 #'
-#' @seealso \code{\link{getSeason}} \code{\link{getAER}}
+#' @seealso Global function: \code{\link{getSeason}}  \cr
+#' Required Packages: \code{\link{ggplot2}}
 #'
 #' @export
 #'
@@ -259,10 +300,14 @@ plotSeasonality <- function(data,
                             mean4years = "Mean4Years",
                             year = 2016){
 
+
   # --- Setting breaks for the time series to be nice
+
   FIGTSBREAKS <- pretty(seq(0,
                             max(data[[max4years]], data[[yvar]]),
                             by = max(data[[max4years]], data[[yvar]])/7))
+
+  # --- Plotting
 
   p <- ggplot2::ggplot(data, ggplot2::aes(data[[xvar]])) +
     ggplot2::geom_ribbon(

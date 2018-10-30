@@ -2,7 +2,7 @@
 % Please edit documentation in R/internal_functions.R
 \name{toCapTitle}
 \alias{toCapTitle}
-\title{Capitalise the first letter}
+\title{Capitalise first letter}
 \usage{
 toCapTitle(str)
 }
@@ -13,7 +13,7 @@ toCapTitle(str)
 character string
 }
 \description{
-Capitalise the first letter of a character string
+Capitalise the first letter of a character string in order to use it as title
 }
 \examples{
 my_title <- "number of salmonellosis cases by age group"

@@ -1,27 +1,49 @@
-#' Get the Trend of reported/confirmed cases graph
+#' Get disease-specific trend plot: trend and number of cases by month
 #'
 #' Function returning the plot describing the trend of the disease over time
-#' that will be included in the Annual Epidemiological Report (AER)
-#' (see reports already available on the ECDC dedicated web page
-#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
+#' that will be included epidemiological report at the bookmark location
+#' \code{'TS_TREND_BOOKMARK'} on the template report. \cr
+#' \cr
+#' The graph includes the number of cases at EU/EEA level, by month,
+#' over the past five years, with:
+#' \itemize{
+#'    \item{}{The number of cases by month over the 5-year period (grey solid line)}
+#'    \item{}{The 12-month moving average of the number of cases by month (green solid line)}
+#' }
+#' (see ECDC reports
+#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param x dataframe, raw disease-specific dataset (see more information in the vignette)
-#' (default reportParameters <- EpiReport::SALM2016)
-#' @param disease character string, disease name (default "SALM")
-#' @param year numeric, year to produce the report for (default 2016)
-#' @param reportParameters dataset of parameters for the report
-#' (default reportParameters <- EpiReport::AERparams)
-#' @param MSCode dataset containing the correspondence table of geographical
-#' code and labels (default MSCode <- EpiReport::MSCode)
+#' @param x dataframe, raw disease-specific dataset (see specification of the
+#' dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
+#' (default \code{SALM2016})
+#' @param disease character string, disease code (default \code{"SALM"}).
+#' Please make sure the disease code is included in the disease-specific dataset x
+#' in the \code{HealthTopicCode} variable.
+#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' Please make sure the year is included in the disease-specific dataset x
+#' in the \code{TimeCode} variable.
+#' @param reportParameters dataframe, dataset including the required parameters
+#' for the graph and report production (default \code{AERparams}) (see specification
+#' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
+#' @param MSCode dataframe, correspondence table of GeoCode names and codes
+#' (default \code{MSCode}) (see specification of the dataset in the
+#' package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param index integer, figure number
-#' @param doc Word document (see \code{officer} package)
+#' @param doc Word document (see \code{officer} package) in which to add the graph
+#' at the bookmark location.
+#' If doc is missing, \code{getTrend} returns the \code{ggplot2} object.
+#'
 #' @return Word doc or a ggplot2 preview
-#' @seealso \code{\link{plotTS12MAvg}}
-#' \code{\link{AERparams}} \code{\link{MSCode}}
-#' \code{\link{getAER}} \code{\link{officer}}
+#'
+#' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+#' Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
+#' Internal functions: \code{\link{plotTS12MAvg}} \cr
+#' Default datasets: \code{\link{AERparams}} \code{\link{MSCode}}
+#'
 #' @examples
 #'
-#' # --- Please Note! AER plots use the font "Tahoma"
+#' # --- Please Note: AER plots use the font "Tahoma"
+#' # --- This is optional
 #' # --- To download this font, use the commands below
 #' library(extrafont)
 #' font_import(pattern = 'tahoma')
@@ -30,10 +52,19 @@
 #' # --- Plot using the default dataset
 #' getTrend()
 #'
+#' # --- Plot using external dataset
+#' # --- Please see examples in the vignette
+#' browseVignettes(package = "EpiReport")
+#'
 #' @export
-getTrend <- function(x,
-                     disease = "SALM", year = 2016,
-                     reportParameters, MSCode, index = 1, doc){
+#'
+getTrend <- function(x = EpiReport::SALM2016,
+                     disease = "SALM",
+                     year = 2016,
+                     reportParameters = EpiReport::AERparams,
+                     MSCode = EpiReport::MSCode,
+                     index = 1,
+                     doc){
 
   ## ----
   ## Setting default arguments if missing
@@ -50,6 +81,7 @@ getTrend <- function(x,
   ## ----
   ## Preparing the data
   ## ----
+
   x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
 
 
@@ -70,7 +102,7 @@ getTrend <- function(x,
     ## Filtering data
     ## ----
 
-    # --- Filtering on the disease of interest
+    # --- Filtering on the required variables
     x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
                             "TimeCode", "GeoCode", "N"))
     if(nrow(x) == 0) {
@@ -209,20 +241,30 @@ getTrend <- function(x,
 
 
 
-#' AER Time series with 12-month moving average
+#' Time series with 12-month moving average
 #'
-#' This function draws a line graph with 12-month moving average, using the AER style.
+#' This function draws a line graph describing the trend of the selected disease
+#' over the past 5 years. \cr
+#' The graph includes the trend and  number of cases at EU/EEA level, by month,
+#' over the past five years, with:
+#' \itemize{
+#'    \item{\code{yvar}: }{The number of cases by month over the 5-year period (grey solid line)}
+#'    \item{\code{movAverage}: }{The 12-month moving average of the number of cases by month (green solid line)}
+#' }
 #' Expects aggregated data and pre-calculated 12-month moving average.
 #'
 #' @param data dataframe containing the variables to plot
-#' @param xvar character string, variable on the x-axis in quotes (default "TimeCode")
-#' @param yvar character string, variable on the y-axis in quotes (default "N")
-#' @param movAverage character string, variable including
-#' the moving average per each time unit in quotes (default "MAV")
+#' @param xvar character string, name of the time variable to plot on the x-axis
+#' in quotes (default \code{"TimeCode"})
+#' @param yvar character string, name of the variable to plot on the y-axis in quotes
+#' (default \code{"N"}), number of cases by month over the 5-year period (grey solid line)
+#' @param movAverage character string, name of the variable to plot in quotes including
+#' the moving average per each time unit (default \code{"MAV"})
 #'
 #' @keywords moving average, trend
 #'
-#' @seealso \code{\link{getTrend}} \code{\link{getAER}}
+#' @seealso Global function: \code{\link{getTrend}}  \cr
+#' Required Packages: \code{\link{ggplot2}}
 #'
 #' @export
 #'
@@ -232,12 +274,8 @@ plotTS12MAvg <- function(data,
                          movAverage = "MAV"){
 
 
-  # xvar <- deparse(substitute(xvar))
-  # yvar <- deparse(substitute(yvar))
-  # movAverage <-deparse(substitute(movAverage))
-
-
   # --- Breaks for the Y axis
+
   FIGTSBREAKS <- pretty(seq(0,
                             max(data[[yvar]]),
                             by = max(data[[yvar]])/7))
@@ -280,6 +318,7 @@ plotTS12MAvg <- function(data,
                     colour = ggplot2::guide_legend(reverse = TRUE))
 
   return(p)
+
 }
 
 

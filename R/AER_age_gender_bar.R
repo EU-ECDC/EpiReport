@@ -1,29 +1,49 @@
-#' Get the Age and Gender bar graph
+#' Get disease-specific age and gender bar graph
 #'
 #' Function returning the age and gender bar graph that will be included
-#' in the Annual Epidemiological Report (AER)
-#' (see reports already available on the ECDC dedicated web page
-#' https://ecdc.europa.eu/en/annual-epidemiological-reports)
+#' in the epidemiological report at the bookmark location \code{'BARGPH_AGEGENDER_BOOKMARK'}
+#' of the template report. \cr
+#' The bar graph presents the distribution of cases at EU/EEA level using either:
+#' \itemize{
+#'    \item{\code{AG-COUNT}: }{The number of cases by age and gender}
+#'    \item{\code{AG-RATE}: }{The rate per 100 000 cases by age and gender}
+#'    \item{\code{AG-PROP}}{The proportion of cases by age and gender}
+#'    \item{\code{A-RATE}: }{The rate per 100 000 cases by age only}
+#' }
+#' The choice of the type of bar graph is set in the report parameters table \code{AERparams}. \cr
+#' (see ECDC reports
+#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param x dataframe, raw disease-specific dataset
-#' (see more information in the vignette)
-#' @param disease character string, disease name (default "SALM")
-#' @param year numeric, year to produce the report for (default 2016)
-#' @param reportParameters dataset of parameters for the report
-#' (default reportParameters <- EpiReport::AERparams)
-#' @param geoCode character string, geoCode to run the analysis on
-#' (default "EU_EEA31")
+#' @param x ddataframe, raw disease-specific dataset (see specification of the
+#' dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
+#' (default \code{SALM2016})
+#' @param disease character string, disease code (default \code{"SALM"}).
+#' Please make sure the disease code is included in the disease-specific dataset x
+#' in the \code{HealthTopicCode} variable.
+#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' Please make sure the year is included in the disease-specific dataset x
+#' in the \code{TimeCode} variable.
+#' @param reportParameters dataframe, dataset including the required parameters
+#' for the graph and report production (default \code{AERparams}) (see specification
+#' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
+#' @param geoCode character string, GeoCode to run the analysis on
+#' (default \code{"EU_EEA31"})
 #' @param index integer, figure number
-#' @param doc Word document (see \code{officer} package)
+#' @param doc Word document (see \code{officer} package) in which to add the graph
+#' at the bookmark location.
+#' If doc is missing, \code{getAgeGender} returns the \code{ggplot2} object.
 #'
-#' @return Word doc or a ggplot2 preview
+#' @return Word doc or a ggplot2 object
 #'
-#' @seealso \code{\link{plotAgeGender}} \code{\link{plotAge}}
-#' \code{\link{AERparams}}
+#' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+#' Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
+#' Internal functions: \code{\link{plotAgeGender}} \code{\link{plotAge}} \cr
+#' Default datasets: \code{\link{AERparams}}
 #'
 #' @examples
 #'
-#' # --- Please note! AER plots use the font "Tahoma"
+#' # --- Please note: AER plots use the font "Tahoma"
+#' # --- This is optional
 #' # --- To download this font, use the commands below
 #' library(extrafont)
 #' font_import(pattern = 'tahoma')
@@ -32,11 +52,19 @@
 #' # --- Plot using the default dataset
 #' getAgeGender()
 #'
+#' # --- Plot using external dataset
+#' # --- Please see examples in the vignette
+#' browseVignettes(package = "EpiReport")
+#'
 #' @export
 #'
-getAgeGender <- function(x,
-                         disease = "SALM", year = 2016,
-                         reportParameters, geoCode = "EU_EEA31", index = 1, doc){
+getAgeGender <- function(x = EpiReport::SALM2016,
+                         disease = "SALM",
+                         year = 2016,
+                         reportParameters = EpiReport::AERparams,
+                         geoCode = "EU_EEA31",
+                         index = 1,
+                         doc){
 
   ## ----
   ## Setting default arguments if missing
@@ -53,6 +81,7 @@ getAgeGender <- function(x,
   ## ----
   ## Preparing the data
   ## ----
+
   x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
 
 
@@ -74,7 +103,7 @@ getAgeGender <- function(x,
     ## Filtering data
     ## ----
 
-    # --- Filtering on the disease of interest
+    # --- Filtering on the required variables
     x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
                             "TimeCode", "GeoCode",
                             "XValue", "XLabel", "YValue", "YLabel", "ZValue"))
@@ -99,15 +128,15 @@ getAgeGender <- function(x,
     # --- Filtering on the year of interest
     x <- dplyr::filter(x, x$TimeCode == year)
     if(nrow(x) == 0) {
-      stop(paste('The dataset does not include the year of interest "', year
-                 ,'" for the selected disease "', disease, '".'))
+      stop(paste('The dataset does not include the year of interest "', year,
+                 '" for the selected disease "', disease, '".'))
     }
 
     # --- Filtering on the GeoCode of interest
     x <- dplyr::filter(x, x$GeoCode == geoCode)
     if(nrow(x) == 0) {
-      stop(paste('The dataset does not include the geoCode of interest "', geoCode
-                 ,'" for the selected disease "', disease, '".'))
+      stop(paste('The dataset does not include the geoCode of interest "', geoCode,
+                 '" for the selected disease "', disease, '".'))
     }
 
 
@@ -123,8 +152,8 @@ getAgeGender <- function(x,
                            paste(reportParameters$MeasurePopulation, "AGE_GENDER.RATE", sep="."))
       if(nrow(x) == 0) {
         stop(paste('The dataset does not include the required MeasureCode "',
-                   paste(reportParameters$MeasurePopulation, "AGE_GENDER.RATE", sep=".")
-                   ,'" for the selected disease "', disease, '".'))
+                   paste(reportParameters$MeasurePopulation, "AGE_GENDER.RATE", sep="."),
+                   '" for the selected disease "', disease, '".'))
       }
     }
 
@@ -141,8 +170,8 @@ getAgeGender <- function(x,
                            paste(reportParameters$MeasurePopulation, "AGE_GENDER.COUNT", sep="."))
       if(nrow(x) == 0) {
         stop(paste('The dataset does not include the required MeasureCode "',
-                   paste(reportParameters$MeasurePopulation, "AGE_GENDER.COUNT", sep=".")
-                   ,'" for the selected disease "', disease, '".'))
+                   paste(reportParameters$MeasurePopulation, "AGE_GENDER.COUNT", sep="."),
+                   '" for the selected disease "', disease, '".'))
       }
     }
 
@@ -160,8 +189,8 @@ getAgeGender <- function(x,
                                  "AGE_GENDER.PROPORTION", sep="."))
       if(nrow(x) == 0) {
         stop(paste('The dataset does not include the required MeasureCode "',
-                   paste(reportParameters$MeasurePopulation, "AGE_GENDER.PROPORTION", sep=".")
-                   ,'" for the selected disease "', disease, '".'))
+                   paste(reportParameters$MeasurePopulation, "AGE_GENDER.PROPORTION", sep="."),
+                   '" for the selected disease "', disease, '".'))
       }
 
     }
@@ -178,8 +207,8 @@ getAgeGender <- function(x,
                            paste(reportParameters$MeasurePopulation, "AGE.RATE", sep="."))
       if(nrow(x) == 0) {
         stop(paste('The dataset does not include the required MeasureCode "',
-                   paste(reportParameters$MeasurePopulation, "AGE.RATE", sep=".")
-                   ,'" for the selected disease "', disease, '".'))
+                   paste(reportParameters$MeasurePopulation, "AGE.RATE", sep="."),
+                   '" for the selected disease "', disease, '".'))
       }
 
     }
@@ -281,26 +310,35 @@ getAgeGender <- function(x,
 
 
 
-#' AER Age and Gender bar graph
+#' Age and Gender bar graph
 #'
-#' This function draws a barchart by age group and gender (or possibly other grouping),
-#' using the AER style.
+#' This function draws a bar graph of the distribution of cases by age group
+#' and gender (or possibly other grouping). \cr
+#' The bar graph presents the distribution of cases at EU/EEA level using either:
+#' \itemize{
+#'    \item{\code{AG-COUNT}: }{The number of cases by age and gender}
+#'    \item{\code{AG-RATE}: }{The rate per 100 000 cases by age and gender}
+#'    \item{\code{AG-PROP}: }{The proportion of cases by age and gender}
+#' }
 #' Expects aggregated data.
 #'
 #' @param data dataframe containing the variables to plot
-#' @param xvar character string, variable on the x-axis in quotes (default "XLabel")
-#' @param yvar character string, variable on the y-axis in quotes (default "ZValue")
+#' @param xvar character string, name of the variable to plot on the x-axis in quotes
+#' (default \code{"XLabel"})
+#' @param yvar character string, name of the variable to plot on the y-axis in quotes
+#' (default \code{"ZValue"})
 #' @param fill_color1 character string, hexadecimal colour to use in the graph for bar 1;
-#' (default to ECDC green "#65B32E")
-#' @param fill_color2 character string, hexadecimal colour to use in the graph for bar 1;
-#' (default to ECDC green "#7CBDC4")
-#' @param group character string, the grouping variable in quotes, e.g. gender as in the AER.
-#' (default "YLabel)
-#' @param ytitle character string, y-axis title; (default "Rate").
+#' (default to ECDC green \code{"#65B32E"})
+#' @param fill_color2 character string, hexadecimal colour to use in the graph for bar 2;
+#' (default to ECDC blue \code{"#7CBDC4"})
+#' @param group character string, name of the grouping variable in quotes, e.g. gender.
+#' (default \code{"YLabel"})
+#' @param ytitle character string, y-axis title; (default \code{"Rate"}).
 #'
 #' @keywords age gender bargraph
 #'
-#' @seealso \code{\link{getAgeGender}} and \code{\link{plotAge}}
+#' @seealso Global function: \code{\link{getAgeGender}}  \cr
+#' Required Packages: \code{\link{ggplot2}}
 #'
 #' @examples
 #' # --- Create dummy data
@@ -331,13 +369,14 @@ plotAgeGender <- function(data,
                           fill_color2 = "#7CBDC4",
                           ytitle  = "Rate") {
 
-  # xvar <-deparse(substitute(xvar))
-  # yvar <-deparse(substitute(yvar))
-  # group <-deparse(substitute(group))
+
+  # --- Breaks for the Y axis
 
   FIGBREAKS <- pretty(seq(0,
                           max(data[[yvar]]),
                           by = max(data[[yvar]])/5))
+
+  # --- Plotting
 
   p <- ggplot2::ggplot(data = data,
                        ggplot2::aes(x = data[[xvar]], y = data[[yvar]], fill = data[[group]])) +
@@ -368,21 +407,26 @@ plotAgeGender <- function(data,
 
 
 
-#' AER Age bar graph
+#' Age bar graph
 #'
-#' This function draws a barchart by age group, using the AER style.
+#' This function draws a bar graph by age group (or possibly other grouping). \cr
+#' The bar graph presents the distribution of cases at EU/EEA level
+#' using the rate per 100 000 cases by age. \cr
 #' Expects aggregated data.
 #'
 #' @param data dataframe containing the variables to plot
-#' @param xvar character string, variable on the x-axis in quotes (default "XLabel")
-#' @param yvar character string, variable on the y-axis in quotes (default "YValue")
+#' @param xvar character string, name of the variable to plot on the x-axis in quotes
+#' (default \code{"XLabel"})
+#' @param yvar character string, name of the variable to plot on the y-axis in quotes
+#' (default \code{"YValue"})
 #' @param fill_color1 character string, hexadecimal colour to use in the graph;
-#' (default to ECDC green "#65B32E")
-#' @param ytitle character string, y-axis title; (default "Rate").
+#' (default to ECDC green \code{"#65B32E"})
+#' @param ytitle character string, y-axis title; (default \code{"Rate"}).
 #'
 #' @keywords age bargraph
 #'
-#' @seealso \code{\link{getAgeGender}} and \code{\link{plotAgeGender}}
+#' @seealso Global function: \code{\link{getAgeGender}}  \cr
+#' Required Packages: \code{\link{ggplot2}}
 #'
 #' @examples
 #'
@@ -404,13 +448,14 @@ plotAge <- function(data,
                     fill_color1 = "#65B32E",
                     ytitle  = "Rate") {
 
-  # xvar <-deparse(substitute(xvar))
-  # yvar <-deparse(substitute(yvar))
-  # group <-deparse(substitute(group))
+
+  # --- Breaks for the Y axis
 
   FIGBREAKS <- pretty(seq(0,
                           max(data[[yvar]]),
                           by = max(data[[yvar]])/5))
+
+  # --- Plotting
 
   p <- ggplot2::ggplot(data = data,
                        ggplot2::aes(x = data[[xvar]], y = data[[yvar]])) +

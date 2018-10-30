@@ -2,7 +2,7 @@
 % Please edit documentation in R/AER_age_gender_bar.R
 \name{plotAgeGender}
 \alias{plotAgeGender}
-\title{AER Age and Gender bar graph}
+\title{Age and Gender bar graph}
 \usage{
 plotAgeGender(data, xvar = "XLabel", yvar = "ZValue",
   group = "YLabel", fill_color1 = "#65B32E", fill_color2 = "#7CBDC4",
@@ -11,24 +11,32 @@ plotAgeGender(data, xvar = "XLabel", yvar = "ZValue",
 \arguments{
 \item{data}{dataframe containing the variables to plot}
 
-\item{xvar}{character string, variable on the x-axis in quotes (default "XLabel")}
+\item{xvar}{character string, name of the variable to plot on the x-axis in quotes
+(default \code{"XLabel"})}
 
-\item{yvar}{character string, variable on the y-axis in quotes (default "ZValue")}
+\item{yvar}{character string, name of the variable to plot on the y-axis in quotes
+(default \code{"ZValue"})}
 
-\item{group}{character string, the grouping variable in quotes, e.g. gender as in the AER.
-(default "YLabel)}
+\item{group}{character string, name of the grouping variable in quotes, e.g. gender.
+(default \code{"YLabel"})}
 
 \item{fill_color1}{character string, hexadecimal colour to use in the graph for bar 1;
-(default to ECDC green "#65B32E")}
+(default to ECDC green \code{"#65B32E"})}
 
-\item{fill_color2}{character string, hexadecimal colour to use in the graph for bar 1;
-(default to ECDC green "#7CBDC4")}
+\item{fill_color2}{character string, hexadecimal colour to use in the graph for bar 2;
+(default to ECDC blue \code{"#7CBDC4"})}
 
-\item{ytitle}{character string, y-axis title; (default "Rate").}
+\item{ytitle}{character string, y-axis title; (default \code{"Rate"}).}
 }
 \description{
-This function draws a barchart by age group and gender (or possibly other grouping),
-using the AER style.
+This function draws a bar graph of the distribution of cases by age group
+and gender (or possibly other grouping). \cr
+The bar graph presents the distribution of cases at EU/EEA level using either:
+\itemize{
+   \item{\code{AG-COUNT}: }{The number of cases by age and gender}
+   \item{\code{AG-RATE}: }{The rate per 100 000 cases by age and gender}
+   \item{\code{AG-PROP}: }{The proportion of cases by age and gender}
+}
 Expects aggregated data.
 }
 \examples{
@@ -52,7 +60,8 @@ plotAgeGender(mydat,
 
 }
 \seealso{
-\code{\link{getAgeGender}} and \code{\link{plotAge}}
+Global function: \code{\link{getAgeGender}}  \cr
+Required Packages: \code{\link{ggplot2}}
 }
 \keyword{age}
 \keyword{bargraph}

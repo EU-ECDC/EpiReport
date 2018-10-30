@@ -2,41 +2,60 @@
 % Please edit documentation in R/AER_age_gender_bar.R
 \name{getAgeGender}
 \alias{getAgeGender}
-\title{Get the Age and Gender bar graph}
+\title{Get disease-specific age and gender bar graph}
 \usage{
-getAgeGender(x, disease = "SALM", year = 2016, reportParameters,
-  geoCode = "EU_EEA31", index = 1, doc)
+getAgeGender(x = EpiReport::SALM2016, disease = "SALM", year = 2016,
+  reportParameters = EpiReport::AERparams, geoCode = "EU_EEA31",
+  index = 1, doc)
 }
 \arguments{
-\item{x}{dataframe, raw disease-specific dataset
-(see more information in the vignette)}
+\item{x}{ddataframe, raw disease-specific dataset (see specification of the
+dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
+(default \code{SALM2016})}
 
-\item{disease}{character string, disease name (default "SALM")}
+\item{disease}{character string, disease code (default \code{"SALM"}).
+Please make sure the disease code is included in the disease-specific dataset x
+in the \code{HealthTopicCode} variable.}
 
-\item{year}{numeric, year to produce the report for (default 2016)}
+\item{year}{numeric, year to produce the graph for (default \code{2016}).
+Please make sure the year is included in the disease-specific dataset x
+in the \code{TimeCode} variable.}
 
-\item{reportParameters}{dataset of parameters for the report
-(default reportParameters <- EpiReport::AERparams)}
+\item{reportParameters}{dataframe, dataset including the required parameters
+for the graph and report production (default \code{AERparams}) (see specification
+of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})}
 
-\item{geoCode}{character string, geoCode to run the analysis on
-(default "EU_EEA31")}
+\item{geoCode}{character string, GeoCode to run the analysis on
+(default \code{"EU_EEA31"})}
 
 \item{index}{integer, figure number}
 
-\item{doc}{Word document (see \code{officer} package)}
+\item{doc}{Word document (see \code{officer} package) in which to add the graph
+at the bookmark location.
+If doc is missing, \code{getAgeGender} returns the \code{ggplot2} object.}
 }
 \value{
-Word doc or a ggplot2 preview
+Word doc or a ggplot2 object
 }
 \description{
 Function returning the age and gender bar graph that will be included
-in the Annual Epidemiological Report (AER)
-(see reports already available on the ECDC dedicated web page
-https://ecdc.europa.eu/en/annual-epidemiological-reports)
+in the epidemiological report at the bookmark location \code{'BARGPH_AGEGENDER_BOOKMARK'}
+of the template report. \cr
+The bar graph presents the distribution of cases at EU/EEA level using either:
+\itemize{
+   \item{\code{AG-COUNT}: }{The number of cases by age and gender}
+   \item{\code{AG-RATE}: }{The rate per 100 000 cases by age and gender}
+   \item{\code{AG-PROP}}{The proportion of cases by age and gender}
+   \item{\code{A-RATE}: }{The rate per 100 000 cases by age only}
+}
+The choice of the type of bar graph is set in the report parameters table \code{AERparams}. \cr
+(see ECDC reports
+\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 
-# --- Please note! AER plots use the font "Tahoma"
+# --- Please note: AER plots use the font "Tahoma"
+# --- This is optional
 # --- To download this font, use the commands below
 library(extrafont)
 font_import(pattern = 'tahoma')
@@ -45,8 +64,14 @@ loadfonts(device = "win")
 # --- Plot using the default dataset
 getAgeGender()
 
+# --- Plot using external dataset
+# --- Please see examples in the vignette
+browseVignettes(package = "EpiReport")
+
 }
 \seealso{
-\code{\link{plotAgeGender}} \code{\link{plotAge}}
-\code{\link{AERparams}}
+Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
+Internal functions: \code{\link{plotAgeGender}} \code{\link{plotAge}} \cr
+Default datasets: \code{\link{AERparams}}
 }

@@ -10,14 +10,14 @@ filterDisease(dis, reportParameters)
 \item{dis}{character string, disease code}
 
 \item{reportParameters}{dataset of parameters for the report
-(default \code{EpiReport::AERparams})}
+(default \code{AERparams})}
 }
 \value{
 dataframe with one row (from the \code{AERparams} dataframe)
 corresponding to the parameters of the selected disease
 }
 \description{
-Filter disease parameters
+Filter the table of parameters for the report on the given disease
 }
 \examples{
 disease <- "SALM"

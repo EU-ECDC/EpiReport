@@ -2,43 +2,50 @@
 % Please edit documentation in R/AER_maps.R
 \name{includeMap}
 \alias{includeMap}
-\title{Include the PNG map (Word)}
+\title{Includind PNG map in the Microsoft Word template}
 \usage{
 includeMap(disease, year, reportParameters, index, pathPNG, doc, pop,
   namePNGsuffix, unit, mapBookmark, captionBookmark)
 }
 \arguments{
-\item{disease}{character string, disease name (default "SALM")}
+\item{disease}{character string, disease code (default \code{"SALM"}).}
 
-\item{year}{numeric, year to produce the report for (default 2016)}
+\item{year}{numeric, year to produce the graph for (default \code{2016}).}
 
-\item{reportParameters}{dataset of parameters for the report
-(default reportParameters <- EpiReport::AERparams)}
+\item{reportParameters}{dataframe, dataset including the required parameters
+for the graph and report production (default \code{AERparams}) (see specification
+of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})}
 
 \item{index}{integer, figure number}
 
-\item{pathPNG}{character string, full path to the folder containing the maps in PNG}
+\item{pathPNG}{character string, full path to the folder containing the maps in PNG
+(default 'maps' folder included in the package \code{system.file("maps", package = "EpiReport")})}
 
-\item{doc}{Word document (see \code{officer} package)}
+\item{doc}{Word document (see \code{officer} package) in which to add
+the maps at the bookmark location}
 
-\item{pop}{character string, label of the type of population used in the caption}
+\item{pop}{character string, label of the type of population to use in the caption
+(e.g. \code{confirmed})}
 
-\item{namePNGsuffix}{character string, suffix of the PNG file name of the map}
+\item{namePNGsuffix}{character string, suffix of the PNG file name of the map
+(i.e. \code{"COUNT"}, \code{"RATE"} or \code{"AGESTANDARDISED"}.)}
 
-\item{unit}{character string, label of the unit used in the caption}
+\item{unit}{character string, label of the unit used in the caption
+(e.g. \code{"per 100 000 population"})}
 
-\item{mapBookmark}{character string, label of the bookmark in the Word document}
+\item{mapBookmark}{character string, label of the bookmark where to add
+the map in the Word document}
 
-\item{captionBookmark}{character string, label of the bookmark for the caption in the Word document}
+\item{captionBookmark}{character string, label of the bookmark where to add
+the caption in the Word document}
 }
 \value{
 Word doc
 }
 \description{
 Function including the disease-specific PNG map in the Word document
-at the specific bookmark location
+at the specific bookmark location.
 }
 \seealso{
-\code{\link{getMap}} \code{\link{previewMap}}
-\code{\link{getAER}}
+Global function: \code{\link{getMap}}
 }

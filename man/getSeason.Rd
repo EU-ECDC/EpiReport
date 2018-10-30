@@ -2,41 +2,62 @@
 % Please edit documentation in R/AER_seasonality_graph.R
 \name{getSeason}
 \alias{getSeason}
-\title{Get the Seasonality graph}
+\title{Get disease-specific seasonality graph: distribution of cases by month}
 \usage{
-getSeason(x, disease = "SALM", year = 2016, reportParameters, MSCode,
+getSeason(x = EpiReport::SALM2016, disease = "SALM", year = 2016,
+  reportParameters = EpiReport::AERparams, MSCode = EpiReport::MSCode,
   index = 1, doc)
 }
 \arguments{
-\item{x}{dataframe, raw disease-specific dataset (see more information in the vignette)
-(default reportParameters <- EpiReport::SALM2016)}
+\item{x}{dataframe, raw disease-specific dataset (see specification of the
+dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
+(default \code{SALM2016})}
 
-\item{disease}{character string, disease name (default "SALM")}
+\item{disease}{character string, disease code (default \code{"SALM"}).
+Please make sure the disease code is included in the disease-specific dataset x
+in the \code{HealthTopicCode} variable.}
 
-\item{year}{numeric, year to produce the report for (default 2016)}
+\item{year}{numeric, year to produce the graph for (default \code{2016}).
+Please make sure the year is included in the disease-specific dataset x
+in the \code{TimeCode} variable.}
 
-\item{reportParameters}{dataset of parameters for the report
-(default reportParameters <- EpiReport::AERparams)}
+\item{reportParameters}{dataframe, dataset including the required parameters
+for the graph and report production (default \code{AERparams}) (see specification
+of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})}
 
-\item{MSCode}{dataset containing the correspondence table of geographical code and labels
-(default MSCode <- EpiReport::MSCode)}
+\item{MSCode}{dataframe, correspondence table of GeoCode names and codes
+(default \code{MSCode}) (see specification of the dataset in the
+package vignette with \code{browseVignettes(package = "EpiReport")})}
 
 \item{index}{integer, figure number}
 
-\item{doc}{Word document (see \code{officer} package)}
+\item{doc}{Word document (see \code{officer} package) in which to add the graph
+at the bookmark location.
+If doc is missing, \code{getSeason} returns the \code{ggplot2} object.}
 }
 \value{
-Word doc or a ggplot2 preview
+Word doc or a ggplot2 object
 }
 \description{
 Function returning the plot describing the seasonality of the disease
-that will be included in the Annual Epidemiological Report (AER)
-(see reports already available on the ECDC dedicated web page
-https://ecdc.europa.eu/en/annual-epidemiological-reports)
+that will be included in the epidemiological report at the bookmark location
+\code{'TS_SEASON_BOOKMARK'} of the template report. \cr
+\cr
+The graph includes the distribution of cases at EU/EEA level, by month,
+over the past five years, with:
+\itemize{
+   \item{}{The number of cases by month in the reference year (green solid line)}
+   \item{}{The mean number of cases by month in the four previous years (grey dashed line)}
+   \item{}{The minimum number of cases by month in the four previous years (grey area)}
+   \item{}{The maximum number of cases by month in the four previous years (grey area)}
+}
+(see ECDC reports
+\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 
-# --- Please Note! AER plots use the font "Tahoma"
+# --- Please Note: ECDC AER plots use the font "Tahoma"
+# --- This is optional
 # --- To download this font, use the commands below
 library(extrafont)
 font_import(pattern = 'tahoma')
@@ -45,9 +66,14 @@ loadfonts(device = "win")
 # --- Plot using the default dataset
 getSeason()
 
+# --- Plot using external dataset
+# --- Please see examples in the vignette
+browseVignettes(package = "EpiReport")
+
 }
 \seealso{
-\code{\link{plotSeasonality}}
-\code{\link{AERparams}} \code{\link{MSCode}}
-\code{\link{getAER}} \code{\link{officer}}
+Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
+Internal functions: \code{\link{plotSeasonality}} \cr
+Default datasets: \code{\link{AERparams}} \code{\link{MSCode}}
 }

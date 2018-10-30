@@ -2,7 +2,7 @@
 % Please edit documentation in R/AER_age_gender_bar.R
 \name{plotAge}
 \alias{plotAge}
-\title{AER Age bar graph}
+\title{Age bar graph}
 \usage{
 plotAge(data, xvar = "XLabel", yvar = "YValue",
   fill_color1 = "#65B32E", ytitle = "Rate")
@@ -10,17 +10,21 @@ plotAge(data, xvar = "XLabel", yvar = "YValue",
 \arguments{
 \item{data}{dataframe containing the variables to plot}
 
-\item{xvar}{character string, variable on the x-axis in quotes (default "XLabel")}
+\item{xvar}{character string, name of the variable to plot on the x-axis in quotes
+(default \code{"XLabel"})}
 
-\item{yvar}{character string, variable on the y-axis in quotes (default "YValue")}
+\item{yvar}{character string, name of the variable to plot on the y-axis in quotes
+(default \code{"YValue"})}
 
 \item{fill_color1}{character string, hexadecimal colour to use in the graph;
-(default to ECDC green "#65B32E")}
+(default to ECDC green \code{"#65B32E"})}
 
-\item{ytitle}{character string, y-axis title; (default "Rate").}
+\item{ytitle}{character string, y-axis title; (default \code{"Rate"}).}
 }
 \description{
-This function draws a barchart by age group, using the AER style.
+This function draws a bar graph by age group (or possibly other grouping). \cr
+The bar graph presents the distribution of cases at EU/EEA level
+using the rate per 100 000 cases by age. \cr
 Expects aggregated data.
 }
 \examples{
@@ -37,7 +41,8 @@ plotAge(mydat,
 
 }
 \seealso{
-\code{\link{getAgeGender}} and \code{\link{plotAgeGender}}
+Global function: \code{\link{getAgeGender}}  \cr
+Required Packages: \code{\link{ggplot2}}
 }
 \keyword{age}
 \keyword{bargraph}

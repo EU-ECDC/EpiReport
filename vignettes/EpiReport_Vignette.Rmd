@@ -136,13 +136,13 @@ i.e. yearly data (e.g. 2001) or monthly data (e.g. 2001-01);
 * `GeoCode`: Character string, geographical level in coded format 
 (e.g. `AT` for Austria, `BE` for Belgium, `BG` for Bulgaria, 
 see also the `EpiReport::MSCode` table, correspondence table for Member State labels and codes);
-* `XLabel`: The label associated with the x-axis in the AER report
+* `XLabel`: The label associated with the x-axis in the epidemiological report
 (see `getAgeGender()` and `plotAgeGender()` bar graph for the age variable);
-* `YLabel`: The label associated with the y-axis in the AER report
+* `YLabel`: The label associated with the y-axis in the epidemiological report
 (see `getAgeGender()` and `plotAgeGender()` bar graph for the grouping variable gender);
 * `ZValue`: The value associated with the stratification of `XLabel` and `YLabel` 
 in the age and gender bar graph (see `getAgeGender()` and `plotAgeGender()`);
-* `YValue`: The value and the label associated with the y-axis in the AER report
+* `YValue`: The value associated with the y-axis in the epidemiological report
 (see `plotAge` bar graph for the variable age, or `getTableByMS()` for the number of cases, 
 rate or age-standardised rate in the table by Member States by year);
 * `N`: Integer, number of cases (see `getTrend()` and `getSeason()` line graph).
@@ -179,14 +179,14 @@ List of the main parameters included:
 with the health topic code from the disease-specific dataset (see Tab.1)
 * `MeasurePopulation`: Character string, population to present in the report: 
 either `ALL` cases or `CONFIRMED` cases only.
-* `TableUse`: Character string, specifying whether to include the table in the AER report and which table to include:
+* `TableUse`: Character string, specifying whether to include the table in the epidemiological report and which table to include:
     + `NO`: No table included
     + `COUNT`: Table presenting the __number of cases__ by Member State by year
     + `RATE`: Table presenting the __rates__ of cases by Member State by year
     + `ASR`: Table presenting the __age-standardised__ rates of cases 
     by Member State by year
 * `AgeGenderUse`: Character string, specifying whether to include the age and gender
-bar graph in the AER report and which type of graph to include:
+bar graph in the epidemiological report and which type of graph to include:
     + `NO`: No graph included
     + `AG-COUNT`: Bar graph presenting the __number of cases__ by age and gender
     + `AG-RATE`: Bar graph presenting the __rates__ of cases by age and gender
@@ -223,7 +223,7 @@ knitr::kable(my_dataset[sample(1:nrow(EpiReport::AERparams), 5), ],
 ### 1.3. Member States correspondence table dataset
 
 The internal dataset `EpiReport::MSCode` provides the correspondence table 
-of the geographical code used `GeoCode` in the disease dataset, 
+of the geographical code `GeoCode` used in the disease dataset, 
 and the geographical label `Country` to use throughout the report. 
 Additional information on the EU/EEA affiliation is also available in column `EUEEA`.
 
@@ -315,7 +315,7 @@ getTemplate(output_path = "C:/EpiReport/template")
 ```
 
 Then, apply the modifications required, save it and use it as a new Microsoft
-Word template when producing the AER report as described below.
+Word template when producing the epidemiological report as described below.
 
 ```{r, eval = FALSE}
 getAER(template = "C:/EpiReport/template/New_AER_Template.docx",
@@ -339,7 +339,7 @@ The ECDC annual epidemiological Report includes five types of outputs:
     + the number of cases only;
     + the number of cases and the corresponding rate  per 100 000 population or
     + the number of cases, the rate and the age-standardised rate  per 100 000 population.
-* __Seasonal plot__: Distribution of cases at EU/EEA level, by month,
+* __Seasonality plot__: Distribution of cases at EU/EEA level, by month,
 over the past five years.
 * __Trend plot__: Trend and number of cases at EU/EEA level, by month,
 over the past five years.
@@ -394,7 +394,7 @@ EpiReport::getTableByMS(x = ZIKV2016,
 
 
 
-### 3.2. Seasonal plot: distribution of cases by month
+### 3.2. Seasonality plot: distribution of cases by month
 
 The function `getSeason()` generates a ggplot (see package `ggplot2`) presenting 
 the distribution of cases at EU/EEA level, by month, over the past five years.
