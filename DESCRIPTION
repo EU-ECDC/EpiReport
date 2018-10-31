@@ -17,10 +17,10 @@ Description: Drafting an epidemiological report in Microsoft Word format for a g
   for Disease Prevention and Control. Through standalone functions, it is specifically 
   designed to generate each disease specific output presented in these reports and includes:
   - Table with the distribution of cases by Member State over the last five years
-  - Seasonal plot with the distribution of cases at the European Union / European Economic Area 
-  level, by month, over the past five years
-  - Trend plot with the trend and number of cases at the European Union / European Economic Area 
-  level, by month, over the past five years
+  - Seasonality plot with the distribution of cases at the European Union / European Economic Area level, 
+  by month, over the past five years
+  - Trend plot with the trend and number of cases at the European Union / European Economic Area level, 
+  by month, over the past five years
   - Age and gender bar graph with the distribution of cases at the European Union / European Economic Area level
   Two types of datasets can be used:
   - The default dataset of Salmonellosis 2012-2016 data;
