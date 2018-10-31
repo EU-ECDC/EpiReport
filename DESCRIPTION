@@ -12,11 +12,10 @@ Authors@R: c(
           role = c("aut", "ctr"), email = "e.kissling@epiconcept.fr"),
   person( given = "Joana", family = "Gomes Dias", 
           role = c("aut", "fnd"), email = "joana.gomes.dias@ecdc.europa.eu", comment = "Project manager")) 
-Description: The 'EpiReport' package allows the user to draft an epidemiological report 
-  in Microsoft Word format for a given disease, similar to the Annual 
-  Epidemiological Reports published by the European Centre for Disease Prevention and Control. 
-  Through standalone functions, the package is specifically designed 
-  The package includes:
+Description: Drafting an epidemiological report in Microsoft Word format for a given disease, 
+  similar to the Annual Epidemiological Reports published by the European Centre 
+  for Disease Prevention and Control. Through standalone functions, it is specifically 
+  designed to generate each disease specific output presented in these reports and includes:
   - Table with the distribution of cases by Member State over the last five years
   - Seasonal plot with the distribution of cases at the European Union / European Economic Area 
   level, by month, over the past five years
@@ -24,9 +23,8 @@ Description: The 'EpiReport' package allows the user to draft an epidemiological
   level, by month, over the past five years
   - Age and gender bar graph with the distribution of cases at the European Union / European Economic Area level
   Two types of datasets can be used:
-  - The default dataset included in the 'EpiReport package which includes 
-  Salmonellosis data for 2012-2016;
-  - Any dataset specified as described in the package vignette.
+  - The default dataset of Salmonellosis 2012-2016 data;
+  - Any dataset specified as described in the vignette.
 Depends: R (>= 3.4.0)
 License: EUPL
 Encoding: UTF-8

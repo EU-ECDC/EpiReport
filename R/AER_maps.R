@@ -174,7 +174,7 @@ getMap <- function(disease = "SALM",
 
 
 
-#' Includind PNG map in the Microsoft Word template
+#' Including PNG map in the Microsoft Word template
 #'
 #' Function including the disease-specific PNG map in the Word document
 #' at the specific bookmark location.

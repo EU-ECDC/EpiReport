@@ -15,7 +15,7 @@ Member States (e.g. Austria, Belgium, etc.) that will replace the GeoCodes
 included the x dataframe (Default \code{MSCode$Country})}
 
 \item{GeoCode}{character vector, corresponding GeoCode of each Member State
-(e.g. AT, BE, etc.) to replace with the Country full names (Default \code{MSCode$GeoCode})}
+(e.g. AT, BE, etc.) to replace with the country full names (Default \code{MSCode$GeoCode})}
 }
 \value{
 cleaned ECDC dataframe
