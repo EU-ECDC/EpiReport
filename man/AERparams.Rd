@@ -27,7 +27,7 @@
      \code{A-RATE} Bar graph presenting the rates of cases by age.}
   \item{AgeGenderBarGraphLabel}{Label to use in the age and gender bar graph}
   \item{AgeGenderGraphNoDecimals}{Number of decimals to use when presenting rates
-     in the age an dgender bar graph}
+     in the age and gender bar graph}
   \item{TSTrendGraphUse}{Logical Y/N specifying whether to include a line graph
      describing the trend of the disease over the time}
   \item{TSSeasonalityGraphUse}{Logical Y/N specifying whether to include

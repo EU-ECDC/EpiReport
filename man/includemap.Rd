@@ -2,7 +2,7 @@
 % Please edit documentation in R/AER_maps.R
 \name{includeMap}
 \alias{includeMap}
-\title{Includind PNG map in the Microsoft Word template}
+\title{Including PNG map in the Microsoft Word template}
 \usage{
 includeMap(disease, year, reportParameters, index, pathPNG, doc, pop,
   namePNGsuffix, unit, mapBookmark, captionBookmark)

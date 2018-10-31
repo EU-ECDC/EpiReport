@@ -9,7 +9,7 @@
 #' @author Tommi Karki
 #' @keywords order
 #' @export
-#' @seealso \code{\link{getAgeGender}} and \code{\link{plotAgeGender}} / \code{\link{plotAge}}
+#' @seealso Used in \code{\link{getAgeGender}} and \code{\link{plotAgeGender}} / \code{\link{plotAge}}
 #' @examples
 #' age1 <- c("<1", "1-15", "16-25", ">65", "26-65")
 #' age2 <- c("0-4", "5-10", ">65", "25-64", "11-25")
@@ -18,21 +18,18 @@
 #' age5 <- c("5-10", "+65", "25-64", "11-25", "0-4")
 #'
 #' age1
-#' order_quasinum(age1)
-
+#' orderQuasinum(age1)
 #' age2
-#' order_quasinum(age2)
-
+#' orderQuasinum(age2)
 #' age3
-#' order_quasinum(age3)
-
+#' orderQuasinum(age3)
 #' age4
-#' order_quasinum(age4)
-#'
+#' orderQuasinum(age4)
 #' age5
-#' order_quasinum(age5)
+#' orderQuasinum(age5)
+#'
 
-order_quasinum <- function(x){
+orderQuasinum <- function(x){
   y <- strsplit(x, "-")
   y <- rapply(y, function(x) x[1], how = "unlist")
   y <- suppressWarnings(

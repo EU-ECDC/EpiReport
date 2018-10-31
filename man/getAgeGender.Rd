@@ -45,7 +45,7 @@ The bar graph presents the distribution of cases at EU/EEA level using either:
 \itemize{
    \item{\code{AG-COUNT}: }{The number of cases by age and gender}
    \item{\code{AG-RATE}: }{The rate per 100 000 cases by age and gender}
-   \item{\code{AG-PROP}}{The proportion of cases by age and gender}
+   \item{\code{AG-PROP}: }{The proportion of cases by age and gender}
    \item{\code{A-RATE}: }{The rate per 100 000 cases by age only}
 }
 The choice of the type of bar graph is set in the report parameters table \code{AERparams}. \cr

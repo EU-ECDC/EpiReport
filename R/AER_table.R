@@ -4,7 +4,7 @@
 #' in the epidemiological report at the bookmark location \code{'TABLE1_BOOKMARK'}
 #' of the template report. An additional caption will be included at the location
 #' of the bookmark \code{'TABLE1_CAPTION'}. \cr
-#' (see Table.1 of the ECDC annual reports
+#' (see Table 1 of the ECDC annual reports
 #' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' The current version of the \code{EpiReport} package includes three types of table
@@ -389,7 +389,7 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
 #' Member States (e.g. Austria, Belgium, etc.) that will replace the GeoCodes
 #' included the x dataframe (Default \code{MSCode$Country})
 #' @param GeoCode character vector, corresponding GeoCode of each Member State
-#' (e.g. AT, BE, etc.) to replace with the Country full names (Default \code{MSCode$GeoCode})
+#' (e.g. AT, BE, etc.) to replace with the country full names (Default \code{MSCode$GeoCode})
 #'
 #' @return cleaned ECDC dataframe
 #'

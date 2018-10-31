@@ -42,7 +42,7 @@ Function returning the table (\code{flextable}) that will be included
 in the epidemiological report at the bookmark location \code{'TABLE1_BOOKMARK'}
 of the template report. An additional caption will be included at the location
 of the bookmark \code{'TABLE1_CAPTION'}. \cr
-(see Table.1 of the ECDC annual reports
+(see Table 1 of the ECDC annual reports
 \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \details{
