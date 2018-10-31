@@ -27,7 +27,7 @@ my_dataset <- dplyr::select(my_dataset,
 knitr::kable(my_dataset[sample(1:nrow(EpiReport::SALM2016), 10), ], 
              row.names = FALSE,
              format = "html", table.attr = 'class="myTable"',
-             caption = "__Tab.1 Example of Salmonellosis data 2012-2016")
+             caption = "__Tab.1 Example of Salmonellosis data 2012-2016__")
 
 ## ---- echo=FALSE, results='asis'-----------------------------------------
 my_dataset <- EpiReport::AERparams
@@ -46,7 +46,7 @@ my_dataset <- EpiReport::MSCode
 knitr::kable(my_dataset[sample(1:nrow(EpiReport::MSCode), 5), ], 
              row.names = FALSE,
              format = "html", table.attr = 'class="myTable"',
-             caption = "__Tab.3 Example of geographical code and associated label__")
+             caption = "__Tab.3 Example of geographical codes and associated labels__")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  getAER()
