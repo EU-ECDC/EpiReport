@@ -75,7 +75,8 @@ The year given in the title of the report (i.e. 'Annual epidemiological report f
 refers to the year the data were collected. Reports are usually available for publication 
 one year after data collection is complete.
 
-All reports are based on data retrieved from The European Surveillance System (TESSy)[^1]. 
+All reports are based on data collected through The European Surveillance System (TESSy)[^1]
+and exported from the ECDC Atlas. 
 Countries participating in disease surveillance submit their data electronically.
 
 The communicable diseases and related health issues covered by the reports 
@@ -157,7 +158,7 @@ my_dataset <- dplyr::select(my_dataset,
 knitr::kable(my_dataset[sample(1:nrow(EpiReport::SALM2016), 10), ], 
              row.names = FALSE,
              format = "html", table.attr = 'class="myTable"',
-             caption = "__Tab.1 Example of Salmonellosis data 2012-2016")
+             caption = "__Tab.1 Example of Salmonellosis data 2012-2016__")
 ```
 
 
@@ -233,14 +234,14 @@ my_dataset <- EpiReport::MSCode
 knitr::kable(my_dataset[sample(1:nrow(EpiReport::MSCode), 5), ], 
              row.names = FALSE,
              format = "html", table.attr = 'class="myTable"',
-             caption = "__Tab.3 Example of geographical code and associated label__")
+             caption = "__Tab.3 Example of geographical codes and associated labels__")
 ```
 
 
 
 ## 2. How to generate the Epidemiological Report in Microsoft Word format
 
-To generate a similar report to Annual Epidemiological Report, we can use the default dataset 
+To generate a similar report to the Annual Epidemiological Report, we can use the default dataset 
 included in the `EpiReport` package presenting Salmonellosis data 2012-2016.
 
 Calling the function `getAER()`, the Salmonellosis 2016 report will be generated 
@@ -324,7 +325,7 @@ getAER(template = "C:/EpiReport/template/New_AER_Template.docx",
 
 Please make sure that the Microsoft Word bookmarks are preserved throughout the 
 modifications to the template. The bookmarks specify the location where to include
-each outputs.
+each output.
 
 
 

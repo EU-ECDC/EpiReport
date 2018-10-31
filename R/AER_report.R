@@ -15,7 +15,9 @@
 #' @return A word document
 #'
 #' @examples
-#' getTemplate(output_path = "C:/R/AER")
+#' getTemplate()
+#'
+#' # getTemplate(output_path = getwd())
 #'
 #' @seealso \code{\link{getAER}}
 #'

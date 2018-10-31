@@ -24,7 +24,9 @@ epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \
 (see ECDC annual epidemilogical reports \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
-getTemplate(output_path = "C:/R/AER")
+getTemplate()
+
+# getTemplate(output_path = getwd())
 
 }
 \seealso{
