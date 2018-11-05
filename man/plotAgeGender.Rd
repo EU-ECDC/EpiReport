@@ -45,12 +45,6 @@ mydat <- data.frame(Gender=c("F", "F", "M", "M"),
 AgeGroup = c("0-65", "65+", "0-65", "65+"),
 NumberOfCases = c(54,43,32,41))
 
-# --- WARNING! AER plots use the font "Tahoma"
-# --- To download this font, use the commands below
-library(extrafont)
-font_import(pattern = 'tahoma')
-loadfonts(device = "win")
-
 # --- Plot the dummy data
 plotAgeGender(mydat,
               xvar = "AgeGroup",

@@ -56,13 +56,6 @@ over the past five years, with:
 }
 \examples{
 
-# --- Please Note: ECDC AER plots use the font "Tahoma"
-# --- This is optional
-# --- To download this font, use the commands below
-library(extrafont)
-font_import(pattern = 'tahoma')
-loadfonts(device = "win")
-
 # --- Plot using the default dataset
 getSeason()
 

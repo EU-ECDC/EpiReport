@@ -54,13 +54,6 @@ The choice of the type of bar graph is set in the report parameters table \code{
 }
 \examples{
 
-# --- Please note: AER plots use the font "Tahoma"
-# --- This is optional
-# --- To download this font, use the commands below
-library(extrafont)
-font_import(pattern = 'tahoma')
-loadfonts(device = "win")
-
 # --- Plot using the default dataset
 getAgeGender()
 

@@ -42,13 +42,6 @@
 #'
 #' @examples
 #'
-#' # --- Please note: AER plots use the font "Tahoma"
-#' # --- This is optional
-#' # --- To download this font, use the commands below
-#' library(extrafont)
-#' font_import(pattern = 'tahoma')
-#' loadfonts(device = "win")
-#'
 #' # --- Plot using the default dataset
 #' getAgeGender()
 #'
@@ -346,12 +339,6 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #' AgeGroup = c("0-65", "65+", "0-65", "65+"),
 #' NumberOfCases = c(54,43,32,41))
 #'
-#' # --- WARNING! AER plots use the font "Tahoma"
-#' # --- To download this font, use the commands below
-#' library(extrafont)
-#' font_import(pattern = 'tahoma')
-#' loadfonts(device = "win")
-#'
 #' # --- Plot the dummy data
 #' plotAgeGender(mydat,
 #'               xvar = "AgeGroup",
@@ -376,6 +363,24 @@ plotAgeGender <- function(data,
                           max(data[[yvar]]),
                           by = max(data[[yvar]])/5))
 
+
+  # --- Please Note: ECDC AER plots use the font "Tahoma"
+  # --- The font is not available on Linux
+
+  # if ("Tahoma" %in% extrafont::fonts()) {
+  #   FONT <- "Tahoma"
+  #   suppressMessages(extrafont::loadfonts(device = "win"))
+  # } else if (Sys.info()["sysname"] == "Windows") {
+  #   suppressMessages(extrafont::font_import(pattern = 'tahoma', prompt = FALSE))
+  #   suppressMessages(extrafont::loadfonts(device = "win"))
+  #   FONT <- "Tahoma"
+  # } else {
+  #   FONT <- NULL
+  # }
+  FONT <- NULL
+
+
+
   # --- Plotting
 
   p <- ggplot2::ggplot(data = data,
@@ -386,8 +391,8 @@ plotAgeGender <- function(data,
                                 limits = c(0, max(FIGBREAKS)),
                                 breaks = FIGBREAKS) +
     ggplot2::labs(title = "", x = "Age", y = ytitle) +
-    ggplot2::theme(axis.text = ggplot2::element_text(size = 8, family = "Tahoma"),
-                   axis.title = ggplot2::element_text(size = 9, family = "Tahoma"),
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 8, family = FONT),
+                   axis.title = ggplot2::element_text(size = 9, family = FONT),
                    axis.line = ggplot2::element_line(colour = "black"),
                    axis.line.x = ggplot2::element_blank(),
                    # --- Setting the background
@@ -397,7 +402,7 @@ plotAgeGender <- function(data,
                    # --- Setting the legend
                    legend.position = "right",
                    legend.title = ggplot2::element_blank(),
-                   legend.text = ggplot2::element_text(size=8, family = "Tahoma"),
+                   legend.text = ggplot2::element_text(size = 8, family = FONT),
                    legend.key.width = ggplot2::unit(0.8, "cm"),
                    legend.key.size = ggplot2::unit(0.4, "cm"))
 
