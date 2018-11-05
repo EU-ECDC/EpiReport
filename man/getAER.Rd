@@ -11,12 +11,12 @@ getAER(template = file.path(system.file(package = "EpiReport"),
   pathPNG = system.file("maps", package = "EpiReport"))
 }
 \arguments{
-\item{template}{doc (see \code{officer} package), the empty Word document template in which
+\item{template}{doc (see \code{'officer'} package), the empty 'Word' document template in which
 to include the table and plots disease-specific outputs.
 Default value is the empty template included in the package. See \code{getTemplate()}.}
 
 \item{outputPath}{character string, the full path where to generate the epidemiological
-report Word output.
+report 'Word' output.
 Default value is the current working directory \code{getwd()}.}
 
 \item{x}{dataframe, raw disease-specific dataset (see specification of the dataset in the
@@ -42,10 +42,10 @@ package vignette with \code{browseVignettes(package = "EpiReport")})}
 the maps (in PNG) to include in the final report}
 }
 \value{
-A word document
+A 'Word' document
 }
 \description{
-Function to generate the Microsoft Word epidemiological report
+Function to generate the 'Microsoft Word' epidemiological report
 (similar to the ECDC Annual Epidemiological Report (AER))
 including all disease-specific outputs at each output-specific bookmarks exact location. \cr
 (for further information on the outputs and the corresponding bookmarks,
@@ -55,12 +55,14 @@ please see the package vignette "The Epidemiological Report Package" with \code{
 \examples{
 # --- Generating the AER report using the default Salmonellosis dataset
 getAER()
-
+\donttest{
 # --- Or using external data (example below)
-# ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
-# output <- "C:/EpiReport/doc/"
-# pathMap <- "C:/EpiReport/maps/"
-# getAER(disease = "ZIKV", year = 2016, x = ZIKV2016, outputPath = output, pathPNG = pathMap)
+ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+output <- "C:/EpiReport/doc/"
+pathMap <- "C:/EpiReport/maps/"
+getAER(disease = "ZIKV", year = 2016, x = ZIKV2016, outputPath = output, pathPNG = pathMap)
+}
+
 
 }
 \seealso{

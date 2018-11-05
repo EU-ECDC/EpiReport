@@ -29,11 +29,11 @@
 #' (default \code{MSCode}) (see specification of the dataset in the
 #' package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param index integer, figure number
-#' @param doc Word document (see \code{officer} package) in which to add the graph
+#' @param doc 'Word' document (see \code{officer} package) in which to add the graph
 #' at the bookmark location.
 #' If doc is missing, \code{getTrend} returns the \code{ggplot2} object.
 #'
-#' @return Word doc or a ggplot2 preview
+#' @return 'Word' doc or a ggplot2 preview
 #'
 #' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
@@ -238,7 +238,7 @@ getTrend <- function(x = EpiReport::SALM2016,
 #'
 #' This function draws a line graph describing the trend of the selected disease
 #' over the past 5 years. \cr
-#' The graph includes the trend and  number of cases at EU/EEA level, by month,
+#' The graph includes the trend and number of cases at EU/EEA level, by month,
 #' over the past five years, with:
 #' \itemize{
 #'    \item{\code{yvar}: }{The number of cases by month over the 5-year period (grey solid line)}

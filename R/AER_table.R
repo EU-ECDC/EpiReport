@@ -1,13 +1,13 @@
 #' Get disease-specific table: distribution of cases by Member State (GeoCode)
 #'
-#' Function returning the table (\code{flextable}) that will be included
+#' Function returning the table (\code{'flextable'}) that will be included
 #' in the epidemiological report at the bookmark location \code{'TABLE1_BOOKMARK'}
 #' of the template report. An additional caption will be included at the location
 #' of the bookmark \code{'TABLE1_CAPTION'}. \cr
 #' (see Table 1 of the ECDC annual reports
 #' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' The current version of the \code{EpiReport} package includes three types of table
+#' The current version of the \code{'EpiReport'} package includes three types of table
 #' (see detailed specification of the tables in the
 #' package vignette with \code{browseVignettes(package = "EpiReport")}):
 #' \itemize{
@@ -33,11 +33,11 @@
 #' (default \code{MSCode}) (see specification of the dataset in the
 #' package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param index integer, figure number
-#' @param doc Word document (see \code{officer} package) in which to add the table
+#' @param doc 'Word' document (see \code{officer} package) in which to add the table
 #' at the bookmark location.
 #' If doc is missing, \code{getTable} returns the \code{flextable} table object.
 #'
-#' @return Word doc or \code{flextable} object (see \code{flextable} package)
+#' @return 'Word' doc or \code{flextable} object (see \code{'flextable'} package)
 #'
 #' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{flextable}} \code{\link{officer}} \cr
@@ -278,10 +278,10 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
   # ----
 
   if(missing(doc)) {
-    # --- If no Word document, then return the flextable
+    # --- If no 'Word' document, then return the flextable
     return(ft)
   } else {
-    # --- If there is a Word document, then replace the corresponding bookmark
+    # --- If there is a 'Word' document, then replace the corresponding bookmark
     officer::cursor_bookmark(doc, id = "TABLE1_BOOKMARK")
     doc <- flextable::body_add_flextable(doc, value = ft)
 
@@ -312,7 +312,7 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
 #'
 #' Shaping the final table including titles, adding background color, specifying font name and size.
 #'
-#' @param ft flextable (see \code{flextable} package), table to shape into ECDC table layout
+#' @param ft flextable (see \code{'flextable'} package), table to shape into ECDC table layout
 #' @param headers dataframe including the multiple headers to add to the flextable object.
 #' Please note that the column \code{col_keys} should contain the names of the flextable object
 #' (i.e. \code{col_key = names(x)}), accordingly to \code{\link{set_header_df}}.

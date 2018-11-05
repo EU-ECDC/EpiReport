@@ -22,12 +22,12 @@ of the dataset in the package vignette with \code{browseVignettes(package = "Epi
 \item{pathPNG}{character string, full path to the folder containing the maps in PNG
 (default 'maps' folder included in the package \code{system.file("maps", package = "EpiReport")})}
 
-\item{doc}{Word document (see \code{officer} package) in which to add the maps
+\item{doc}{'Word' document (see \code{'officer'} package) in which to add the maps
 at the bookmark location.
 If doc is missing, \code{getMap} returns a preview of the PNG image.}
 }
 \value{
-Word doc an image preview
+'Word' doc an image preview
 }
 \description{
 Function returning the disease-specific PNG map previously created

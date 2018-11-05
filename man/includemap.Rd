@@ -2,7 +2,7 @@
 % Please edit documentation in R/AER_maps.R
 \name{includeMap}
 \alias{includeMap}
-\title{Including PNG map in the Microsoft Word template}
+\title{Including PNG map in the 'Microsoft Word' template}
 \usage{
 includeMap(disease, year, reportParameters, index, pathPNG, doc, pop,
   namePNGsuffix, unit, mapBookmark, captionBookmark)
@@ -21,7 +21,7 @@ of the dataset in the package vignette with \code{browseVignettes(package = "Epi
 \item{pathPNG}{character string, full path to the folder containing the maps in PNG
 (default 'maps' folder included in the package \code{system.file("maps", package = "EpiReport")})}
 
-\item{doc}{Word document (see \code{officer} package) in which to add
+\item{doc}{'Word' document (see \code{'officer'} package) in which to add
 the maps at the bookmark location}
 
 \item{pop}{character string, label of the type of population to use in the caption
@@ -34,16 +34,16 @@ the maps at the bookmark location}
 (e.g. \code{"per 100 000 population"})}
 
 \item{mapBookmark}{character string, label of the bookmark where to add
-the map in the Word document}
+the map in the 'Word' document}
 
 \item{captionBookmark}{character string, label of the bookmark where to add
-the caption in the Word document}
+the caption in the 'Word' document}
 }
 \value{
-Word doc
+'Word' doc
 }
 \description{
-Function including the disease-specific PNG map in the Word document
+Function including the disease-specific PNG map in the 'Word' document
 at the specific bookmark location.
 }
 \seealso{

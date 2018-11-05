@@ -1,7 +1,7 @@
 #' Get epidemiological report (empty) template
 #'
-#' Function to export the generic Microsoft Word empty template (included in
-#' the \code{EpiReport} package) used to produce the
+#' Function to export the generic 'Microsoft Word' empty template (included in
+#' the \code{'EpiReport'} package) used to produce the
 #' epidemiological report similar to the ECDC Annual Epidemiological Report (AER).
 #' The modified version of the template can then be used to produce the final
 #' epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \cr
@@ -9,15 +9,20 @@
 #' \code{browseVignettes("EpiReport")})  \cr
 #' (see ECDC annual epidemilogical reports \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param output_path character string, the full path where to create the Word output.
+#' @param output_path character string, the full path where to create the 'Word' output.
 #' Defaut location will be the current working directory (default \code{getwd()})
 #'
-#' @return A word document
+#' @return A 'Word' document
 #'
 #' @examples
+#' # --- Export the template in the default folder: working directory
 #' getTemplate()
 #'
-#' # getTemplate(output_path = getwd())
+#' \donttest{
+#' # --- Or specify the full path
+#' getTemplate(output_path = getwd())
+#' }
+#'
 #'
 #' @seealso \code{\link{getAER}}
 #'
@@ -34,14 +39,14 @@ getTemplate <- function(output_path){
   }
 
   ## ----
-  ## Initialising the Word object
+  ## Initialising the 'Word' object
   ## ----
 
   doc <- officer::read_docx(path = file.path(system.file(package = "EpiReport"),
                                              "template/AER_template.docx" ))
 
   ## ----
-  ## Generating the word output
+  ## Generating the 'Word' output
   ## ----
 
   print(doc, target = paste(output_path, "/Empty_AER_template.docx", sep=""))
@@ -54,18 +59,18 @@ getTemplate <- function(output_path){
 
 #' Get full disease-specific epidemiological report
 #'
-#' Function to generate the Microsoft Word epidemiological report
+#' Function to generate the 'Microsoft Word' epidemiological report
 #' (similar to the ECDC Annual Epidemiological Report (AER))
 #' including all disease-specific outputs at each output-specific bookmarks exact location. \cr
 #' (for further information on the outputs and the corresponding bookmarks,
 #' please see the package vignette "The Epidemiological Report Package" with \code{browseVignettes("EpiReport")})\cr
 #' (see ECDC AER \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param template doc (see \code{officer} package), the empty Word document template in which
+#' @param template doc (see \code{'officer'} package), the empty 'Word' document template in which
 #' to include the table and plots disease-specific outputs.
 #' Default value is the empty template included in the package. See \code{getTemplate()}.
 #' @param outputPath character string, the full path where to generate the epidemiological
-#' report Word output.
+#' report 'Word' output.
 #' Default value is the current working directory \code{getwd()}.
 #' @param x dataframe, raw disease-specific dataset (see specification of the dataset in the
 #' package vignette with \code{browseVignettes("EpiReport")})
@@ -93,14 +98,16 @@ getTemplate <- function(output_path){
 #' @examples
 #' # --- Generating the AER report using the default Salmonellosis dataset
 #' getAER()
-#'
+#' \donttest{
 #' # --- Or using external data (example below)
-#' # ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
-#' # output <- "C:/EpiReport/doc/"
-#' # pathMap <- "C:/EpiReport/maps/"
-#' # getAER(disease = "ZIKV", year = 2016, x = ZIKV2016, outputPath = output, pathPNG = pathMap)
+#' ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
+#' output <- "C:/EpiReport/doc/"
+#' pathMap <- "C:/EpiReport/maps/"
+#' getAER(disease = "ZIKV", year = 2016, x = ZIKV2016, outputPath = output, pathPNG = pathMap)
+#' }
 #'
-#' @return A word document
+#'
+#' @return A 'Word' document
 #'
 #' @export
 #'
@@ -139,7 +146,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
 
 
   ## ----
-  ## Initialising the Word object
+  ## Initialising the 'Word' object
   ## ----
   doc <- officer::read_docx(path = template)
 
@@ -257,7 +264,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
 
 
   ## ----
-  ## Generating the word output
+  ## Generating the 'Word' output
   ## ----
 
   print(doc,

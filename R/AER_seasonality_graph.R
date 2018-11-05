@@ -31,11 +31,11 @@
 #' (default \code{MSCode}) (see specification of the dataset in the
 #' package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param index integer, figure number
-#' @param doc Word document (see \code{officer} package) in which to add the graph
+#' @param doc 'Word' document (see \code{'officer'} package) in which to add the graph
 #' at the bookmark location.
 #' If doc is missing, \code{getSeason} returns the \code{ggplot2} object.
 #'
-#' @return Word doc or a ggplot2 object
+#' @return 'Word' doc or a ggplot2 object
 #'
 #' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr

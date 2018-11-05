@@ -21,7 +21,7 @@ the moving average per each time unit (default \code{"MAV"})}
 \description{
 This function draws a line graph describing the trend of the selected disease
 over the past 5 years. \cr
-The graph includes the trend and  number of cases at EU/EEA level, by month,
+The graph includes the trend and number of cases at EU/EEA level, by month,
 over the past five years, with:
 \itemize{
    \item{\code{yvar}: }{The number of cases by month over the 5-year period (grey solid line)}

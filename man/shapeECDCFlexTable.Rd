@@ -7,7 +7,7 @@
 shapeECDCFlexTable(ft, headers, fsize, fname, maincolor)
 }
 \arguments{
-\item{ft}{flextable (see \code{flextable} package), table to shape into ECDC table layout}
+\item{ft}{flextable (see \code{'flextable'} package), table to shape into ECDC table layout}
 
 \item{headers}{dataframe including the multiple headers to add to the flextable object.
 Please note that the column \code{col_keys} should contain the names of the flextable object

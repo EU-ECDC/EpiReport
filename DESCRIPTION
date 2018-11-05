@@ -12,7 +12,7 @@ Authors@R: c(
           role = c("aut", "ctr"), email = "e.kissling@epiconcept.fr"),
   person( given = "Joana", family = "Gomes Dias", 
           role = c("aut", "fnd"), email = "joana.gomes.dias@ecdc.europa.eu", comment = "Project manager")) 
-Description: Drafting an epidemiological report in Microsoft Word format for a given disease,
+Description: Drafting an epidemiological report in 'Microsoft Word' format for a given disease,
   similar to the Annual Epidemiological Reports published by the European Centre 
   for Disease Prevention and Control. Through standalone functions, it is specifically 
   designed to generate each disease specific output presented in these reports and includes:

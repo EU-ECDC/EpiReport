@@ -30,15 +30,15 @@ package vignette with \code{browseVignettes(package = "EpiReport")})}
 
 \item{index}{integer, figure number}
 
-\item{doc}{Word document (see \code{officer} package) in which to add the table
+\item{doc}{'Word' document (see \code{officer} package) in which to add the table
 at the bookmark location.
 If doc is missing, \code{getTable} returns the \code{flextable} table object.}
 }
 \value{
-Word doc or \code{flextable} object (see \code{flextable} package)
+'Word' doc or \code{flextable} object (see \code{'flextable'} package)
 }
 \description{
-Function returning the table (\code{flextable}) that will be included
+Function returning the table (\code{'flextable'}) that will be included
 in the epidemiological report at the bookmark location \code{'TABLE1_BOOKMARK'}
 of the template report. An additional caption will be included at the location
 of the bookmark \code{'TABLE1_CAPTION'}. \cr
@@ -46,7 +46,7 @@ of the bookmark \code{'TABLE1_CAPTION'}. \cr
 \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \details{
-The current version of the \code{EpiReport} package includes three types of table
+The current version of the \code{'EpiReport'} package includes three types of table
 (see detailed specification of the tables in the
 package vignette with \code{browseVignettes(package = "EpiReport")}):
 \itemize{
