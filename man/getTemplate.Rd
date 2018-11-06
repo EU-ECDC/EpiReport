@@ -7,15 +7,15 @@
 getTemplate(output_path)
 }
 \arguments{
-\item{output_path}{character string, the full path where to create the Word output.
+\item{output_path}{character string, the full path where to create the 'Word' output.
 Defaut location will be the current working directory (default \code{getwd()})}
 }
 \value{
-A word document
+A 'Word' document
 }
 \description{
-Function to export the generic Microsoft Word empty template (included in
-the \code{EpiReport} package) used to produce the
+Function to export the generic 'Microsoft Word' empty template (included in
+the \code{'EpiReport'} package) used to produce the
 epidemiological report similar to the ECDC Annual Epidemiological Report (AER).
 The modified version of the template can then be used to produce the final
 epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \cr
@@ -24,9 +24,14 @@ epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \
 (see ECDC annual epidemilogical reports \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
+# --- Export the template in the default folder: working directory
 getTemplate()
 
-# getTemplate(output_path = getwd())
+\donttest{
+# --- Or specify the full path
+getTemplate(output_path = getwd())
+}
+
 
 }
 \seealso{

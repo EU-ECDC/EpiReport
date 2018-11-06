@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 ## Description
 
-The EpiReport package allows the user to draft an epidemilogical report similar to the ECDC Annual Epidemiological Report (AER) 
+The EpiReport package allows the user to draft an epidemiological report similar to the ECDC Annual Epidemiological Report (AER) 
 (see https://ecdc.europa.eu/en/annual-epidemiological-reports) in Microsoft Word format for a given disease.
 
 Through standalone functions, the package is specifically designed to generate
@@ -279,9 +279,6 @@ PERT2016 <- read.table("data/PERT2016.csv",
 # --- Specifying the folder containing pertussis maps
 pathMap <- paste(getwd(), "/maps", sep = "")
 
-# --- (optional) Importing the Tahoma font for the report
-extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
-extrafont::loadfonts(device = "win", quiet = TRUE)
 
 # --- (optional) Setting the local language in English for month label
 Sys.setlocale("LC_TIME", "C")

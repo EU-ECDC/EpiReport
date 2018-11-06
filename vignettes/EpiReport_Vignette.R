@@ -65,9 +65,6 @@ PERT2016 <- read.table("data/PERT2016.csv",
 # --- Specifying the folder containing pertussis maps
 pathMap <- paste(getwd(), "/maps", sep = "")
 
-# --- (optional) Importing the Tahoma font for the report
-extrafont::font_import(pattern = 'tahoma', prompt = FALSE)
-extrafont::loadfonts(device = "win", quiet = TRUE)
 
 # --- (optional) Setting the local language in English for month label
 Sys.setlocale("LC_TIME", "C")

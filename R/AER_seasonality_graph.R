@@ -31,11 +31,11 @@
 #' (default \code{MSCode}) (see specification of the dataset in the
 #' package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param index integer, figure number
-#' @param doc Word document (see \code{officer} package) in which to add the graph
+#' @param doc 'Word' document (see \code{'officer'} package) in which to add the graph
 #' at the bookmark location.
 #' If doc is missing, \code{getSeason} returns the \code{ggplot2} object.
 #'
-#' @return Word doc or a ggplot2 object
+#' @return 'Word' doc or a ggplot2 object
 #'
 #' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
@@ -43,13 +43,6 @@
 #' Default datasets: \code{\link{AERparams}} \code{\link{MSCode}}
 #'
 #' @examples
-#'
-#' # --- Please Note: ECDC AER plots use the font "Tahoma"
-#' # --- This is optional
-#' # --- To download this font, use the commands below
-#' library(extrafont)
-#' font_import(pattern = 'tahoma')
-#' loadfonts(device = "win")
 #'
 #' # --- Plot using the default dataset
 #' getSeason()
@@ -307,6 +300,24 @@ plotSeasonality <- function(data,
                             max(data[[max4years]], data[[yvar]]),
                             by = max(data[[max4years]], data[[yvar]])/7))
 
+
+  # --- Please Note: ECDC AER plots use the font "Tahoma"
+  # --- The font is not available on Linux
+
+  # if ("Tahoma" %in% extrafont::fonts()) {
+  #   FONT <- "Tahoma"
+  #   suppressMessages(extrafont::loadfonts(device = "win"))
+  # } else if (Sys.info()["sysname"] == "Windows") {
+  #   suppressMessages(extrafont::font_import(pattern = 'tahoma', prompt = FALSE))
+  #   suppressMessages(extrafont::loadfonts(device = "win"))
+  #   FONT <- "Tahoma"
+  # } else {
+  #   FONT <- NULL
+  # }
+  FONT <- NULL
+
+
+
   # --- Plotting
 
   p <- ggplot2::ggplot(data, ggplot2::aes(data[[xvar]])) +
@@ -332,15 +343,15 @@ plotSeasonality <- function(data,
                                             "Mean" = paste("Mean (", year - 4 , "\U2013", year - 1, ")", sep = ""))) +
     ggplot2::scale_fill_manual("", values = "grey80") +
     ggplot2::theme(
-      axis.text = ggplot2::element_text(size = 8, family = "Tahoma"),
-      axis.title = ggplot2::element_text(size = 9, family = "Tahoma"),
+      axis.text = ggplot2::element_text(size = 8, family = FONT),
+      axis.title = ggplot2::element_text(size = 9, family = FONT),
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       panel.background = ggplot2::element_blank(),
       axis.line = ggplot2::element_line(colour = "#767171"),
       legend.position = "right",
       legend.title = ggplot2::element_blank(),
-      legend.text = ggplot2::element_text(size=8, family = "Tahoma"),
+      legend.text = ggplot2::element_text(size = 8, family = FONT),
       legend.key = ggplot2::element_blank(),
       legend.key.width = ggplot2::unit(0.8, "cm"))+
     ggplot2::guides(

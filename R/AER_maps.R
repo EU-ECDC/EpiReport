@@ -26,11 +26,11 @@
 #' @param index integer, figure number
 #' @param pathPNG character string, full path to the folder containing the maps in PNG
 #' (default 'maps' folder included in the package \code{system.file("maps", package = "EpiReport")})
-#' @param doc Word document (see \code{officer} package) in which to add the maps
+#' @param doc 'Word' document (see \code{'officer'} package) in which to add the maps
 #' at the bookmark location.
 #' If doc is missing, \code{getMap} returns a preview of the PNG image.
 #'
-#' @return Word doc an image preview
+#' @return 'Word' doc an image preview
 #'
 #' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{officer}} \cr
@@ -174,9 +174,9 @@ getMap <- function(disease = "SALM",
 
 
 
-#' Including PNG map in the Microsoft Word template
+#' Including PNG map in the 'Microsoft Word' template
 #'
-#' Function including the disease-specific PNG map in the Word document
+#' Function including the disease-specific PNG map in the 'Word' document
 #' at the specific bookmark location.
 #'
 #' @param disease character string, disease code (default \code{"SALM"}).
@@ -187,7 +187,7 @@ getMap <- function(disease = "SALM",
 #' @param index integer, figure number
 #' @param pathPNG character string, full path to the folder containing the maps in PNG
 #' (default 'maps' folder included in the package \code{system.file("maps", package = "EpiReport")})
-#' @param doc Word document (see \code{officer} package) in which to add
+#' @param doc 'Word' document (see \code{'officer'} package) in which to add
 #' the maps at the bookmark location
 #' @param pop character string, label of the type of population to use in the caption
 #' (e.g. \code{confirmed})
@@ -196,11 +196,11 @@ getMap <- function(disease = "SALM",
 #' @param unit character string, label of the unit used in the caption
 #' (e.g. \code{"per 100 000 population"})
 #' @param mapBookmark character string, label of the bookmark where to add
-#' the map in the Word document
+#' the map in the 'Word' document
 #' @param captionBookmark character string, label of the bookmark where to add
-#' the caption in the Word document
+#' the caption in the 'Word' document
 #'
-#' @return Word doc
+#' @return 'Word' doc
 #'
 #' @seealso Global function: \code{\link{getMap}}
 #'
@@ -216,7 +216,7 @@ includeMap <- function(disease, year, reportParameters,
                    reportParameters$MeasurePopulation, ".",
                    namePNGsuffix, ".png", sep = "")
 
-  # --- If word document provided, add the maps in the doc
+  # --- If 'Word' document provided, add the maps in the doc
   officer::cursor_bookmark(doc, id = mapBookmark)
   if( file.exists(namePNG) ){
     doc <- officer::body_add_img(doc, namePNG, width = 7.018, height = 4.956)
@@ -269,7 +269,7 @@ previewMap <- function(disease, year, reportParameters,
                    reportParameters$MeasurePopulation, ".",
                    namePNGsuffix, ".png", sep = "")
 
-  # --- If no Word document, then just preview the map
+  # --- If no 'Word' document, then just preview the map
   if( file.exists(namePNG) ){
     img <- png::readPNG(namePNG)
     grid::grid.raster(img)

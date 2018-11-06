@@ -12,18 +12,18 @@ Authors@R: c(
           role = c("aut", "ctr"), email = "e.kissling@epiconcept.fr"),
   person( given = "Joana", family = "Gomes Dias", 
           role = c("aut", "fnd"), email = "joana.gomes.dias@ecdc.europa.eu", comment = "Project manager")) 
-Description: Drafting an epidemiological report in Microsoft Word format for a given disease, 
+Description: Drafting an epidemiological report in 'Microsoft Word' format for a given disease,
   similar to the Annual Epidemiological Reports published by the European Centre 
   for Disease Prevention and Control. Through standalone functions, it is specifically 
   designed to generate each disease specific output presented in these reports and includes:
-  - Table with the distribution of cases by Member State over the last five years
-  - Seasonal plot with the distribution of cases at the European Union / European Economic Area 
-  level, by month, over the past five years
-  - Trend plot with the trend and number of cases at the European Union / European Economic Area 
-  level, by month, over the past five years
-  - Age and gender bar graph with the distribution of cases at the European Union / European Economic Area level
+  - Table with the distribution of cases by Member State over the last five years;
+  - Seasonality plot with the distribution of cases at the European Union / European Economic Area level, 
+  by month, over the past five years;
+  - Trend plot with the trend and number of cases at the European Union / European Economic Area level, 
+  by month, over the past five years;
+  - Age and gender bar graph with the distribution of cases at the European Union / European Economic Area level.
   Two types of datasets can be used:
-  - The default dataset of Salmonellosis 2012-2016 data;
+  - The default dataset of salmonella 2012-2016 data;
   - Any dataset specified as described in the vignette.
 Depends: R (>= 3.4.0)
 License: EUPL

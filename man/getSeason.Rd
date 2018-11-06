@@ -31,12 +31,12 @@ package vignette with \code{browseVignettes(package = "EpiReport")})}
 
 \item{index}{integer, figure number}
 
-\item{doc}{Word document (see \code{officer} package) in which to add the graph
+\item{doc}{'Word' document (see \code{'officer'} package) in which to add the graph
 at the bookmark location.
 If doc is missing, \code{getSeason} returns the \code{ggplot2} object.}
 }
 \value{
-Word doc or a ggplot2 object
+'Word' doc or a ggplot2 object
 }
 \description{
 Function returning the plot describing the seasonality of the disease
@@ -55,13 +55,6 @@ over the past five years, with:
 \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
-
-# --- Please Note: ECDC AER plots use the font "Tahoma"
-# --- This is optional
-# --- To download this font, use the commands below
-library(extrafont)
-font_import(pattern = 'tahoma')
-loadfonts(device = "win")
 
 # --- Plot using the default dataset
 getSeason()

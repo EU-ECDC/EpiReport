@@ -29,11 +29,11 @@
 #' (default \code{MSCode}) (see specification of the dataset in the
 #' package vignette with \code{browseVignettes(package = "EpiReport")})
 #' @param index integer, figure number
-#' @param doc Word document (see \code{officer} package) in which to add the graph
+#' @param doc 'Word' document (see \code{officer} package) in which to add the graph
 #' at the bookmark location.
 #' If doc is missing, \code{getTrend} returns the \code{ggplot2} object.
 #'
-#' @return Word doc or a ggplot2 preview
+#' @return 'Word' doc or a ggplot2 preview
 #'
 #' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
@@ -41,13 +41,6 @@
 #' Default datasets: \code{\link{AERparams}} \code{\link{MSCode}}
 #'
 #' @examples
-#'
-#' # --- Please Note: AER plots use the font "Tahoma"
-#' # --- This is optional
-#' # --- To download this font, use the commands below
-#' library(extrafont)
-#' font_import(pattern = 'tahoma')
-#' loadfonts(device = "win")
 #'
 #' # --- Plot using the default dataset
 #' getTrend()
@@ -245,7 +238,7 @@ getTrend <- function(x = EpiReport::SALM2016,
 #'
 #' This function draws a line graph describing the trend of the selected disease
 #' over the past 5 years. \cr
-#' The graph includes the trend and  number of cases at EU/EEA level, by month,
+#' The graph includes the trend and number of cases at EU/EEA level, by month,
 #' over the past five years, with:
 #' \itemize{
 #'    \item{\code{yvar}: }{The number of cases by month over the 5-year period (grey solid line)}
@@ -281,6 +274,22 @@ plotTS12MAvg <- function(data,
                             by = max(data[[yvar]])/7))
 
 
+  # --- Please Note: ECDC AER plots use the font "Tahoma"
+  # --- The font is not available on Linux
+
+  # if ("Tahoma" %in% extrafont::fonts()) {
+  #   FONT <- "Tahoma"
+  #   suppressMessages(extrafont::loadfonts(device = "win"))
+  # } else if (Sys.info()["sysname"] == "Windows") {
+  #   suppressMessages(extrafont::font_import(pattern = 'tahoma', prompt = FALSE))
+  #   suppressMessages(extrafont::loadfonts(device = "win"))
+  #   FONT <- "Tahoma"
+  # } else {
+  #   FONT <- NULL
+  # }
+  FONT <- NULL
+
+
   # --- Plotting
 
   p <- ggplot2::ggplot(data,
@@ -303,15 +312,15 @@ plotTS12MAvg <- function(data,
       "lines",
       values=c("Number of cases" = "#767171", "12-month moving average"= "#69AE23")) +
     ggplot2::theme(
-      axis.text = ggplot2::element_text(size = 8, family = "Tahoma"),
-      axis.title = ggplot2::element_text(size = 9, family = "Tahoma"),
+      axis.text = ggplot2::element_text(size = 8, family = FONT),
+      axis.title = ggplot2::element_text(size = 9, family = FONT),
       axis.line = ggplot2::element_line(colour = "#767171"),
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       panel.background = ggplot2::element_blank(),
       legend.position = "right",
       legend.title = ggplot2::element_blank(),
-      legend.text = ggplot2::element_text(size = 8, family = "Tahoma"),
+      legend.text = ggplot2::element_text(size = 8, family = FONT),
       legend.key = ggplot2::element_blank(),
       legend.key.width = ggplot2::unit(0.8, "cm")) +
     ggplot2::guides(fill = ggplot2::guide_legend(reverse = TRUE),

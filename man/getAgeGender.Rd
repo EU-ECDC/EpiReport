@@ -30,12 +30,12 @@ of the dataset in the package vignette with \code{browseVignettes(package = "Epi
 
 \item{index}{integer, figure number}
 
-\item{doc}{Word document (see \code{officer} package) in which to add the graph
+\item{doc}{'Word' document (see \code{'officer'} package) in which to add the graph
 at the bookmark location.
 If doc is missing, \code{getAgeGender} returns the \code{ggplot2} object.}
 }
 \value{
-Word doc or a ggplot2 object
+'Word' doc or a ggplot2 object
 }
 \description{
 Function returning the age and gender bar graph that will be included
@@ -53,13 +53,6 @@ The choice of the type of bar graph is set in the report parameters table \code{
 \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
-
-# --- Please note: AER plots use the font "Tahoma"
-# --- This is optional
-# --- To download this font, use the commands below
-library(extrafont)
-font_import(pattern = 'tahoma')
-loadfonts(device = "win")
 
 # --- Plot using the default dataset
 getAgeGender()
