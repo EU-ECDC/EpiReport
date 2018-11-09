@@ -368,7 +368,7 @@ plotAgeGender <- function(data,
   # --- Please Note: ECDC AER plots use the font "Tahoma"
   # --- The font is not available on Linux
 
-  if (Sys.info()["sysname"] == "Windows" & "Tahoma" %in% windowsFonts()) {
+  if ("Tahoma" %in% grDevices::windowsFonts()) {
     FONT <- "Tahoma"
   }else{
     FONT <- NULL
