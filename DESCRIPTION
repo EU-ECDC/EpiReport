@@ -38,7 +38,7 @@ Imports:
     dplyr,
     tidyr,
     ggplot2,
-    extrafont,
+    grDevices,
     graphics,
     utils,
     knitr (>= 1.20),
