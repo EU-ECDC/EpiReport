@@ -14,7 +14,7 @@
 #' (see ECDC reports
 #' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param x ddataframe, raw disease-specific dataset (see specification of the
+#' @param x dataframe, raw disease-specific dataset (see specification of the
 #' dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
 #' (default \code{SALM2016})
 #' @param disease character string, disease code (default \code{"SALM"}).

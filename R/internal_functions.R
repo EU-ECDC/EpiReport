@@ -44,8 +44,8 @@ filterDisease <- function(dis, reportParameters) {
 
   reportParameters <- dplyr::filter(reportParameters, reportParameters$HealthTopic == dis)
   if( nrow(reportParameters) == 0 ) {
-    stop(paste('The disease "', dis, '" is not described in the parameter table.
-               The report cannot be produced.'))
+    stop(paste('The disease "', dis,
+               '" is not described in the parameter table. The report cannot be produced.'))
   }
   return(reportParameters)
 }
