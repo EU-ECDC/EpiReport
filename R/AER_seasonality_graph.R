@@ -301,20 +301,15 @@ plotSeasonality <- function(data,
                             by = max(data[[max4years]], data[[yvar]])/7))
 
 
-  # --- Please Note: ECDC AER plots use the font "Tahoma"
+
+  # # --- Please Note: ECDC AER plots use the font "Tahoma"
   # --- The font is not available on Linux
 
-  # if ("Tahoma" %in% extrafont::fonts()) {
-  #   FONT <- "Tahoma"
-  #   suppressMessages(extrafont::loadfonts(device = "win"))
-  # } else if (Sys.info()["sysname"] == "Windows") {
-  #   suppressMessages(extrafont::font_import(pattern = 'tahoma', prompt = FALSE))
-  #   suppressMessages(extrafont::loadfonts(device = "win"))
-  #   FONT <- "Tahoma"
-  # } else {
-  #   FONT <- NULL
-  # }
-  FONT <- NULL
+  if ("Tahoma" %in% grDevices::windowsFonts()) {
+    FONT <- "Tahoma"
+  }else{
+    FONT <- NULL
+  }
 
 
 
