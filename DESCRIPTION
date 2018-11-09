@@ -38,7 +38,6 @@ Imports:
     dplyr,
     tidyr,
     ggplot2,
-    grDevices,
     graphics,
     utils,
     knitr (>= 1.20),
