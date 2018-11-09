@@ -346,6 +346,7 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #'               group = "Gender",
 #'               ytitle = "Number of cases")
 #'
+#' @importFrom grDevices windowsFonts
 #' @export
 #'
 plotAgeGender <- function(data,
