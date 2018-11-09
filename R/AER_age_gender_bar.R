@@ -456,6 +456,15 @@ plotAge <- function(data,
                           max(data[[yvar]]),
                           by = max(data[[yvar]])/5))
 
+  # --- Please Note: ECDC AER plots use the font "Tahoma"
+  # --- The font is not available on Linux
+
+  if ("Tahoma" %in% grDevices::windowsFonts()) {
+    FONT <- "Tahoma"
+  }else{
+    FONT <- NULL
+  }
+
   # --- Plotting
 
   p <- ggplot2::ggplot(data = data,
@@ -465,8 +474,8 @@ plotAge <- function(data,
                                 limits = c(0, max(FIGBREAKS)),
                                 breaks = FIGBREAKS) +
     ggplot2::labs(title = "", x = "Age", y = ytitle) +
-    ggplot2::theme(axis.text = ggplot2::element_text(size = 8),
-                   axis.title = ggplot2::element_text(size = 9),
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 8, family = FONT),
+                   axis.title = ggplot2::element_text(size = 9, family = FONT),
                    axis.line = ggplot2::element_line(colour = "black"),
                    axis.line.x = ggplot2::element_blank(),
                    # --- Setting the background
