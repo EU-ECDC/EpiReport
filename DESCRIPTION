@@ -25,7 +25,8 @@ Description: Drafting an epidemiological report in 'Microsoft Word' format for a
   Two types of datasets can be used:
   - The default dataset of salmonella 2012-2016 data;
   - Any dataset specified as described in the vignette.
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.4.0),
+         ggplot2
 License: EUPL
 Encoding: UTF-8
 LazyData: true
@@ -37,12 +38,9 @@ Imports:
     png,
     dplyr,
     tidyr,
-    ggplot2,
     graphics,
     utils,
     knitr (>= 1.20),
     rmarkdown
-Depends:
-    ggplot2
 VignetteBuilder: knitr
 URL: https://ecdc.europa.eu/en/annual-epidemiological-reports
