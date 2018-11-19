@@ -24,6 +24,8 @@
 #' @param x_axis_limits x-axis limits, for dates use character dates as c("2017-01-01", "2017-12-31"), otherwise a numeric vector lenght of two.
 #' @keywords epicurve
 #' @author Tommi Karki
+#' @importFrom methods is
+#' @import ggplot2
 #' @export
 #' @examples
 #' # Create dummy data
