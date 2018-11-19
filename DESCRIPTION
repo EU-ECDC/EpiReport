@@ -35,6 +35,7 @@ Imports:
     officer,
     flextable,
     ggplot2,
+    methods,
     zoo,
     png,
     dplyr,

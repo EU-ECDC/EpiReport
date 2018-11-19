@@ -88,7 +88,7 @@ Gender = rep(c("F", "M"),500))
 plotEpicurve(biggerdat, xvar = "Month", yvar = "Case", squares = FALSE,
 xtitle = "Month of onset", x_axis_ticks = "months", border = NA)
 
-Plot by months using squares = FALSE and by grouping
+# Plot by months using squares = FALSE and by grouping
 plotEpicurve(biggerdat, xvar = "Month", yvar = "Case",  group = "Gender",
 squares = FALSE, xtitle = "Month of onset", x_axis_ticks = "months")
 }
