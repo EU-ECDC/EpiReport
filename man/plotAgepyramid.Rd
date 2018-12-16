@@ -13,7 +13,7 @@ plotAgepyramid(data, xvar, yvar, group)
 
 \item{yvar}{Variable with the agegroups for the y-axis, given in quotes.}
 
-\item{group}{The grouping variable, usually gender, given in quotes.}
+\item{group}{The two level grouping variable, usually gender, given in quotes.}
 }
 \description{
 This function draws an age pyramid; improvements TBD (axis labels, selecting colours).

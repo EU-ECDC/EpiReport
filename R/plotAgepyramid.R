@@ -4,7 +4,7 @@
 #' @param data Your data frame
 #' @param xvar Variable with the population for each group, given in quotes.
 #' @param yvar Variable with the agegroups for the y-axis, given in quotes.
-#' @param group The grouping variable, usually gender, given in quotes.
+#' @param group The two level grouping variable, usually gender, given in quotes.
 #' @keywords agepyramid
 #' @author Tommi Karki
 #' @export
@@ -21,7 +21,8 @@
 
 plotAgepyramid <- function(data, xvar, yvar, group) {
 data[[yvar]] <- as.factor(data[[yvar]])
-data[[xvar]] <- ifelse(data[[group]] == "Male", data[[xvar]]*(-1), data[[xvar]])
+data[[xvar]] <- ifelse(data[[group]] == levels(as.factor(data[[group]]))[1],
+                       data[[xvar]]*(-1), data[[xvar]])
 if(max(data[[xvar]]) >= abs(min(data[[xvar]]))){
   limits <- c(max(data[[xvar]])*(-1), max(data[[xvar]]))
 }else{
