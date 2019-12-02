@@ -282,6 +282,32 @@ getSeason <- function(x = EpiReport::SALM2016,
 #'
 #' @seealso Global function: \code{\link{getSeason}}  \cr
 #' Required Packages: \code{\link{ggplot2}}
+#' @examples
+#'
+#' # --- Plot using the default dataset
+#' getSeason()
+#'
+#' # --- Plot using external dataset
+#'
+#' # Create a dummy dataset
+#' test <- data.frame(Time = as.Date(paste0("2019-",c(1:12), "-01")),
+#'                    N = sample(c(5000:7000), 12),
+#'                    mean = sample(c(4000:5000), 12),
+#'                    low = sample(c(3000:4000), 12),
+#'                    high = sample(c(5000:6000), 12))
+#'
+#' # Plot the dummy data
+#' plotSeasonality(data = test,
+#'                 xvar = "Time",
+#'                 yvar = "N",
+#'                 min4years = "low",
+#'                 max4years = "high",
+#'                 mean4years = "mean")
+#'
+#' # --- Please see examples in the vignette
+#' browseVignettes(package = "EpiReport")
+#'
+
 #'
 #' @export
 #'
