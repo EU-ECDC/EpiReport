@@ -284,8 +284,6 @@ getSeason <- function(x = EpiReport::SALM2016,
 #' Required Packages: \code{\link{ggplot2}}
 #' @examples
 #'
-#' # --- Plot using the default dataset
-#' getSeason()
 #'
 #' # --- Plot using external dataset
 #'
@@ -302,11 +300,14 @@ getSeason <- function(x = EpiReport::SALM2016,
 #'                 yvar = "N",
 #'                 min4years = "low",
 #'                 max4years = "high",
-#'                 mean4years = "mean")
+#'                 mean4years = "mean",
+#'                 year = 2019)
 #'
 #' # --- Please see examples in the vignette
 #' browseVignettes(package = "EpiReport")
 #'
+#' # --- Plot using the default dataset
+#' getSeason()
 
 #'
 #' @export

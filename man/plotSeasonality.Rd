@@ -42,8 +42,6 @@ Expects aggregated data and pre-calculated min, max and mean figures.
 }
 \examples{
 
-# --- Plot using the default dataset
-getSeason()
 
 # --- Plot using external dataset
 
@@ -60,11 +58,14 @@ plotSeasonality(data = test,
                 yvar = "N",
                 min4years = "low",
                 max4years = "high",
-                mean4years = "mean")
+                mean4years = "mean",
+                year = 2019)
 
 # --- Please see examples in the vignette
 browseVignettes(package = "EpiReport")
 
+# --- Plot using the default dataset
+getSeason()
 
 }
 \seealso{
