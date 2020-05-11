@@ -4,9 +4,15 @@
 \alias{getSeason}
 \title{Get disease-specific seasonality graph: distribution of cases by month}
 \usage{
-getSeason(x = EpiReport::SALM2016, disease = "SALM", year = 2016,
-  reportParameters = EpiReport::AERparams, MSCode = EpiReport::MSCode,
-  index = 1, doc)
+getSeason(
+  x = EpiReport::SALM2016,
+  disease = "SALM",
+  year = 2016,
+  reportParameters = EpiReport::AERparams,
+  MSCode = EpiReport::MSCode,
+  index = 1,
+  doc
+)
 }
 \arguments{
 \item{x}{dataframe, raw disease-specific dataset (see specification of the

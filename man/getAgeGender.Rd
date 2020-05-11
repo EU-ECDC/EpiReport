@@ -4,12 +4,18 @@
 \alias{getAgeGender}
 \title{Get disease-specific age and gender bar graph}
 \usage{
-getAgeGender(x = EpiReport::SALM2016, disease = "SALM", year = 2016,
-  reportParameters = EpiReport::AERparams, geoCode = "EU_EEA31",
-  index = 1, doc)
+getAgeGender(
+  x = EpiReport::SALM2016,
+  disease = "SALM",
+  year = 2016,
+  reportParameters = EpiReport::AERparams,
+  geoCode = "EU_EEA31",
+  index = 1,
+  doc
+)
 }
 \arguments{
-\item{x}{ddataframe, raw disease-specific dataset (see specification of the
+\item{x}{dataframe, raw disease-specific dataset (see specification of the
 dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
 (default \code{SALM2016})}
 

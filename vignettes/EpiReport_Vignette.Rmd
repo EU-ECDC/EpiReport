@@ -363,8 +363,12 @@ By default, the function will use the internal Salmonellosis 2012-2016 data and
 present the number of confirmed cases and the corresponding rate for each year,
 with a focus on 2016 and age-standardised rates.
 
-```{r}
+```{r, eval = FALSE}
 EpiReport::getTableByMS()
+```
+
+```{r, echo = FALSE}
+knitr::knit_print(EpiReport::getTableByMS())
 ```
 
 <center> ___Table. Distribution of confirmed salmonellosis cases, EU/EEA, 2012-2016___ </center>
@@ -378,7 +382,7 @@ the table for this disease should present the number of reported cases
 over the last five years and by Member State.
 
 
-```{r}
+```{r, eval = FALSE}
 ZIKV2016 <- read.table("data/ZIKV2016.csv", 
                        sep = ",", 
                        header = TRUE, 
@@ -387,6 +391,17 @@ EpiReport::getTableByMS(x = ZIKV2016,
              disease = "ZIKV", 
              year = 2016)
 ```
+
+```{r, echo = FALSE}
+ZIKV2016 <- read.table("data/ZIKV2016.csv", 
+                       sep = ",", 
+                       header = TRUE, 
+                       stringsAsFactors = FALSE)
+knitr::knit_print(EpiReport::getTableByMS(x = ZIKV2016, 
+             disease = "ZIKV", 
+             year = 2016))
+```
+
 
 <center> ___Table. Distribution of Zika virus infection cases, EU/EEA, 2012-2016___ </center>
 

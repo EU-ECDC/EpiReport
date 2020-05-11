@@ -4,11 +4,17 @@
 \alias{getAER}
 \title{Get full disease-specific epidemiological report}
 \usage{
-getAER(template = file.path(system.file(package = "EpiReport"),
-  "template/AER_template.docx"), outputPath = getwd(),
-  x = EpiReport::SALM2016, disease = "SALM", year = 2016,
-  reportParameters = EpiReport::AERparams, MSCode = EpiReport::MSCode,
-  pathPNG = system.file("maps", package = "EpiReport"))
+getAER(
+  template = file.path(system.file(package = "EpiReport"),
+    "template/AER_template.docx"),
+  outputPath = getwd(),
+  x = EpiReport::SALM2016,
+  disease = "SALM",
+  year = 2016,
+  reportParameters = EpiReport::AERparams,
+  MSCode = EpiReport::MSCode,
+  pathPNG = system.file("maps", package = "EpiReport")
+)
 }
 \arguments{
 \item{template}{doc (see \code{'officer'} package), the empty 'Word' document template in which
@@ -55,7 +61,7 @@ please see the package vignette "The Epidemiological Report Package" with \code{
 \examples{
 # --- Generating the AER report using the default Salmonellosis dataset
 getAER()
-\donttest{
+\dontrun{
 # --- Or using external data (example below)
 ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
 output <- "C:/EpiReport/doc/"

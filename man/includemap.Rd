@@ -4,8 +4,19 @@
 \alias{includeMap}
 \title{Including PNG map in the 'Microsoft Word' template}
 \usage{
-includeMap(disease, year, reportParameters, index, pathPNG, doc, pop,
-  namePNGsuffix, unit, mapBookmark, captionBookmark)
+includeMap(
+  disease,
+  year,
+  reportParameters,
+  index,
+  pathPNG,
+  doc,
+  pop,
+  namePNGsuffix,
+  unit,
+  mapBookmark,
+  captionBookmark
+)
 }
 \arguments{
 \item{disease}{character string, disease code (default \code{"SALM"}).}

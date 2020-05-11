@@ -98,7 +98,7 @@ getTemplate <- function(output_path){
 #' @examples
 #' # --- Generating the AER report using the default Salmonellosis dataset
 #' getAER()
-#' \donttest{
+#' \dontrun{
 #' # --- Or using external data (example below)
 #' ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
 #' output <- "C:/EpiReport/doc/"

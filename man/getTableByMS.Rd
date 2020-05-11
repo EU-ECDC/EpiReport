@@ -4,9 +4,15 @@
 \alias{getTableByMS}
 \title{Get disease-specific table: distribution of cases by Member State (GeoCode)}
 \usage{
-getTableByMS(x = EpiReport::SALM2016, disease = "SALM", year = 2016,
-  reportParameters = EpiReport::AERparams, MSCode = EpiReport::MSCode,
-  index = 1, doc)
+getTableByMS(
+  x = EpiReport::SALM2016,
+  disease = "SALM",
+  year = 2016,
+  reportParameters = EpiReport::AERparams,
+  MSCode = EpiReport::MSCode,
+  index = 1,
+  doc
+)
 }
 \arguments{
 \item{x}{dataframe, raw disease-specific dataset (see specification of the dataset in the

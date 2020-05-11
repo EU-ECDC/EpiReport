@@ -4,9 +4,14 @@
 \alias{getMap}
 \title{Get disease-specific map: distribution of cases by Member State}
 \usage{
-getMap(disease = "SALM", year = 2016,
-  reportParameters = EpiReport::AERparams, index = 1,
-  pathPNG = system.file("maps", package = "EpiReport"), doc)
+getMap(
+  disease = "SALM",
+  year = 2016,
+  reportParameters = EpiReport::AERparams,
+  index = 1,
+  pathPNG = system.file("maps", package = "EpiReport"),
+  doc
+)
 }
 \arguments{
 \item{disease}{character string, disease code (default \code{"SALM"}).}
