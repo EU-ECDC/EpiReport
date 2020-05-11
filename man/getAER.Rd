@@ -59,8 +59,12 @@ please see the package vignette "The Epidemiological Report Package" with \code{
 (see ECDC AER \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
+
+\donttest{
 # --- Generating the AER report using the default Salmonellosis dataset
 getAER()
+}
+
 \dontrun{
 # --- Or using external data (example below)
 ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
