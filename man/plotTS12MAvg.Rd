@@ -33,6 +33,4 @@ Expects aggregated data and pre-calculated 12-month moving average.
 Global function: \code{\link{getTrend}}  \cr
 Required Packages: \code{\link{ggplot2}}
 }
-\keyword{average,}
-\keyword{moving}
 \keyword{trend}
