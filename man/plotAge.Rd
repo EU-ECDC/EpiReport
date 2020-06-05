@@ -4,8 +4,13 @@
 \alias{plotAge}
 \title{Age bar graph}
 \usage{
-plotAge(data, xvar = "XLabel", yvar = "YValue",
-  fill_color1 = "#65B32E", ytitle = "Rate")
+plotAge(
+  data,
+  xvar = "XLabel",
+  yvar = "YValue",
+  fill_color1 = "#65B32E",
+  ytitle = "Rate"
+)
 }
 \arguments{
 \item{data}{dataframe containing the variables to plot}

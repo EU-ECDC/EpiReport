@@ -4,9 +4,15 @@
 \alias{plotAgeGender}
 \title{Age and Gender bar graph}
 \usage{
-plotAgeGender(data, xvar = "XLabel", yvar = "ZValue",
-  group = "YLabel", fill_color1 = "#65B32E", fill_color2 = "#7CBDC4",
-  ytitle = "Rate")
+plotAgeGender(
+  data,
+  xvar = "XLabel",
+  yvar = "ZValue",
+  group = "YLabel",
+  fill_color1 = "#65B32E",
+  fill_color2 = "#7CBDC4",
+  ytitle = "Rate"
+)
 }
 \arguments{
 \item{data}{dataframe containing the variables to plot}

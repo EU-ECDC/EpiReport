@@ -15,10 +15,11 @@
 #' @return A 'Word' document
 #'
 #' @examples
+#'
+#' \donttest{
 #' # --- Export the template in the default folder: working directory
 #' getTemplate()
 #'
-#' \donttest{
 #' # --- Or specify the full path
 #' getTemplate(output_path = getwd())
 #' }
@@ -96,9 +97,13 @@ getTemplate <- function(output_path){
 #' \code{\link{getSeason}} \code{\link{getTrend}} \code{\link{getMap}} \code{\link{getAgeGender}}
 #'
 #' @examples
+#'
+#' \donttest{
 #' # --- Generating the AER report using the default Salmonellosis dataset
 #' getAER()
-#' \donttest{
+#' }
+#'
+#' \dontrun{
 #' # --- Or using external data (example below)
 #' ZIKV2016 <- read.table("data/ZIKV2016.csv", sep = ",", header = TRUE, stringsAsFactors = FALSE)
 #' output <- "C:/EpiReport/doc/"

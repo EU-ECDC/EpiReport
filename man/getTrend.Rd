@@ -4,9 +4,15 @@
 \alias{getTrend}
 \title{Get disease-specific trend plot: trend and number of cases by month}
 \usage{
-getTrend(x = EpiReport::SALM2016, disease = "SALM", year = 2016,
-  reportParameters = EpiReport::AERparams, MSCode = EpiReport::MSCode,
-  index = 1, doc)
+getTrend(
+  x = EpiReport::SALM2016,
+  disease = "SALM",
+  year = 2016,
+  reportParameters = EpiReport::AERparams,
+  MSCode = EpiReport::MSCode,
+  index = 1,
+  doc
+)
 }
 \arguments{
 \item{x}{dataframe, raw disease-specific dataset (see specification of the

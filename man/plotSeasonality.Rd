@@ -4,9 +4,15 @@
 \alias{plotSeasonality}
 \title{Seasonality line graph}
 \usage{
-plotSeasonality(data, xvar = "TimeCode", yvar = "N",
-  min4years = "Min4Years", max4years = "Max4Years",
-  mean4years = "Mean4Years", year = 2016)
+plotSeasonality(
+  data,
+  xvar = "TimeCode",
+  yvar = "N",
+  min4years = "Min4Years",
+  max4years = "Max4Years",
+  mean4years = "Mean4Years",
+  year = 2016
+)
 }
 \arguments{
 \item{data}{dataframe containing the variables to plot}

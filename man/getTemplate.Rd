@@ -24,10 +24,11 @@ epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \
 (see ECDC annual epidemilogical reports \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
+
+\donttest{
 # --- Export the template in the default folder: working directory
 getTemplate()
 
-\donttest{
 # --- Or specify the full path
 getTemplate(output_path = getwd())
 }

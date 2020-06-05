@@ -254,7 +254,7 @@ getTrend <- function(x = EpiReport::SALM2016,
 #' @param movAverage character string, name of the variable to plot in quotes including
 #' the moving average per each time unit (default \code{"MAV"})
 #'
-#' @keywords moving average, trend
+#' @keywords trend
 #'
 #' @seealso Global function: \code{\link{getTrend}}  \cr
 #' Required Packages: \code{\link{ggplot2}}

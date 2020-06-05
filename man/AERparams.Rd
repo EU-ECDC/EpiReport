@@ -4,7 +4,8 @@
 \name{AERparams}
 \alias{AERparams}
 \title{Dataset describing the parameters for the epidemiological report production}
-\format{A data frame with 53 rows (corresponding to the 53 health topics) and 24 variables:
+\format{
+A data frame with 53 rows (corresponding to the 53 health topics) and 24 variables:
 \describe{
   \item{HealthTopic}{Disease code that should match with the health topic code
      from the disease-specific dataset  e.g. \code{ANTH}, \code{SALM}, etc.}
@@ -43,7 +44,8 @@
   \item{MapASRNoDecimals}{(optional) Number of decimals to use for presenting maps}
   \item{Transmission}{Not implemented yet}
   \item{TransmissionNoDecimals}{Not implemented yet}
-}}
+}
+}
 \usage{
 AERparams
 }

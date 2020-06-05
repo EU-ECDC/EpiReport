@@ -4,14 +4,16 @@
 \name{MSCode}
 \alias{MSCode}
 \title{Dataset correspondence table between country names and country code}
-\format{A data frame with 32 rows and 3 variables:
+\format{
+A data frame with 32 rows and 3 variables:
 \describe{
   \item{Country}{Full name of the country / Member State e.g. Austria, Belgium, etc.}
   \item{GeoCode}{Associated code (see \code{GeoCode} variable
      on the \code{SALM2016} internal dataset) e.g. AT, BE, BG, etc.}
   \item{EUEEA}{For each Member State, variable specifying in the country
      is part of the EU or EEA.}
-}}
+}
+}
 \usage{
 MSCode
 }

@@ -4,8 +4,11 @@
 \alias{cleanECDCTable}
 \title{Cleaning the final table}
 \usage{
-cleanECDCTable(x, Country = EpiReport::MSCode$Country,
-  GeoCode = EpiReport::MSCode$GeoCode)
+cleanECDCTable(
+  x,
+  Country = EpiReport::MSCode$Country,
+  GeoCode = EpiReport::MSCode$GeoCode
+)
 }
 \arguments{
 \item{x}{dataframe, dataset to clean}

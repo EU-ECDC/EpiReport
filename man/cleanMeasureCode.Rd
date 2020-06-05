@@ -59,6 +59,7 @@ Clean the MeasureCode variable and replace the specific codes with the generic o
         \item \code{ACCUTE.AGE_GENDER.RATE}
     }
 
+
 }
 }
 \examples{

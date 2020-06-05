@@ -49,6 +49,4 @@ plotTS12MAvg(data = test,
              yvar = "N",
              movAverage = "mean")
 }
-\keyword{average,}
-\keyword{moving}
 \keyword{trend}

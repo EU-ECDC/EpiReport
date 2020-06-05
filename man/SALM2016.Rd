@@ -4,7 +4,8 @@
 \name{SALM2016}
 \alias{SALM2016}
 \title{Dataset including Salmonellosis data for 2012-2016}
-\format{A data frame with 60,775 rows and 18 variables:
+\format{
+A data frame with 60,775 rows and 18 variables:
 \describe{
   \item{HealthTopicCode}{Disease code e.g. \code{ANTH}, \code{SALM}, etc.}
   \item{MeasureLabel}{optional) Label of the measure indicator}
@@ -32,7 +33,8 @@
   \item{N}{Number of cases (see \code{getTrend()} and \code{getSeason()} line graph)}
   \item{NMissing}{(optional)}
   \item{NLowerResolution}{(optional)}
-}}
+}
+}
 \usage{
 SALM2016
 }
