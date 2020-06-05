@@ -32,5 +32,21 @@ Expects aggregated data and pre-calculated 12-month moving average.
 \seealso{
 Global function: \code{\link{getTrend}}  \cr
 Required Packages: \code{\link{ggplot2}}
+
+#' @examples
+
+
+# --- Plot using external dataset
+
+# Create a dummy dataset
+test <- data.frame(Time = as.Date(paste0("2019-",c(1:12), "-01")),
+                   N = sample(c(4000:6000), 12),
+                   mean = sample(c(4000:5000), 12))
+
+# Plot the dummy data
+plotTS12MAvg(data = test,
+             xvar = "Time",
+             yvar = "N",
+             movAverage = "mean")
 }
 \keyword{trend}
