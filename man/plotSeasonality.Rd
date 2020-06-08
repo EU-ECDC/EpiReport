@@ -5,7 +5,7 @@
 \title{Seasonality line graph}
 \usage{
 plotSeasonality(
-  data,
+  .data,
   xvar = "TimeCode",
   yvar = "N",
   min4years = "Min4Years",
@@ -15,7 +15,7 @@ plotSeasonality(
 )
 }
 \arguments{
-\item{data}{dataframe containing the variables to plot}
+\item{.data}{dataframe containing the variables to plot}
 
 \item{xvar}{character string, name of the time variable on the x-axis in quotes
 (default \code{"TimeCode"})}
@@ -59,7 +59,7 @@ test <- data.frame(Time = as.Date(paste0("2019-",c(1:12), "-01")),
                    high = sample(c(5000:6000), 12))
 
 # Plot the dummy data
-plotSeasonality(data = test,
+plotSeasonality(test,
                 xvar = "Time",
                 yvar = "N",
                 min4years = "low",

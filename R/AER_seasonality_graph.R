@@ -192,7 +192,7 @@ getSeason <- function(x = EpiReport::SALM2016,
     ## Plot
     ## ----
 
-    p <- plotSeasonality(data = agg,
+    p <- plotSeasonality(agg,
                          xvar = "TimeCode",
                          yvar = "N",
                          min4years = "Min4Years",
@@ -265,7 +265,7 @@ getSeason <- function(x = EpiReport::SALM2016,
 #' }
 #' Expects aggregated data and pre-calculated min, max and mean figures.
 #'
-#' @param data dataframe containing the variables to plot
+#' @param .data dataframe containing the variables to plot
 #' @param xvar character string, name of the time variable on the x-axis in quotes
 #' (default \code{"TimeCode"})
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
@@ -295,7 +295,7 @@ getSeason <- function(x = EpiReport::SALM2016,
 #'                    high = sample(c(5000:6000), 12))
 #'
 #' # Plot the dummy data
-#' plotSeasonality(data = test,
+#' plotSeasonality(test,
 #'                 xvar = "Time",
 #'                 yvar = "N",
 #'                 min4years = "low",
@@ -312,7 +312,7 @@ getSeason <- function(x = EpiReport::SALM2016,
 #'
 #' @export
 #'
-plotSeasonality <- function(data,
+plotSeasonality <- function(.data,
                             xvar = "TimeCode",
                             yvar = "N",
                             min4years = "Min4Years",
@@ -324,8 +324,8 @@ plotSeasonality <- function(data,
   # --- Setting breaks for the time series to be nice
 
   FIGTSBREAKS <- pretty(seq(0,
-                            max(data[[max4years]], data[[yvar]]),
-                            by = max(data[[max4years]], data[[yvar]])/7))
+                            max(.data[[max4years]], .data[[yvar]]),
+                            by = max(.data[[max4years]], .data[[yvar]])/7))
 
 
   # --- Please Note: ECDC AER plots use the font "Tahoma"
@@ -347,17 +347,17 @@ plotSeasonality <- function(data,
 
   # --- Plotting
 
-  p <- ggplot2::ggplot(data, ggplot2::aes(data[[xvar]])) +
+  p <- ggplot2::ggplot(.data, ggplot2::aes(.data[[xvar]])) +
     ggplot2::geom_ribbon(
-      ggplot2::aes(ymin = data[[min4years]] ,
-                   ymax = data[[max4years]],
+      ggplot2::aes(ymin = .data[[min4years]] ,
+                   ymax = .data[[max4years]],
                    fill = paste("Min-max (", year - 4, "\U2013", year - 1, ")",sep = "")) , alpha = 0.5) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[mean4years]],
+      ggplot2::aes(y = .data[[mean4years]],
                    color = "Mean"),
       linetype = "longdash", size = 0.6) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[yvar]], color = "year"), size = 1.1) +
+      ggplot2::aes(y = .data[[yvar]], color = "year"), size = 1.1) +
     ggplot2::scale_x_date(
       date_labels = "%b", date_breaks = "1 month", expand = c(0, 0)) +
     ggplot2::scale_y_continuous(

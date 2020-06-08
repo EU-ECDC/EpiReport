@@ -5,7 +5,7 @@
 \title{Age and Gender bar graph}
 \usage{
 plotAgeGender(
-  data,
+  .data,
   xvar = "XLabel",
   yvar = "ZValue",
   group = "YLabel",
@@ -15,7 +15,7 @@ plotAgeGender(
 )
 }
 \arguments{
-\item{data}{dataframe containing the variables to plot}
+\item{.data}{dataframe containing the variables to plot}
 
 \item{xvar}{character string, name of the variable to plot on the x-axis in quotes
 (default \code{"XLabel"})}

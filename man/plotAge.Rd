@@ -5,7 +5,7 @@
 \title{Age bar graph}
 \usage{
 plotAge(
-  data,
+  .data,
   xvar = "XLabel",
   yvar = "YValue",
   fill_color1 = "#65B32E",
@@ -13,7 +13,7 @@ plotAge(
 )
 }
 \arguments{
-\item{data}{dataframe containing the variables to plot}
+\item{.data}{dataframe containing the variables to plot}
 
 \item{xvar}{character string, name of the variable to plot on the x-axis in quotes
 (default \code{"XLabel"})}

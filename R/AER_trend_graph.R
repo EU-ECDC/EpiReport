@@ -246,7 +246,7 @@ getTrend <- function(x = EpiReport::SALM2016,
 #' }
 #' Expects aggregated data and pre-calculated 12-month moving average.
 #'
-#' @param data dataframe containing the variables to plot
+#' @param .data dataframe containing the variables to plot
 #' @param xvar character string, name of the time variable to plot on the x-axis
 #' in quotes (default \code{"TimeCode"})
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
@@ -270,14 +270,14 @@ getTrend <- function(x = EpiReport::SALM2016,
 #'                    mean = sample(c(4000:5000), 12))
 #'
 #' # Plot the dummy data
-#' plotTS12MAvg(data = test,
+#' plotTS12MAvg(test,
 #'              xvar = "Time",
 #'              yvar = "N",
 #'              movAverage = "mean")
 #'
 #' @export
 #'
-plotTS12MAvg <- function(data,
+plotTS12MAvg <- function(.data,
                          xvar = "TimeCode",
                          yvar = "N",
                          movAverage = "MAV"){
@@ -286,8 +286,8 @@ plotTS12MAvg <- function(data,
   # --- Breaks for the Y axis
 
   FIGTSBREAKS <- pretty(seq(0,
-                            max(data[[yvar]]),
-                            by = max(data[[yvar]])/7))
+                            max(.data[[yvar]]),
+                            by = max(.data[[yvar]])/7))
 
 
   # --- Please Note: ECDC AER plots use the font "Tahoma"
@@ -308,12 +308,12 @@ plotTS12MAvg <- function(data,
 
   # --- Plotting
 
-  p <- ggplot2::ggplot(data,
-                       ggplot2::aes(data[[xvar]])) +
+  p <- ggplot2::ggplot(.data,
+                       ggplot2::aes(.data[[xvar]])) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[yvar]] , color = "Number of cases"), size = 0.6) +
+      ggplot2::aes(y = .data[[yvar]] , color = "Number of cases"), size = 0.6) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[movAverage]], color = "12-month moving average"), size = 1.1, na.rm = TRUE) +
+      ggplot2::aes(y = .data[[movAverage]], color = "12-month moving average"), size = 1.1, na.rm = TRUE) +
     ggplot2::scale_x_date(
       date_label = "%b \n %Y",
       date_breaks = "6 months",

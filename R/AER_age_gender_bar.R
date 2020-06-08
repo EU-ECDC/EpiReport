@@ -315,7 +315,7 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #' }
 #' Expects aggregated data.
 #'
-#' @param data dataframe containing the variables to plot
+#' @param .data dataframe containing the variables to plot
 #' @param xvar character string, name of the variable to plot on the x-axis in quotes
 #' (default \code{"XLabel"})
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
@@ -348,7 +348,7 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #'
 #' @export
 #'
-plotAgeGender <- function(data,
+plotAgeGender <- function(.data,
                           xvar = "XLabel",
                           yvar = "ZValue",
                           group = "YLabel",
@@ -360,8 +360,8 @@ plotAgeGender <- function(data,
   # --- Breaks for the Y axis
 
   FIGBREAKS <- pretty(seq(0,
-                          max(data[[yvar]]),
-                          by = max(data[[yvar]])/5))
+                          max(.data[[yvar]]),
+                          by = max(.data[[yvar]])/5))
 
 
   # --- Please Note: ECDC AER plots use the font "Tahoma"
@@ -383,8 +383,8 @@ plotAgeGender <- function(data,
 
   # --- Plotting
 
-  p <- ggplot2::ggplot(data = data,
-                       ggplot2::aes(x = data[[xvar]], y = data[[yvar]], fill = data[[group]])) +
+  p <- ggplot2::ggplot(data = .data,
+                       ggplot2::aes(x = .data[[xvar]], y = .data[[yvar]], fill = .data[[group]])) +
     ggplot2::geom_bar(stat = "identity", position = ggplot2::position_dodge()) +
     ggplot2::scale_fill_manual(values = c(fill_color1, fill_color2)) +
     ggplot2::scale_y_continuous(expand = c(0,0),
@@ -419,7 +419,7 @@ plotAgeGender <- function(data,
 #' using the rate per 100 000 cases by age. \cr
 #' Expects aggregated data.
 #'
-#' @param data dataframe containing the variables to plot
+#' @param .data dataframe containing the variables to plot
 #' @param xvar character string, name of the variable to plot on the x-axis in quotes
 #' (default \code{"XLabel"})
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
@@ -447,7 +447,7 @@ plotAgeGender <- function(data,
 #'
 #' @export
 #'
-plotAge <- function(data,
+plotAge <- function(.data,
                     xvar = "XLabel",
                     yvar = "YValue",
                     fill_color1 = "#65B32E",
@@ -457,13 +457,13 @@ plotAge <- function(data,
   # --- Breaks for the Y axis
 
   FIGBREAKS <- pretty(seq(0,
-                          max(data[[yvar]]),
-                          by = max(data[[yvar]])/5))
+                          max(.data[[yvar]]),
+                          by = max(.data[[yvar]])/5))
 
   # --- Plotting
 
-  p <- ggplot2::ggplot(data = data,
-                       ggplot2::aes(x = data[[xvar]], y = data[[yvar]])) +
+  p <- ggplot2::ggplot(data = .data,
+                       ggplot2::aes(x = .data[[xvar]], y = .data[[yvar]])) +
     ggplot2::geom_bar(stat = "identity", fill = fill_color1) +
     ggplot2::scale_y_continuous(expand = c(0,0),
                                 limits = c(0, max(FIGBREAKS)),
