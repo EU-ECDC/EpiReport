@@ -36,11 +36,14 @@ EcdcColors("grey", grey_shade = c("mediumlight", "dark"))
 # Use in a graph
 # Dummy data
 mydat <- data.frame(ID = c(seq(1,10,1)),
-Gender = c(rep(c("F", "M"),5)))
-barplot(table(mydat$Gender), col = EcdcColors(col_scale = "qual", n=2))
+                    Gender = c(rep(c("F", "M"),5)))
+barplot(table(mydat$Gender),
+        col = EcdcColors(col_scale = "qual", n=2))
 
 # Hot-cold colour scale
-barplot(c(1:4), col = EcdcColors(col_scale = "hotcold", n = 4, hot_cols = 2))
+barplot(c(1:4),
+        col = EcdcColors(col_scale = "hotcold", n = 4, hot_cols = 2))
+
 }
 \author{
 Tommi Karki

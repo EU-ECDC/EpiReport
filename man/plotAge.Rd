@@ -22,7 +22,7 @@ plotAge(
 (default \code{"YValue"})}
 
 \item{fill_color1}{character string, hexadecimal colour to use in the graph;
-(default to ECDC green \code{"#65B32E"})}
+(default to ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 1))}
 
 \item{ytitle}{character string, y-axis title; (default \code{"Rate"}).}
 }
@@ -47,6 +47,7 @@ plotAge(mydat,
 }
 \seealso{
 Global function: \code{\link{getAgeGender}}  \cr
+Internal function: \code{\link{EcdcColors}} \cr
 Required Packages: \code{\link{ggplot2}}
 }
 \keyword{age}

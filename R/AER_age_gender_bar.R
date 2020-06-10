@@ -37,7 +37,8 @@
 #'
 #' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
-#' Internal functions: \code{\link{plotAgeGender}} \code{\link{plotAge}} \cr
+#' Internal functions: \code{\link{plotAgeGender}} \code{\link{plotAge}}
+#' \code{\link{EcdcColors}} \cr
 #' Default datasets: \code{\link{AERparams}}
 #'
 #' @examples
@@ -224,19 +225,20 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 
     if(substr(reportParameters$AgeGenderUse, 1, 2) == "AG") {
       # --- Age by Gender
+      fill_color <- EcdcColors(col_scale = "qual", n = 2)
       p <- plotAgeGender(x,
                          xvar = "XLabel",
                          yvar = "ZValue",
                          group = "YLabel",
-                         fill_color1 = "#65B32E",
-                         fill_color2 = "#7CBDC4",
+                         fill_color1 = fill_color[1],
+                         fill_color2 = fill_color[2],
                          ytitle  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
     } else {
       # --- Age only
       p <- plotAge(x,
                    xvar = "XLabel",
                    yvar = "YValue",
-                   fill_color1 = "#65B32E",
+                   fill_color1 = EcdcColors(col_scale = "qual", n = 1),
                    ytitle  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
     }
 
@@ -321,9 +323,9 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
 #' (default \code{"ZValue"})
 #' @param fill_color1 character string, hexadecimal colour to use in the graph for bar 1;
-#' (default to ECDC green \code{"#65B32E"})
+#' (default to ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 2))
 #' @param fill_color2 character string, hexadecimal colour to use in the graph for bar 2;
-#' (default to ECDC blue \code{"#7CBDC4"})
+#' (default to ECDC blue \code{"#7CBDC4"}, see EcdcColors(col_scale = "qual", n = 2))
 #' @param group character string, name of the grouping variable in quotes, e.g. gender.
 #' (default \code{"YLabel"})
 #' @param ytitle character string, y-axis title; (default \code{"Rate"}).
@@ -331,6 +333,7 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #' @keywords age gender bargraph
 #'
 #' @seealso Global function: \code{\link{getAgeGender}}  \cr
+#' Internal function: \code{\link{EcdcColors}} \cr
 #' Required Packages: \code{\link{ggplot2}}
 #'
 #' @examples
@@ -425,12 +428,13 @@ plotAgeGender <- function(.data,
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
 #' (default \code{"YValue"})
 #' @param fill_color1 character string, hexadecimal colour to use in the graph;
-#' (default to ECDC green \code{"#65B32E"})
+#' (default to ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 1))
 #' @param ytitle character string, y-axis title; (default \code{"Rate"}).
 #'
 #' @keywords age bargraph
 #'
 #' @seealso Global function: \code{\link{getAgeGender}}  \cr
+#' Internal function: \code{\link{EcdcColors}} \cr
 #' Required Packages: \code{\link{ggplot2}}
 #'
 #' @examples

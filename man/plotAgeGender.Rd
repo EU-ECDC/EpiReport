@@ -27,10 +27,10 @@ plotAgeGender(
 (default \code{"YLabel"})}
 
 \item{fill_color1}{character string, hexadecimal colour to use in the graph for bar 1;
-(default to ECDC green \code{"#65B32E"})}
+(default to ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 2))}
 
 \item{fill_color2}{character string, hexadecimal colour to use in the graph for bar 2;
-(default to ECDC blue \code{"#7CBDC4"})}
+(default to ECDC blue \code{"#7CBDC4"}, see EcdcColors(col_scale = "qual", n = 2))}
 
 \item{ytitle}{character string, y-axis title; (default \code{"Rate"}).}
 }
@@ -61,6 +61,7 @@ plotAgeGender(mydat,
 }
 \seealso{
 Global function: \code{\link{getAgeGender}}  \cr
+Internal function: \code{\link{EcdcColors}} \cr
 Required Packages: \code{\link{ggplot2}}
 }
 \keyword{age}
