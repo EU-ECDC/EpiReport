@@ -259,8 +259,7 @@ getTrend <- function(x = EpiReport::SALM2016,
 #' @seealso Global function: \code{\link{getTrend}}  \cr
 #' Required Packages: \code{\link{ggplot2}}
 #'
-#'#' @examples
-#'
+#' @examples
 #'
 #' # --- Plot using external dataset
 #'

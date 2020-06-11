@@ -29,12 +29,7 @@ over the past five years, with:
 }
 Expects aggregated data and pre-calculated 12-month moving average.
 }
-\seealso{
-Global function: \code{\link{getTrend}}  \cr
-Required Packages: \code{\link{ggplot2}}
-
-#' @examples
-
+\examples{
 
 # --- Plot using external dataset
 
@@ -48,5 +43,10 @@ plotTS12MAvg(test,
              xvar = "Time",
              yvar = "N",
              movAverage = "mean")
+
+}
+\seealso{
+Global function: \code{\link{getTrend}}  \cr
+Required Packages: \code{\link{ggplot2}}
 }
 \keyword{trend}
