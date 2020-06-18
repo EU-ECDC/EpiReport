@@ -71,7 +71,8 @@ browseVignettes(package = "EpiReport")
 \seealso{
 Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
 Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
-Internal functions: \code{\link{plotAgeGender}} \code{\link{plotAge}}
+Internal functions: \code{\link{plotBarGrouped}} (use of \code{plotAgeGender} discouraged)
+\code{\link{plotBar}} (use of \code{plotAge} discouraged)
 \code{\link{EcdcColors}} \cr
 Default datasets: \code{\link{AERparams}}
 }
