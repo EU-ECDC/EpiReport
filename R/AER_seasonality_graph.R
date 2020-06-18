@@ -365,17 +365,18 @@ plotSeasonality <- function(.data,
     ggplot2::xlab("Month") +
     ggplot2::ylab("Number of cases") +
     ggplot2::scale_colour_manual("lines",
-                                 values = c("year" = "#69AE23", "Mean" = "#767171"),
+                                 values = c("year" = EcdcColors(col_scale = "green", n=1),
+                                            "Mean" = EcdcColors(col_scale = "grey", grey_shade = "mediumdark")),
                                  labels = c("year" = as.character(year),
                                             "Mean" = paste("Mean (", year - 4 , "\U2013", year - 1, ")", sep = ""))) +
-    ggplot2::scale_fill_manual("", values = "grey80") +
+    ggplot2::scale_fill_manual("", values = EcdcColors(col_scale = "grey", grey_shade = "mediumlight")) +
     ggplot2::theme(
       axis.text = ggplot2::element_text(size = 8, family = FONT),
       axis.title = ggplot2::element_text(size = 9, family = FONT),
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       panel.background = ggplot2::element_blank(),
-      axis.line = ggplot2::element_line(colour = "#767171"),
+      axis.line = ggplot2::element_line(colour = EcdcColors(col_scale = "grey", grey_shade = "mediumdark")),
       legend.position = "right",
       legend.title = ggplot2::element_blank(),
       legend.text = ggplot2::element_text(size = 8, family = FONT),

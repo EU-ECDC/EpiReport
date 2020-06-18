@@ -319,7 +319,7 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
 #' @param fsize numeric, font to use (Default 7)
 #' @param fname character, font name (Default \code{"Tahoma"})
 #' @param maincolor character string, hexadecimal code for the header background
-#' color (Default \code{"#69AE23"})
+#' color (Default \code{EcdcColors(col_scale = "green", n=1)})
 #'
 #' @return flextable object (see \code{flextable} package)
 #'
@@ -336,7 +336,7 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
 
   if(missing(fsize)) {fsize <- 7}
   if(missing(fname)) {fname <- "Tahoma"}
-  if(missing(maincolor)) {maincolor <- "#69AE23"}
+  if(missing(maincolor)) {maincolor <- EcdcColors(col_scale = "green", n=1)}
 
 
 
@@ -346,7 +346,7 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
 
   # --- Borders
   ft <- flextable::border_remove(ft)
-  std_border <- officer::fp_border(color = "grey80")
+  std_border <- officer::fp_border(color = EcdcColors(col_scale = "grey", grey_shade = "mediumlight"))
   ft <- flextable::hline(ft, border = std_border)
   # --- Headers
   ft <- flextable::set_header_df(ft, mapping = headers, key = "col_keys" )

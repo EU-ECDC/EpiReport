@@ -18,7 +18,7 @@ Please note that the column \code{col_keys} should contain the names of the flex
 \item{fname}{character, font name (Default \code{"Tahoma"})}
 
 \item{maincolor}{character string, hexadecimal code for the header background
-color (Default \code{"#69AE23"})}
+color (Default \code{EcdcColors(col_scale = "green", n=1)})}
 }
 \value{
 flextable object (see \code{flextable} package)
