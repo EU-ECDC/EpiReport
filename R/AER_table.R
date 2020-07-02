@@ -262,7 +262,46 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
   # ----
 
   if(reportParameters$TableUse == "SPECIFIC") {
-    return(doc)
+
+    # --- Filtering
+    x <- dplyr::filter(x, x$MeasureCode %in% paste(c("CONFIRMED", "ACUTE", "CHRONIC", "UNKNOWN"),
+                                                   rep(c("COUNT", "RATE"), each = 4) , sep = "."))
+    # --- Filtering ASR only for the year of interest
+    x <- dplyr::filter(x, !(x$TimeCode != year &
+                              x$MeasureCode %in% paste(c("ACUTE", "CHRONIC", "UNKNOWN"),
+                                                       rep(c("COUNT", "RATE"), each = 3) , sep = ".")))
+    if(nrow(x) == 0) {
+      stop(paste('The dataset does not include the required \'MeasureCode\' indicator for the selected disease "',
+                 disease, '" to present the AER table by disease stage'))
+    }
+
+    # --- Rounding rates
+    x$YValue <- round(x$YValue, reportParameters$TableRatesNoDecimals)
+
+    # --- Building the table
+    x <- dplyr::select(x, c("GeoCode", "TimeCode", "MeasureCode", "YValue"))
+    x <- tidyr::unite(x, col = "Key", "TimeCode", "MeasureCode")
+    x <- tidyr::spread(x, "Key", "YValue")
+
+    # --- Reordering and rounding columns
+    lastColumn <- paste(year, "_", paste(rep(c("CONFIRMED","ACUTE", "CHRONIC", "UNKNOWN"), each = 2),
+                                         c("COUNT", "RATE"), sep = "."), sep = "")
+    stageColumn <- dplyr::select(x, lastColumn)
+    x <- dplyr::bind_cols(dplyr::select(x, -lastColumn),
+                          stageColumn)
+
+    # --- Cleaning table
+    x <- cleanECDCTable(x, MSCode$Country, MSCode$GeoCode)
+
+    # --- Preparing headers
+    names(x) <- make.names(names(x))    #FlexTable supports only syntactic names
+    headers <- data.frame(
+      col_keys = names(x),
+      years = c("Country", rep((year-4):year, each = 2), rep(year, 6)),
+      stage = c("Country", rep("Confirmed", 10), rep( c("Acute", "Chronic", "Unknown") , each = 2)),
+      indicator = c("Country", rep(c("Cases", "Rate"), 8)),
+      stringsAsFactors = FALSE
+    )
   }
 
   # ----
@@ -351,6 +390,13 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
   # --- Headers
   ft <- flextable::set_header_df(ft, mapping = headers, key = "col_keys" )
   ft <- flextable::merge_h(ft, i = 1, part = "header")
+  for(col in seq(2, ncol(ft$header$dataset), by=2)) {
+    if(col+1 <= ncol(ft$header$dataset)) {
+      if(ft$header$dataset[2, col] == ft$header$dataset[2, col+1]){
+        ft <- flextable::merge_at(ft, i = 2, j = c(col, col+1), part = "header")
+      }
+    }
+  }
   ft <- flextable::merge_v(ft, j = "Country", part = "header")
   # --- Headers Borders
   hd_border <- officer::fp_border(color = "white")
