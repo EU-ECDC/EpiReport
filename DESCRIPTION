@@ -37,11 +37,7 @@ Imports:
     png,
     dplyr,
     tidyr,
-    ggplot2,
-    extrafont,
-    graphics,
-    utils,
-    knitr (>= 1.20),
-    rmarkdown
+    ggplot2
+Suggests: knitr (>= 1.20)
 VignetteBuilder: knitr
 URL: https://ecdc.europa.eu/en/annual-epidemiological-reports

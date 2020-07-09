@@ -261,12 +261,13 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
   # Specific Tables (to be continued)
   # ----
 
-  if(reportParameters$TableUse == "SPECIFIC") {
+  if(reportParameters$TableUse == "STAGE") {
 
     # --- Filtering
-    x <- dplyr::filter(x, x$MeasureCode %in% paste(c("CONFIRMED", "ACUTE", "CHRONIC", "UNKNOWN"),
+    x <- dplyr::filter(x, x$MeasureCode %in% paste(c(reportParameters$MeasurePopulation,
+                                                     "ACUTE", "CHRONIC", "UNKNOWN"),
                                                    rep(c("COUNT", "RATE"), each = 4) , sep = "."))
-    # --- Filtering ASR only for the year of interest
+    # --- Filtering disease STAGE only for the year of interest
     x <- dplyr::filter(x, !(x$TimeCode != year &
                               x$MeasureCode %in% paste(c("ACUTE", "CHRONIC", "UNKNOWN"),
                                                        rep(c("COUNT", "RATE"), each = 3) , sep = ".")))
@@ -284,9 +285,10 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
     x <- tidyr::spread(x, "Key", "YValue")
 
     # --- Reordering and rounding columns
-    lastColumn <- paste(year, "_", paste(rep(c("CONFIRMED","ACUTE", "CHRONIC", "UNKNOWN"), each = 2),
+    lastColumn <- paste(year, "_", paste(rep(c(reportParameters$MeasurePopulation,
+                                               "ACUTE", "CHRONIC", "UNKNOWN"), each = 2),
                                          c("COUNT", "RATE"), sep = "."), sep = "")
-    stageColumn <- dplyr::select(x, lastColumn)
+    stageColumn <- dplyr::select(x, dplyr::all_of(lastColumn))
     x <- dplyr::bind_cols(dplyr::select(x, -lastColumn),
                           stageColumn)
 
@@ -295,10 +297,13 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
 
     # --- Preparing headers
     names(x) <- make.names(names(x))    #FlexTable supports only syntactic names
+    cases <- paste(substring(reportParameters$MeasurePopulation,1,1),
+                   tolower(substring(reportParameters$MeasurePopulation,2)),
+                   sep = "" )
     headers <- data.frame(
       col_keys = names(x),
       years = c("Country", rep((year-4):year, each = 2), rep(year, 6)),
-      stage = c("Country", rep("Confirmed", 10), rep( c("Acute", "Chronic", "Unknown") , each = 2)),
+      stage = c("Country", rep(cases, 10), rep( c("Acute", "Chronic", "Unknown") , each = 2)),
       indicator = c("Country", rep(c("Cases", "Rate"), 8)),
       stringsAsFactors = FALSE
     )
