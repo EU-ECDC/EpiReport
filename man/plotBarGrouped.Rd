@@ -31,7 +31,7 @@ plotBarGrouped(
 (default \code{"YLabel"}) .}
 
 \item{fill_color}{vector of character strings, hexadecimal colour to use in the graph for bars;
-the vector should contain the number categories in \code{"group} variable.
+the vector should contain the number categories in \code{"group"} variable.
 (default to ECDC blue \code{"#7CBDC4"} and ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 2))}
 }
 \description{

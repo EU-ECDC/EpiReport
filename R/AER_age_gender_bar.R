@@ -320,7 +320,7 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #' (default \code{"ZValue"})
 #' @param ylabel character string, label of the y axis
 #' @param fill_color vector of character strings, hexadecimal colour to use in the graph for bars;
-#' the vector should contain the number categories in \code{"group} variable.
+#' the vector should contain the number categories in \code{"group"} variable.
 #' (default to ECDC blue \code{"#7CBDC4"} and ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 2))
 #' @param group character string, name of the grouping variable in quotes, e.g. gender.
 #' (default \code{"YLabel"}) .
