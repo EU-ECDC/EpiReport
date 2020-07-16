@@ -323,7 +323,9 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #' the vector should contain the number categories in \code{"group"} variable.
 #' (default to ECDC blue \code{"#7CBDC4"} and ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 2))
 #' @param group character string, name of the grouping variable in quotes, e.g. gender.
-#' (default \code{"YLabel"}) .
+#' (default \code{"YLabel"}).
+#' @param position character string, position of the bars, either \code{"dodge"}
+#' or \code{"stack"} (default \code{"dodge"}, see \code{geom_bar(position = ... )}).
 #'
 #' @keywords bargraph
 #'
@@ -335,7 +337,7 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #' # --- Create dummy data
 #' mydat <- data.frame(Gender=c("F", "F", "M", "M"),
 #'                     AgeGroup = c("0-65", "65+", "0-65", "65+"),
-#'                     NumberOfCases = c(54,43,32,41))
+#'                     NumberOfCases = c(30, 35, 70, 65))
 #'
 #' # --- Plot the dummy data
 #' plotBarGrouped(mydat,
@@ -344,6 +346,23 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #'               yvar = "NumberOfCases",
 #'               ylabel = "Number of cases",
 #'               group = "Gender")
+#'
+#'  # -- Create dummy data
+#'  mydat <- data.frame(VaccStatus = rep(c("Unvaccinated", "1 dose", "2 doses", "3 doses"), 3),
+#'                      AgeGroup = rep(c("<1", "1-4", "5-9") , each = 4),
+#'                      Proportion = c(90, 10, 0, 0,
+#'                                     30, 50, 20, 0,
+#'                                     10, 25, 35, 30))
+#'  mydat$VaccStatus <- factor(mydat$VaccStatus,
+#'                             levels = c("3 doses", "2 doses", "1 dose", "Unvaccinated"))
+#'  plotBarGrouped(mydat,
+#'                 xvar = "AgeGroup",
+#'                 xlabel = "Age (years)",
+#'                 yvar = "Proportion",
+#'                 ylabel = "Proportion of cases %",
+#'                 group = "VaccStatus",
+#'                 position = "stack")
+#'
 #'
 #' @export
 #'
@@ -354,14 +373,23 @@ plotBarGrouped <- function(.data,
                           ylabel = "",
                           group = "YLabel",
                           fill_color = EcdcColors(col_scale = "qual",
-                                                  n = length(unique(.data[[group]])))) {
+                                                  n = length(unique(.data[[group]]))),
+                          position = "dodge") {
 
 
   # --- Breaks for the Y axis
+  if (position == "dodge") {
+    FIGBREAKS <- pretty(seq(0,
+                            max(.data[[yvar]]),
+                            by = max(.data[[yvar]])/5))
+  } else {
+    max <- dplyr::group_by(.data, .data[[xvar]])
+    max <- dplyr::mutate(max, total = sum(max[[yvar]], na.rm = TRUE))
+    FIGBREAKS <- pretty(seq(0,
+                            max(max$total),
+                            by = max(max(max$total))/5))
+    }
 
-  FIGBREAKS <- pretty(seq(0,
-                          max(.data[[yvar]]),
-                          by = max(.data[[yvar]])/5))
 
 
   ######  Option not yet implemented
@@ -372,8 +400,11 @@ plotBarGrouped <- function(.data,
   # --- Plotting
 
   p <- ggplot2::ggplot(data = .data,
-                       ggplot2::aes(x = .data[[xvar]], y = .data[[yvar]], fill = .data[[group]])) +
-    ggplot2::geom_bar(stat = "identity", position = ggplot2::position_dodge()) +
+                       ggplot2::aes(x = .data[[xvar]],
+                                    y = .data[[yvar]],
+                                    fill = .data[[group]])) +
+    ggplot2::geom_bar(stat = "identity",
+                      position = position) +
     ggplot2::scale_fill_manual(values = fill_color) +
     ggplot2::scale_y_continuous(expand = c(0,0),
                                 limits = c(0, max(FIGBREAKS)),

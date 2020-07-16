@@ -11,7 +11,8 @@ plotBarGrouped(
   yvar = "ZValue",
   ylabel = "",
   group = "YLabel",
-  fill_color = EcdcColors(col_scale = "qual", n = length(unique(.data[[group]])))
+  fill_color = EcdcColors(col_scale = "qual", n = length(unique(.data[[group]]))),
+  position = "dodge"
 )
 }
 \arguments{
@@ -28,11 +29,14 @@ plotBarGrouped(
 \item{ylabel}{character string, label of the y axis}
 
 \item{group}{character string, name of the grouping variable in quotes, e.g. gender.
-(default \code{"YLabel"}) .}
+(default \code{"YLabel"}).}
 
 \item{fill_color}{vector of character strings, hexadecimal colour to use in the graph for bars;
 the vector should contain the number categories in \code{"group"} variable.
 (default to ECDC blue \code{"#7CBDC4"} and ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 2))}
+
+\item{position}{character string, position of the bars, either \code{"dodge"}
+or \code{"stack"} (default \code{"dodge"}, see \code{geom_bar(position = ... )}).}
 }
 \description{
 This function draws a vertical grouped bar graph of the values of variable 'Yvar'
@@ -43,7 +47,7 @@ Expects aggregated data.
 # --- Create dummy data
 mydat <- data.frame(Gender=c("F", "F", "M", "M"),
                     AgeGroup = c("0-65", "65+", "0-65", "65+"),
-                    NumberOfCases = c(54,43,32,41))
+                    NumberOfCases = c(30, 35, 70, 65))
 
 # --- Plot the dummy data
 plotBarGrouped(mydat,
@@ -52,6 +56,23 @@ plotBarGrouped(mydat,
               yvar = "NumberOfCases",
               ylabel = "Number of cases",
               group = "Gender")
+
+ # -- Create dummy data
+ mydat <- data.frame(VaccStatus = rep(c("Unvaccinated", "1 dose", "2 doses", "3 doses"), 3),
+                     AgeGroup = rep(c("<1", "1-4", "5-9") , each = 4),
+                     Proportion = c(90, 10, 0, 0,
+                                    30, 50, 20, 0,
+                                    10, 25, 35, 30))
+ mydat$VaccStatus <- factor(mydat$VaccStatus,
+                            levels = c("3 doses", "2 doses", "1 dose", "Unvaccinated"))
+ plotBarGrouped(mydat,
+                xvar = "AgeGroup",
+                xlabel = "Age (years)",
+                yvar = "Proportion",
+                ylabel = "Proportion of cases \%",
+                group = "VaccStatus",
+                position = "stack")
+
 
 }
 \seealso{
