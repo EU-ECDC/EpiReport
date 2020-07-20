@@ -213,10 +213,10 @@ getAgeGender <- function(x = EpiReport::SALM2016,
     ## Ordering the labels for gender variable
     ## ----
 
-    x$XLabel = factor(x$XLabel, orderQuasinum(unique(x$XLabel)))
+    x$XLabel <- factor(x$XLabel, orderQuasinum(unique(x$XLabel)))
     # --- for Age by Gender
     if(substr(reportParameters$AgeGenderUse, 1, 2) == "AG") {
-      x$YLabel = factor(x$YLabel, c("Male","Female"))
+      x$YLabel <- factor(x$YLabel, c("Male","Female"))
     }
 
 

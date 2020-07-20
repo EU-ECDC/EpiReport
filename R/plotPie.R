@@ -23,10 +23,10 @@
 #'
 #' @examples
 #' # --- Create dummy data
-#' piechart <- data.frame(Labels = c("Heterosexual females,\n 1 633, 7.17%",
-#'                                   "Heterosexual males,\n 2 937, 12.90%",
-#'                                   "MSM,\n 15 342, 67.39%",
-#'                                   "Unknow\n 2 854, 12.54%"),
+#' piechart <- data.frame(Labels = c("Heterosexual females",
+#'                                   "Heterosexual males",
+#'                                   "MSM",
+#'                                   "Unknow"),
 #'                        Values = c(1633,2937,15342,2854))
 #'
 #' # --- Plot the dummy data
@@ -55,30 +55,23 @@ plotPie <- function(.data,
   }
 
 
-  # --- Plotting
+  # --- Ordering the pie slices
+  .data <- .data[order(.data[[xvar]], decreasing = TRUE), ]
+  .data[[labels]] <- factor(.data[[labels]], levels = unique(.data[[labels]]))
 
-  graphics::pie(.data[[xvar]],
-                labels = .data[[labels]],
-                border = "white",
-                col = fill_colors)
 
-  # --- Test with ggplot2
-  # --- but not really recommended apparently (https://www.r-graph-gallery.com/pie-plot.html)
-  # p <- ggplot2::ggplot(data = .data,
-  #                      ggplot2::aes(x = "",
-  #                                   y = .data[[xvar]],
-  #                                   fill = .data[[labels]])) +
-  #   ggplot2::geom_bar(stat = "identity", width = 1, color = "white") +
-  #   ggplot2::coord_polar("y", start = 0) +
-  #   ggplot2::scale_fill_manual(values = fill_colors) +
-  #   ggplot2::theme_void() +
-  #   ggplot2::theme(
-  #     # legend.position = "none",
-  #     axis.text.x = ggplot2::element_text(colour = 'black')) +
-  #   ggplot2::scale_y_continuous(breaks = cumsum(.data[[xvar]]) - (.data[[xvar]]*0.5), labels= .data[[labels]]) +
-  #   ggplot2::geom_text( ggplot2::aes(y = cumsum(.data[[xvar]]) - (.data[[xvar]]*0.5),
-  #     label = .data[[labels]]), color = "white" )
-  #
+  # --- Plotting with ggplot2
+  p <- ggplot2::ggplot(data = .data,
+                       ggplot2::aes(x = "",
+                                    y = .data[[xvar]],
+                                    fill = .data[[labels]])) +
+    ggplot2::geom_bar(stat = "identity", width = 1, color = "white") +
+    ggplot2::coord_polar("y", start = 0, direction = -1) +
+    ggplot2::scale_fill_manual(values = fill_colors) +
+    ggplot2::theme_void() +
+    ggplot2::theme(legend.title = ggplot2::element_blank())
+
+
   # --- Used to be a plotly output
   # --- However, not really compatible with Word output
   # p <- plotly::plot_ly(.data,
@@ -100,6 +93,14 @@ plotPie <- function(.data,
   #          margin = list(l=300, r=300, b=100, t=100, pad=4))
   # plotly::export(p, file = "test/tranmission.png")
   # plotly::orca(p, file = "test/tranmission.png")
-  # return(p)
+
+  # --- Plotting with basic R
+  # graphics::pie(.data[[xvar]],
+  #               labels = .data[[labels]],
+  #               border = "white",
+  #               col = fill_colors)
+
+
+  return(p)
 
 }

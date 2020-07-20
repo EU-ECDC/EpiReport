@@ -33,10 +33,10 @@ Expects aggregated data.
 }
 \examples{
 # --- Create dummy data
-piechart <- data.frame(Labels = c("Heterosexual females,\n 1 633, 7.17\%",
-                                  "Heterosexual males,\n 2 937, 12.90\%",
-                                  "MSM,\n 15 342, 67.39\%",
-                                  "Unknow\n 2 854, 12.54\%"),
+piechart <- data.frame(Labels = c("Heterosexual females",
+                                  "Heterosexual males",
+                                  "MSM",
+                                  "Unknow"),
                        Values = c(1633,2937,15342,2854))
 
 # --- Plot the dummy data
