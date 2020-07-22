@@ -325,13 +325,16 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
     # --- If no 'Word' document, then return the flextable
     return(ft)
   } else {
-    # --- If there is a 'Word' document, then replace the corresponding bookmark
-    officer::cursor_bookmark(doc, id = "TABLE1_BOOKMARK")
-    doc <- flextable::body_add_flextable(doc, value = ft)
+
+    # --- If there is a 'Word' document, then replace the corresponding bookmarks
+    officer::cursor_bookmark(doc, id = "TABLE1_CAPTION")
+
+    # --- First add a new Word section
+    officer::body_end_section_continuous(doc)
 
 
     # ----
-    # Adding the caption
+    # Adding first the caption
     # ----
 
     ## ------ Caption definition
@@ -339,8 +342,21 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
     pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
     caption <- paste("Table 1. Distribution of ", pop, reportParameters$Label,
                      " cases, ", "EU/EEA, ", year - 4, "\U2013", year, sep = "")
-    officer::cursor_bookmark(doc, id = "TABLE1_CAPTION")
     doc <- officer::body_add_par(doc, value = caption)
+
+
+    # ----
+    # Adding then the table
+    # ----
+    officer::cursor_bookmark(doc, id = "TABLE1_BOOKMARK")
+    doc <- flextable::body_add_flextable(doc, value = ft)
+
+
+    # --- Ending landscape section for large STAGE table
+    if (reportParameters$TableUse == "STAGE") {
+      officer::body_end_section_landscape(doc)
+    }
+
 
     return(doc)
 
