@@ -92,7 +92,8 @@ plotBarGroupedH <- function(.data,
                                     y = .data[[yvar]],
                                     fill = .data[[group]])) +
     ggplot2::geom_bar(stat = "identity",
-                      position = ggplot2::position_dodge()) +
+                      position = ggplot2::position_dodge2(reverse = TRUE,
+                                                          padding = 0)) +
     ggplot2::scale_fill_manual(values = fill_color) +
     ggplot2::coord_flip()  +
     ggplot2::labs(x = xlabel , y = ylabel) +
