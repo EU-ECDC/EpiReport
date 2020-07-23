@@ -57,7 +57,10 @@ plotBarGroupedH <- function(.data,
   if(missing(log10_scale)) { log10_scale <- FALSE }
 
 
-  # --- Breaks for the Y axis
+
+  ## ----
+  ## Setting breaks for Y axis
+  ## ----
 
   if (log10_scale == TRUE) {
     MAX <- max(.data[[yvar]])
