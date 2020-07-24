@@ -37,7 +37,7 @@
 #'        xlabel = "Year",
 #'        yvar = "YValue",
 #'        ylabel = "Rate per 100 000 population",
-#'        log10_scale = TRUE,
+#'        log10_scale = FALSE,
 #'        xvar_format = "%Y",
 #'        xvar_breaks = "1 year")
 #'
@@ -111,11 +111,7 @@ plotTS <- function(.data,
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       panel.background = ggplot2::element_blank(),
-      legend.position = "right",
-      legend.title = ggplot2::element_blank(),
-      legend.text = ggplot2::element_text(size = 8),
-      legend.key = ggplot2::element_blank(),
-      legend.key.width = ggplot2::unit(0.8, "cm"))
+      plot.margin = ggplot2::margin(0.5, 0.5, 0.1, 0.1, "cm"))
 
 
   if (log10_scale == TRUE) {

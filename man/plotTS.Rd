@@ -57,7 +57,7 @@ plotTS(mydat,
        xlabel = "Year",
        yvar = "YValue",
        ylabel = "Rate per 100 000 population",
-       log10_scale = TRUE,
+       log10_scale = FALSE,
        xvar_format = "\%Y",
        xvar_breaks = "1 year")
 

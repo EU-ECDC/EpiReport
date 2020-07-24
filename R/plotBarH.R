@@ -62,10 +62,13 @@ plotBarH <- function(.data,
   if(missing(log10_scale)) { log10_scale <- FALSE }
 
 
-  # --- Breaks for the Y axis
+
+  ## ----
+  ## Breaks for the Y axis
+  ## ----
 
   if (log10_scale == TRUE) {
-    MAX <- max(.data[[yvar]])
+    MAX <- max(.data[[yvar]], na.rm = TRUE)
     if (floor(MAX) > 1) {
       BREAKS <- c( log10(10^((1:10)/10)), log10(10^(2:floor(MAX))) )
       LABELS <- rep("", length(BREAKS))
@@ -80,8 +83,8 @@ plotBarH <- function(.data,
     }
   } else {
     LABELS <- pretty(seq(0,
-                            max(.data[[yvar]]),
-                            by = max(.data[[yvar]])/5))
+                            max(.data[[yvar]], na.rm = TRUE),
+                            by = max(.data[[yvar]], na.rm = TRUE)/5))
   }
 
 
@@ -90,12 +93,19 @@ plotBarH <- function(.data,
   FONT <- NULL
 
 
-  # --- Plotting
+
+  ## ----
+  ## Plotting
+  ## ----
+
+  # --- Removing NA
+  .data <- tidyr::drop_na(.data, tidyselect::all_of(yvar))
 
   p <- ggplot2::ggplot(data = .data,
                        ggplot2::aes(x = stats::reorder(.data[[xvar]], .data[[yvar]]),
                                     y = .data[[yvar]])) +
     ggplot2::geom_bar(stat = "identity",
+                      na.rm = TRUE,
                       fill = ifelse(.data[[xvar]] == xlabel_black, "black", fill_color)) +
     ggplot2::coord_flip()  +
     ggplot2::labs(x = xlabel , y = ylabel) +

@@ -37,6 +37,7 @@ Imports:
     png,
     dplyr,
     tidyr,
+    tidyselect,
     ggplot2
 Suggests: knitr (>= 1.20)
 VignetteBuilder: knitr
