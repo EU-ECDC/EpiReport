@@ -188,34 +188,43 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                            value = dateAtlas)
 
 
+  ## ----
+  ## Initialising figures and tables numbering
+  ## ----
+  index <- 1
+
 
   ## ----
   ## Adding the table
   ## ----
-  index <- 1
-  doc <- EpiReport::getTableByMS(x = x,
-                                 disease = disease,
-                                 year = year,
-                                 reportParameters = reportParameters,
-                                 MSCode = MSCode,
-                                 index = index,
-                                 doc = doc)
-  index <- index + 1
-
+  if (reportParameters$TableUse != "NO" &
+      "TABLE1_BOOKMARK" %in% officer::docx_bookmarks(doc)){
+    doc <- EpiReport::getTableByMS(x = x,
+                                   disease = disease,
+                                   year = year,
+                                   reportParameters = reportParameters,
+                                   MSCode = MSCode,
+                                   index = index,
+                                   doc = doc)
+    index <- index + 1
+  }
 
 
 
   ## ----
   ## Trend plot
   ## ----
-  doc <- EpiReport::getTrend(x = x,
-                             disease = disease,
-                             year = year,
-                             reportParameters = reportParameters,
-                             MSCode = MSCode,
-                             index = index,
-                             doc = doc)
-  index <- index + 1
+  if (reportParameters$TSTrendGraphUse != "N" &
+      "TS_TREND_BOOKMARK" %in% officer::docx_bookmarks(doc)){
+    doc <- EpiReport::getTrend(x = x,
+                               disease = disease,
+                               year = year,
+                               reportParameters = reportParameters,
+                               MSCode = MSCode,
+                               index = index,
+                               doc = doc)
+    index <- index + 1
+  }
 
 
 
@@ -224,14 +233,17 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## ----
   ## Seasonal plot
   ## ----
-  doc <- EpiReport::getSeason(x = x,
-                              disease = disease,
-                              year = year,
-                              reportParameters = reportParameters,
-                              MSCode = MSCode,
-                              index = index,
-                              doc = doc)
-  index <- index + 1
+  if (reportParameters$TSSeasonalityGraphUse != "N" &
+      "TS_SEASON_BOOKMARK" %in% officer::docx_bookmarks(doc)){
+    doc <- EpiReport::getSeason(x = x,
+                                disease = disease,
+                                year = year,
+                                reportParameters = reportParameters,
+                                MSCode = MSCode,
+                                index = index,
+                                doc = doc)
+    index <- index + 1
+  }
 
 
 
@@ -241,13 +253,17 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## ----
   ## Map
   ## ----
-  doc <- EpiReport::getMap(disease = disease,
-                           year = year,
-                           reportParameters = reportParameters,
-                           index = index,
-                           pathPNG = pathPNG,
-                           doc = doc)
-  index <- index + 1
+  if ((reportParameters$MapNumbersUse == "Y" & "MAP_NB_BOOKMARK" %in% officer::docx_bookmarks(doc)) |
+      (reportParameters$MapRatesUse == "Y" & "MAP_RATE_BOOKMARK" %in% officer::docx_bookmarks(doc)) |
+      (reportParameters$MapASRUse == "Y" & "MAP_ASR_BOOKMARK" %in% officer::docx_bookmarks(doc)) ){
+    doc <- EpiReport::getMap(disease = disease,
+                             year = year,
+                             reportParameters = reportParameters,
+                             index = index,
+                             pathPNG = pathPNG,
+                             doc = doc)
+    index <- index + 1
+  }
 
 
 
@@ -256,13 +272,15 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## Bar graph
   ## ----
 
-  doc <- EpiReport::getAgeGender(x = x,
+  if (reportParameters$AgeGenderUse != "NO" &
+      "BARGPH_AGEGENDER_BOOKMARK" %in% officer::docx_bookmarks(doc)){
+    doc <- EpiReport::getAgeGender(x = x,
                                  disease = disease,
                                  year = year,
                                  reportParameters= reportParameters,
                                  geoCode = "EU_EEA31",
                                  index = index,
-                                 doc = doc)
+                                 doc = doc)}
 
 
 
