@@ -77,33 +77,33 @@ EcdcColors <- function(col_scale = "green", n = NULL, grey_shade = NULL,
   if(col_scale=="green"){
     # greens
     gscale1 <- rgb(101,179,46, maxColorValue = 255)
-    gscale2 <- c(rgb(32,119,50, maxColorValue = 255),
-                 rgb(178,207,110, maxColorValue = 255))
-    gscale3 <- c(rgb(26,110,49, maxColorValue = 255),
+    gscale2 <- rev(c(rgb(32,119,50, maxColorValue = 255),   #--- We reverse the initial order from EcdcColor package
+                 rgb(178,207,110, maxColorValue = 255)))
+    gscale3 <- rev(c(rgb(26,110,49, maxColorValue = 255),
                  rgb(101,179,46, maxColorValue = 255),
-                 rgb(201,217,113, maxColorValue = 255))
-    gscale4 <- c(rgb(26,110,49, maxColorValue = 255),
+                 rgb(201,217,113, maxColorValue = 255)))
+    gscale4 <- rev(c(rgb(26,110,49, maxColorValue = 255),
                  rgb(40,147,55, maxColorValue = 255),
                  rgb(156,198,90, maxColorValue = 255),
-                 rgb(201,217,113, maxColorValue = 255))
-    gscale5 <- c(rgb(12,72,40, maxColorValue = 255),
+                 rgb(201,217,113, maxColorValue = 255)))
+    gscale5 <- rev(c(rgb(12,72,40, maxColorValue = 255),
                  rgb(32,129,53, maxColorValue = 255),
                  rgb(101,179,46, maxColorValue = 255),
                  rgb(178,207,110, maxColorValue = 255),
-                 rgb(231,231,185, maxColorValue = 255))
-    gscale6 <- c(rgb(12,72,40, maxColorValue = 255),
+                 rgb(231,231,185, maxColorValue = 255)))
+    gscale6 <- rev(c(rgb(12,72,40, maxColorValue = 255),
                  rgb(32,119,50, maxColorValue = 255),
                  rgb(66,158,53, maxColorValue = 255),
                  rgb(137,190,71, maxColorValue = 255),
                  rgb(192,212,122, maxColorValue = 255),
-                 rgb(231,231,185, maxColorValue = 255))
-    gscale7 <- c(rgb(12,72,40, maxColorValue = 255),
+                 rgb(231,231,185, maxColorValue = 255)))
+    gscale7 <- rev(c(rgb(12,72,40, maxColorValue = 255),
                  rgb(26,110,49, maxColorValue = 255),
                  rgb(40,147,55, maxColorValue = 255),
                  rgb(101,179,46, maxColorValue = 255),
                  rgb(156,198,90, maxColorValue = 255),
                  rgb(201,217,113, maxColorValue = 255),
-                 rgb(231,231,185, maxColorValue = 255))
+                 rgb(231,231,185, maxColorValue = 255)))
     cols <- get(paste0("gscale", n))
   }
 

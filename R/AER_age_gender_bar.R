@@ -486,7 +486,9 @@ plotBar <- function(.data,
 
   p <- ggplot2::ggplot(data = .data,
                        ggplot2::aes(x = .data[[xvar]], y = .data[[yvar]])) +
-    ggplot2::geom_bar(stat = "identity", fill = fill_color) +
+    ggplot2::geom_bar(stat = "identity",
+                      fill = fill_color,
+                      width = 0.6) +
     ggplot2::scale_y_continuous(expand = c(0,0),
                                 limits = c(0, max(FIGBREAKS)),
                                 breaks = FIGBREAKS) +

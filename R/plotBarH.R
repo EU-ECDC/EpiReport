@@ -106,7 +106,8 @@ plotBarH <- function(.data,
                                     y = .data[[yvar]])) +
     ggplot2::geom_bar(stat = "identity",
                       na.rm = TRUE,
-                      fill = ifelse(.data[[xvar]] == xlabel_black, "black", fill_color)) +
+                      fill = ifelse(.data[[xvar]] == xlabel_black, "black", fill_color),
+                      width = 0.6) +
     ggplot2::coord_flip()  +
     ggplot2::labs(x = xlabel , y = ylabel) +
     ggplot2::theme(# --- Setting the background
