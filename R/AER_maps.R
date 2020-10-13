@@ -6,12 +6,12 @@
 #' of the template report, depending of the type of map.
 #' Three type of maps can be included in the report:
 #' \itemize{
-#'    \item{Bookmark \code{'MAP_NB_BOOKMARK'}: }{Distribution of cases by country.
+#'    \item{Bookmark \code{'MAP_NB'}: }{Distribution of cases by country.
 #'    An additional caption will be included at the location of the bookmark \code{'MAP_NB_CAPTION'}.}
-#'    \item{Bookmark \code{'MAP_RATE_BOOKMARK'}: }{Distribution of cases
+#'    \item{Bookmark \code{'MAP_RATE'}: }{Distribution of cases
 #'    per 100 000 population by country. An additional caption will be included
 #'    at the location of the bookmark \code{'MAP_RATE_CAPTION'}.}
-#'    \item{Bookmark \code{'MAP_ASR_BOOKMARK'}: }{Distribution of cases using
+#'    \item{Bookmark \code{'MAP_ASR'}: }{Distribution of cases using
 #'    age-strandardised rates per 100 000 population by country.
 #'    An additional caption will be included at the location of the bookmark \code{'MAP_ASR_CAPTION'}.}
 #' }
@@ -95,7 +95,7 @@ getMap <- function(disease = "SALM",
                         index, pathPNG, doc, pop,
                         namePNGsuffix = "COUNT",
                         unit = "",
-                        mapBookmark = "MAP_NB_BOOKMARK",
+                        mapBookmark = "MAP_NB",
                         captionBookmark = "MAP_NB_CAPTION")
       index <- index + 1
     }
@@ -116,7 +116,7 @@ getMap <- function(disease = "SALM",
                         index, pathPNG, doc, pop,
                         namePNGsuffix = "RATE",
                         unit = "per 100 000 population",
-                        mapBookmark = "MAP_RATE_BOOKMARK",
+                        mapBookmark = "MAP_RATE",
                         captionBookmark = "MAP_RATE_CAPTION")
       index <- index + 1
     }
@@ -137,7 +137,7 @@ getMap <- function(disease = "SALM",
                         index, pathPNG, doc, pop,
                         namePNGsuffix = "AGESTANDARDISED",
                         unit = "per 100 000 population",
-                        mapBookmark = "MAP_ASR_BOOKMARK",
+                        mapBookmark = "MAP_ASR",
                         captionBookmark = "MAP_ASR_CAPTION")
       index <- index + 1
     }
@@ -219,7 +219,11 @@ includeMap <- function(disease, year, reportParameters,
   # --- If 'Word' document provided, add the maps in the doc
   officer::cursor_bookmark(doc, id = mapBookmark)
   if( file.exists(namePNG) ){
-    doc <- officer::body_add_img(doc, namePNG, width = 7.018, height = 4.956)
+    doc <- officer::body_replace_img_at_bkm(x = doc,
+                                            bookmark = mapBookmark,
+                                            value = officer::external_img(src = namePNG,
+                                                                          width = 7.018,
+                                                                          height = 4.956))
   } else {
     warning(paste('The file "', namePNG,
                   '"does not exist and could not be included in the report.',
@@ -231,8 +235,9 @@ includeMap <- function(disease, year, reportParameters,
   caption <- paste("Figure ", index, ". Distribution of ", pop, reportParameters$Label,
                    " cases ", unit, " by country, ",
                    "EU/EEA, ", year, sep = "")
-  officer::cursor_bookmark(doc, id = captionBookmark)
-  doc <- officer::body_add_par(doc, value = caption)
+  doc <- officer::body_replace_text_at_bkm(x = doc,
+                                           bookmark = captionBookmark,
+                                           value = caption)
 
   return(doc)
 

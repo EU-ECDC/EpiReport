@@ -47,7 +47,7 @@ If doc is missing, \code{getSeason} returns the \code{ggplot2} object.}
 \description{
 Function returning the plot describing the seasonality of the disease
 that will be included in the epidemiological report at the bookmark location
-\code{'TS_SEASON_BOOKMARK'} of the template report. \cr
+\code{'TS_SEASON'} of the template report. \cr
 \cr
 The graph includes the distribution of cases at EU/EEA level, by month,
 over the past five years, with:

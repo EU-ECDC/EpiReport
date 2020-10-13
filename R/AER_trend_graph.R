@@ -2,7 +2,7 @@
 #'
 #' Function returning the plot describing the trend of the disease over time
 #' that will be included in the epidemiological report at the bookmark location
-#' \code{'TS_TREND_BOOKMARK'} on the template report. \cr
+#' \code{'TS_TREND'} on the template report. \cr
 #' \cr
 #' The graph includes the number of cases at EU/EEA level, by month,
 #' over the past five years, with:
@@ -192,15 +192,27 @@ getTrend <- function(x = EpiReport::SALM2016,
       caption <- paste("Figure ", index, ". Trend and number of ", pop,
                        reportParameters$Label, " cases, EU/EEA by month, ",
                        year-4, "\U2013", year, sep = "")
-      officer::cursor_bookmark(doc, id = "TS_TREND_BOOKMARK")
-      doc <- officer::body_add_par(doc,
-                                   value = caption)
+      # officer::cursor_bookmark(doc, id = "TS_TREND")
+      # doc <- officer::body_add_par(doc,
+      #                              value = caption)
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "TS_TREND_CAPTION",
+                                               value = caption)
 
       ## ------ Plot
-      doc <- officer::body_add_gg(doc,
-                                  value = p,
-                                  width = 6,
-                                  height = 3)
+      temp <- tempdir()
+      grDevices::png(paste(temp, "\\Trend.png", sep = ""), width = 6, height = 3, units = "in", res = 500)
+      print(p)
+      grDevices::dev.off()
+      doc <- officer::body_replace_img_at_bkm(x = doc,
+                                              bookmark = "TS_TREND",
+                                              value = officer::external_img(src = paste(temp, "\\Trend.png", sep = ""),
+                                                                            width = 6,
+                                                                            height = 3))
+      # doc <- officer::body_add_gg(doc,
+      #                             value = p,
+      #                             width = 6,
+      #                             height = 3)
     }
   }
 

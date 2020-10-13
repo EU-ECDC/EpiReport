@@ -47,7 +47,7 @@ If doc is missing, \code{getTrend} returns the \code{ggplot2} object.}
 \description{
 Function returning the plot describing the trend of the disease over time
 that will be included in the epidemiological report at the bookmark location
-\code{'TS_TREND_BOOKMARK'} on the template report. \cr
+\code{'TS_TREND'} on the template report. \cr
 \cr
 The graph includes the number of cases at EU/EEA level, by month,
 over the past five years, with:

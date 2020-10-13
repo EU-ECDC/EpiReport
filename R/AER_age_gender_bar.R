@@ -1,7 +1,7 @@
 #' Get disease-specific age and gender bar graph
 #'
 #' Function returning the age and gender bar graph that will be included
-#' in the epidemiological report at the bookmark location \code{'BARGPH_AGEGENDER_BOOKMARK'}
+#' in the epidemiological report at the bookmark location \code{'BARGPH_AGEGENDER'}
 #' of the template report. \cr
 #' The bar graph presents the distribution of cases at EU/EEA level using either:
 #' \itemize{
@@ -258,15 +258,27 @@ getAgeGender <- function(x = EpiReport::SALM2016,
                        tolower(reportParameters$AgeGenderBarGraphLabel),
                        ", ", groupby, ", EU/EEA, ",
                        year, sep = "")
-      officer::cursor_bookmark(doc, id = "BARGPH_AGEGENDER_BOOKMARK")
-      doc <- officer::body_add_par(doc,
-                                   value = caption)
+      # officer::cursor_bookmark(doc, id = "BARGPH_AGEGENDER")
+      # doc <- officer::body_add_par(doc,
+      #                              value = caption)
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "BARGPH_AGEGENDER_CAPTION",
+                                               value = caption)
 
       ## ------ Plot
-      doc <- officer::body_add_gg(doc,
-                                  value = p,
-                                  width = 6,
-                                  height = 4)
+      temp <- tempdir()
+      grDevices::png(paste(temp, "\\AgeGender.png", sep = ""), width = 6, height = 4, units = "in", res = 500)
+      print(p)
+      grDevices::dev.off()
+      doc <- officer::body_replace_img_at_bkm(x = doc,
+                                              bookmark = "BARGPH_AGEGENDER",
+                                              value = officer::external_img(src = paste(temp, "\\AgeGender.png", sep = ""),
+                                                                            width = 6,
+                                                                            height = 4))
+      # doc <- officer::body_add_gg(doc,
+      #                             value = p,
+      #                             width = 6,
+      #                             height = 4)
     }
   }
 

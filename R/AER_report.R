@@ -165,9 +165,11 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## ----
   ## Disease and year title
   ## ----
-  doc <- officer::body_replace_text_at_bkm(doc,
-                                           bookmark = "DISEASE",
-                                           value = toCapTitle(reportParameters$Label))
+  if ("DISEASE" %in% officer::docx_bookmarks(doc)) {
+    doc <- officer::body_replace_text_at_bkm(doc,
+                                             bookmark = "DISEASE",
+                                             value = toCapTitle(reportParameters$Label))
+  }
   doc <- officer::body_replace_text_at_bkm(doc,
                                            bookmark = "YEAR",
                                            value = as.character(year))
@@ -198,7 +200,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## Adding the table
   ## ----
   if (reportParameters$TableUse != "NO" &
-      "TABLE1_BOOKMARK" %in% officer::docx_bookmarks(doc)){
+      "TABLE1" %in% officer::docx_bookmarks(doc)){
     doc <- EpiReport::getTableByMS(x = x,
                                    disease = disease,
                                    year = year,
@@ -215,7 +217,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## Trend plot
   ## ----
   if (reportParameters$TSTrendGraphUse != "N" &
-      "TS_TREND_BOOKMARK" %in% officer::docx_bookmarks(doc)){
+      "TS_TREND" %in% officer::docx_bookmarks(doc)){
     doc <- EpiReport::getTrend(x = x,
                                disease = disease,
                                year = year,
@@ -234,7 +236,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## Seasonal plot
   ## ----
   if (reportParameters$TSSeasonalityGraphUse != "N" &
-      "TS_SEASON_BOOKMARK" %in% officer::docx_bookmarks(doc)){
+      "TS_SEASON" %in% officer::docx_bookmarks(doc)){
     doc <- EpiReport::getSeason(x = x,
                                 disease = disease,
                                 year = year,
@@ -253,9 +255,9 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## ----
   ## Map
   ## ----
-  if ((reportParameters$MapNumbersUse == "Y" & "MAP_NB_BOOKMARK" %in% officer::docx_bookmarks(doc)) |
-      (reportParameters$MapRatesUse == "Y" & "MAP_RATE_BOOKMARK" %in% officer::docx_bookmarks(doc)) |
-      (reportParameters$MapASRUse == "Y" & "MAP_ASR_BOOKMARK" %in% officer::docx_bookmarks(doc)) ){
+  if ((reportParameters$MapNumbersUse == "Y" & "MAP_NB" %in% officer::docx_bookmarks(doc)) |
+      (reportParameters$MapRatesUse == "Y" & "MAP_RATE" %in% officer::docx_bookmarks(doc)) |
+      (reportParameters$MapASRUse == "Y" & "MAP_ASR" %in% officer::docx_bookmarks(doc)) ){
     doc <- EpiReport::getMap(disease = disease,
                              year = year,
                              reportParameters = reportParameters,
@@ -273,14 +275,14 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## ----
 
   if (reportParameters$AgeGenderUse != "NO" &
-      "BARGPH_AGEGENDER_BOOKMARK" %in% officer::docx_bookmarks(doc)){
+      "BARGPH_AGEGENDER" %in% officer::docx_bookmarks(doc)){
     doc <- EpiReport::getAgeGender(x = x,
-                                 disease = disease,
-                                 year = year,
-                                 reportParameters= reportParameters,
-                                 geoCode = "EU_EEA31",
-                                 index = index,
-                                 doc = doc)}
+                                   disease = disease,
+                                   year = year,
+                                   reportParameters= reportParameters,
+                                   geoCode = "EU_EEA31",
+                                   index = index,
+                                   doc = doc)}
 
 
 

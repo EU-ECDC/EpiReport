@@ -45,7 +45,7 @@ If doc is missing, \code{getAgeGender} returns the \code{ggplot2} object.}
 }
 \description{
 Function returning the age and gender bar graph that will be included
-in the epidemiological report at the bookmark location \code{'BARGPH_AGEGENDER_BOOKMARK'}
+in the epidemiological report at the bookmark location \code{'BARGPH_AGEGENDER'}
 of the template report. \cr
 The bar graph presents the distribution of cases at EU/EEA level using either:
 \itemize{

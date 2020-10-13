@@ -2,7 +2,7 @@
 #'
 #' Function returning the plot describing the seasonality of the disease
 #' that will be included in the epidemiological report at the bookmark location
-#' \code{'TS_SEASON_BOOKMARK'} of the template report. \cr
+#' \code{'TS_SEASON'} of the template report. \cr
 #' \cr
 #' The graph includes the distribution of cases at EU/EEA level, by month,
 #' over the past five years, with:
@@ -211,15 +211,27 @@ getSeason <- function(x = EpiReport::SALM2016,
       caption <- paste("Figure ", index, ". Distribution of ", pop,
                        reportParameters$Label, " cases by month, EU/EEA, ",
                        year, " and ", year-4, "\U2013", year-1, sep = "")
-      officer::cursor_bookmark(doc, id = "TS_SEASON_BOOKMARK")
-      doc <- officer::body_add_par(doc,
-                                   value = caption)
+      # officer::cursor_bookmark(doc, id = "TS_SEASON")
+      # doc <- officer::body_add_par(doc,
+      #                              value = caption)
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "TS_SEASON_CAPTION",
+                                               value = caption)
 
       ## ------ Plot
-      doc <- officer::body_add_gg(doc,
-                                  value = p,
-                                  width = 6,
-                                  height = 3)
+      temp <- tempdir()
+      grDevices::png(paste(temp, "\\Season.png", sep = ""), width = 6, height = 3, units = "in", res = 500)
+      print(p)
+      grDevices::dev.off()
+      doc <- officer::body_replace_img_at_bkm(x = doc,
+                                              bookmark = "TS_SEASON",
+                                              value = officer::external_img(src = paste(temp, "\\Season.png", sep = ""),
+                                                                            width = 6,
+                                                                            height = 3))
+      # doc <- officer::body_add_gg(doc,
+      #                             value = p,
+      #                             width = 6,
+      #                             height = 3)
     }
   }
 

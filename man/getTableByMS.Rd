@@ -45,7 +45,7 @@ If doc is missing, \code{getTable} returns the \code{flextable} table object.}
 }
 \description{
 Function returning the table (\code{'flextable'}) that will be included
-in the epidemiological report at the bookmark location \code{'TABLE1_BOOKMARK'}
+in the epidemiological report at the bookmark location \code{'TABLE1'}
 of the template report. An additional caption will be included at the location
 of the bookmark \code{'TABLE1_CAPTION'}. \cr
 (see Table 1 of the ECDC annual reports
