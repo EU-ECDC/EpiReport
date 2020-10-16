@@ -266,15 +266,20 @@ getAgeGender <- function(x = EpiReport::SALM2016,
                                                value = caption)
 
       ## ------ Plot
-      temp <- tempdir()
-      grDevices::png(paste(temp, "\\AgeGender.png", sep = ""), width = 6, height = 4, units = "in", res = 500)
-      print(p)
-      grDevices::dev.off()
-      doc <- officer::body_replace_img_at_bkm(x = doc,
-                                              bookmark = "BARGPH_AGEGENDER",
-                                              value = officer::external_img(src = paste(temp, "\\AgeGender.png", sep = ""),
-                                                                            width = 6,
-                                                                            height = 4))
+      doc <- EpiReport::body_replace_gg_at_bkm(doc = doc,
+                                               gg = p,
+                                               bookmark = "BARGPH_AGEGENDER",
+                                               width = 6,
+                                               height = 4)
+      # temp <- tempdir()
+      # grDevices::png(paste(temp, "\\AgeGender.png", sep = ""), width = 6, height = 4, units = "in", res = 500)
+      # print(p)
+      # grDevices::dev.off()
+      # doc <- officer::body_replace_img_at_bkm(x = doc,
+      #                                         bookmark = "BARGPH_AGEGENDER",
+      #                                         value = officer::external_img(src = paste(temp, "\\AgeGender.png", sep = ""),
+      #                                                                       width = 6,
+      #                                                                       height = 4))
       # doc <- officer::body_add_gg(doc,
       #                             value = p,
       #                             width = 6,
@@ -449,68 +454,6 @@ plotBarGrouped <- function(.data,
   return(p)
 }
 
-# plotBarGrouped <- function(.data,
-#                            xvar = XLabel,
-#                            xlabel = "",
-#                            yvar = ZValue,
-#                            ylabel = "",
-#                            group = YLabel,
-#                            fill_color = EcdcColors(col_scale = "qual",
-#                                                    n = length(unique(.data[[group]]))),
-#                            position = "dodge") {
-#
-#
-#   # --- Breaks for the Y axis
-#   if (position == "dodge") {
-#     FIGBREAKS <- pretty(seq(0,
-#                             max(.data[[yvar]]),
-#                             by = max(.data[[yvar]])/5))
-#   } else {
-#     max <- .data %>%
-#       dplyr::group_by({{ xvar }}) %>%
-#       dplyr::mutate(total = sum({{ yvar }}, na.rm = TRUE))
-#     FIGBREAKS <- pretty(seq(0,
-#                             max(max$total),
-#                             by = max(max(max$total))/5))
-#   }
-#
-#
-#
-#   ######  Option not yet implemented
-#   FONT <- NULL
-#
-#
-#
-#   # --- Plotting
-#
-#   p <- ggplot2::ggplot(data = .data,
-#                        ggplot2::aes(x = .data[[xvar]],
-#                                     y = .data[[yvar]],
-#                                     fill = .data[[group]])) +
-#     ggplot2::geom_bar(stat = "identity",
-#                       position = position) +
-#     ggplot2::scale_fill_manual(values = fill_color) +
-#     ggplot2::scale_y_continuous(expand = c(0,0),
-#                                 limits = c(0, max(FIGBREAKS)),
-#                                 breaks = FIGBREAKS) +
-#     ggplot2::labs(title = "", x = xlabel , y = ylabel) +
-#     ggplot2::theme(axis.text = ggplot2::element_text(size = 8, family = FONT),
-#                    axis.title = ggplot2::element_text(size = 9, family = FONT),
-#                    axis.line = ggplot2::element_line(colour = "black"),
-#                    axis.line.x = ggplot2::element_blank(),
-#                    # --- Setting the background
-#                    panel.grid.major = ggplot2::element_blank(),
-#                    panel.grid.minor = ggplot2::element_blank(),
-#                    panel.background = ggplot2::element_blank(),
-#                    # --- Setting the legend
-#                    legend.position = "right",
-#                    legend.title = ggplot2::element_blank(),
-#                    legend.text = ggplot2::element_text(size = 8, family = FONT),
-#                    legend.key.width = ggplot2::unit(0.8, "cm"),
-#                    legend.key.size = ggplot2::unit(0.4, "cm"))
-#
-#   return(p)
-# }
 
 
 

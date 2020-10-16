@@ -219,19 +219,11 @@ getSeason <- function(x = EpiReport::SALM2016,
                                                value = caption)
 
       ## ------ Plot
-      temp <- tempdir()
-      grDevices::png(paste(temp, "\\Season.png", sep = ""), width = 6, height = 3, units = "in", res = 500)
-      print(p)
-      grDevices::dev.off()
-      doc <- officer::body_replace_img_at_bkm(x = doc,
-                                              bookmark = "TS_SEASON",
-                                              value = officer::external_img(src = paste(temp, "\\Season.png", sep = ""),
-                                                                            width = 6,
-                                                                            height = 3))
-      # doc <- officer::body_add_gg(doc,
-      #                             value = p,
-      #                             width = 6,
-      #                             height = 3)
+      doc <- EpiReport::body_replace_gg_at_bkm(doc = doc,
+                                               gg = p,
+                                               bookmark = "TS_SEASON",
+                                               width = 6,
+                                               height = 3)
     }
   }
 

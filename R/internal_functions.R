@@ -182,6 +182,51 @@ cleanMeasureCode <- function(var) {
 
 
 
+#' Replace a plot at a bookmark location
+#'
+#' Replace a plot at a bookmark location saving it as a PNG file in a temporary
+#' folder. \cr
+#' A bookmark will be considered as valid if enclosing words within a paragraph;
+#' i.e., a bookmark along two or more paragraphs is invalid,
+#' a bookmark set on a whole paragraph is also invalid,
+#' but bookmarking few words inside a paragraph is valid.
+#'
+#' @param doc a docx device
+#' @param gg a ggplot object or any object that can be printed in grDevices::png()
+#' @param bookmark bookmark id
+#' @param width the width of the device in inches
+#' @param height the height of the device.
+#'
+#' @return doc
+#'
+#' @examples
+#' doc <- officer::read_docx(path = file.path(system.file(package = "EpiReport"),
+#'                                            "template/AER_template.docx" ))
+#' p <- EpiReport::getTrend()
+#' doc <- EpiReport::body_replace_gg_at_bkm(doc = doc,
+#'                                          gg = p,
+#'                                          bookmark = "TS_TREND",
+#'                                          width = 6,
+#'                                          height = 3)
+#'
+#' @export
+#'
+body_replace_gg_at_bkm <- function(doc, gg, bookmark,
+                                   width = 6,
+                                   height = 3) {
+  temp <- tempdir()
+  grDevices::png(paste(temp, "\\temp_ggplot.png", sep = ""), width = width, height = height, units = "in", res = 500)
+  print(gg)
+  grDevices::dev.off()
+  doc <- officer::body_replace_img_at_bkm(x = doc,
+                                          bookmark = bookmark,
+                                          value = officer::external_img(src = paste(temp, "\\temp_ggplot.png", sep = ""),
+                                                                        width = width,
+                                                                        height = height))
+  return(doc)
+}
+
+
 
 
 
