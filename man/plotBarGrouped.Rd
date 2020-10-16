@@ -57,21 +57,21 @@ plotBarGrouped(mydat,
               ylabel = "Number of cases",
               group = "Gender")
 
- # -- Create dummy data
- mydat <- data.frame(VaccStatus = rep(c("Unvaccinated", "1 dose", "2 doses", "3 doses"), 3),
-                     AgeGroup = rep(c("<1", "1-4", "5-9") , each = 4),
-                     Proportion = c(90, 10, 0, 0,
-                                    30, 50, 20, 0,
-                                    10, 25, 35, 30))
- mydat$VaccStatus <- factor(mydat$VaccStatus,
-                            levels = c("3 doses", "2 doses", "1 dose", "Unvaccinated"))
- plotBarGrouped(mydat,
-                xvar = "AgeGroup",
-                xlabel = "Age (years)",
-                yvar = "Proportion",
-                ylabel = "Proportion of cases \%",
-                group = "VaccStatus",
-                position = "stack")
+# -- Create dummy data
+mydat <- data.frame(VaccStatus = rep(c("Unvaccinated", "1 dose", "2 doses", "3 doses"), 3),
+                    AgeGroup = rep(c("<1", "1-4", "5-9") , each = 4),
+                    Proportion = c(90, 10, 0, 0,
+                                   30, 50, 20, 0,
+                                   10, 25, 35, 30))
+mydat$VaccStatus <- factor(mydat$VaccStatus,
+                           levels = c("Unvaccinated", "1 dose", "2 doses", "3 doses"))
+plotBarGrouped(mydat,
+               xvar = "AgeGroup",
+               xlabel = "Age (years)",
+               yvar = "Proportion",
+               ylabel = "Proportion of cases \%",
+               group = "VaccStatus",
+               position = "stack")
 
 
 }

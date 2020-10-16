@@ -227,12 +227,12 @@ getAgeGender <- function(x = EpiReport::SALM2016,
     if(substr(reportParameters$AgeGenderUse, 1, 2) == "AG") {
       # --- Age by Gender
       p <- plotBarGrouped(x,
-                         xvar = "XLabel",
-                         yvar = "ZValue",
-                         group = "YLabel",
-                         fill_color = EcdcColors(col_scale = "qual", n = 2),
-                         xlabel = "Age",
-                         ylabel  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
+                          xvar = "XLabel",
+                          yvar = "ZValue",
+                          group = "YLabel",
+                          fill_color = EcdcColors(col_scale = "qual", n = 2),
+                          xlabel = "Age",
+                          ylabel  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
     } else {
       # --- Age only
       p <- plotBar(x,
@@ -361,34 +361,34 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 #'               ylabel = "Number of cases",
 #'               group = "Gender")
 #'
-#'  # -- Create dummy data
-#'  mydat <- data.frame(VaccStatus = rep(c("Unvaccinated", "1 dose", "2 doses", "3 doses"), 3),
-#'                      AgeGroup = rep(c("<1", "1-4", "5-9") , each = 4),
-#'                      Proportion = c(90, 10, 0, 0,
-#'                                     30, 50, 20, 0,
-#'                                     10, 25, 35, 30))
-#'  mydat$VaccStatus <- factor(mydat$VaccStatus,
-#'                             levels = c("3 doses", "2 doses", "1 dose", "Unvaccinated"))
-#'  plotBarGrouped(mydat,
-#'                 xvar = "AgeGroup",
-#'                 xlabel = "Age (years)",
-#'                 yvar = "Proportion",
-#'                 ylabel = "Proportion of cases %",
-#'                 group = "VaccStatus",
-#'                 position = "stack")
+#' # -- Create dummy data
+#' mydat <- data.frame(VaccStatus = rep(c("Unvaccinated", "1 dose", "2 doses", "3 doses"), 3),
+#'                     AgeGroup = rep(c("<1", "1-4", "5-9") , each = 4),
+#'                     Proportion = c(90, 10, 0, 0,
+#'                                    30, 50, 20, 0,
+#'                                    10, 25, 35, 30))
+#' mydat$VaccStatus <- factor(mydat$VaccStatus,
+#'                            levels = c("Unvaccinated", "1 dose", "2 doses", "3 doses"))
+#' plotBarGrouped(mydat,
+#'                xvar = "AgeGroup",
+#'                xlabel = "Age (years)",
+#'                yvar = "Proportion",
+#'                ylabel = "Proportion of cases %",
+#'                group = "VaccStatus",
+#'                position = "stack")
 #'
 #'
 #' @export
 #'
 plotBarGrouped <- function(.data,
-                          xvar = "XLabel",
-                          xlabel = "",
-                          yvar = "ZValue",
-                          ylabel = "",
-                          group = "YLabel",
-                          fill_color = EcdcColors(col_scale = "qual",
-                                                  n = length(unique(.data[[group]]))),
-                          position = "dodge") {
+                           xvar = "XLabel",
+                           xlabel = "",
+                           yvar = "ZValue",
+                           ylabel = "",
+                           group = "YLabel",
+                           fill_color = EcdcColors(col_scale = "qual",
+                                                   n = length(unique(.data[[group]]))),
+                           position = "dodge") {
 
 
   # --- Breaks for the Y axis
@@ -403,7 +403,13 @@ plotBarGrouped <- function(.data,
     FIGBREAKS <- pretty(seq(0,
                             max(max$total),
                             by = max(max(max$total))/5))
-    }
+  }
+
+  # --- Reversing order of levels if stacked bars
+  if (position == "stack") {
+    .data[[group]] <- factor(.data[[group]],
+                             levels = rev(levels(.data[[group]])))
+  }
 
 
 
@@ -460,8 +466,9 @@ plotBarGrouped <- function(.data,
 #                             max(.data[[yvar]]),
 #                             by = max(.data[[yvar]])/5))
 #   } else {
-#     max <- dplyr::group_by(.data, {{xvar}})
-#     max <- dplyr::mutate(max, total = sum(max[[yvar]], na.rm = TRUE))
+#     max <- .data %>%
+#       dplyr::group_by({{ xvar }}) %>%
+#       dplyr::mutate(total = sum({{ yvar }}, na.rm = TRUE))
 #     FIGBREAKS <- pretty(seq(0,
 #                             max(max$total),
 #                             by = max(max(max$total))/5))
