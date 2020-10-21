@@ -258,9 +258,6 @@ getAgeGender <- function(x = EpiReport::SALM2016,
                        tolower(reportParameters$AgeGenderBarGraphLabel),
                        ", ", groupby, ", EU/EEA, ",
                        year, sep = "")
-      # officer::cursor_bookmark(doc, id = "BARGPH_AGEGENDER")
-      # doc <- officer::body_add_par(doc,
-      #                              value = caption)
       doc <- officer::body_replace_text_at_bkm(x = doc,
                                                bookmark = "BARGPH_AGEGENDER_CAPTION",
                                                value = caption)
@@ -271,19 +268,6 @@ getAgeGender <- function(x = EpiReport::SALM2016,
                                                bookmark = "BARGPH_AGEGENDER",
                                                width = 6,
                                                height = 4)
-      # temp <- tempdir()
-      # grDevices::png(paste(temp, "\\AgeGender.png", sep = ""), width = 6, height = 4, units = "in", res = 500)
-      # print(p)
-      # grDevices::dev.off()
-      # doc <- officer::body_replace_img_at_bkm(x = doc,
-      #                                         bookmark = "BARGPH_AGEGENDER",
-      #                                         value = officer::external_img(src = paste(temp, "\\AgeGender.png", sep = ""),
-      #                                                                       width = 6,
-      #                                                                       height = 4))
-      # doc <- officer::body_add_gg(doc,
-      #                             value = p,
-      #                             width = 6,
-      #                             height = 4)
     }
   }
 

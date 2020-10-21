@@ -170,7 +170,7 @@ getSeason <- function(x = EpiReport::SALM2016,
     # --- Computing TS at EUEEA level
     N <- TimeCode <- TimeYear <- TimeMonth <- NULL
     eueea <- dplyr::group_by(x, TimeCode, TimeYear, TimeMonth)
-    eueea <- dplyr::summarise(eueea, "N" = sum(N, na.rm = TRUE))
+    eueea <- dplyr::summarise(eueea, "N" = sum(N, na.rm = TRUE), .groups = "drop")
     eueea <- dplyr::ungroup(eueea)
 
     # --- Compute mean, min and max
@@ -179,7 +179,8 @@ getSeason <- function(x = EpiReport::SALM2016,
     summ <- dplyr::summarise(summ,
                              Mean4Years = mean(N, na.rm = TRUE),
                              Max4Years=max(N, na.rm = TRUE),
-                             Min4Years=min(N, na.rm = TRUE))
+                             Min4Years=min(N, na.rm = TRUE),
+                             .groups = "drop")
     summ <- dplyr::ungroup(summ)
 
     # --- Finalysing the result table
@@ -211,9 +212,6 @@ getSeason <- function(x = EpiReport::SALM2016,
       caption <- paste("Figure ", index, ". Distribution of ", pop,
                        reportParameters$Label, " cases by month, EU/EEA, ",
                        year, " and ", year-4, "\U2013", year-1, sep = "")
-      # officer::cursor_bookmark(doc, id = "TS_SEASON")
-      # doc <- officer::body_add_par(doc,
-      #                              value = caption)
       doc <- officer::body_replace_text_at_bkm(x = doc,
                                                bookmark = "TS_SEASON_CAPTION",
                                                value = caption)
@@ -224,6 +222,14 @@ getSeason <- function(x = EpiReport::SALM2016,
                                                bookmark = "TS_SEASON",
                                                width = 6,
                                                height = 3)
+
+      ## ------ List of countries reporting consistently
+      countries <- EpiReport::MSCode$Country[EpiReport::MSCode$GeoCode %in% x$GeoCode]
+      countries <- paste(countries, collapse = ", ")
+      countries <- paste("Source: Country reports from ", countries, ".", sep = "")
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "TS_SEASON_COUNTRIES",
+                                               value = countries)
     }
   }
 

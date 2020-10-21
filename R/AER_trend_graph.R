@@ -154,7 +154,7 @@ getTrend <- function(x = EpiReport::SALM2016,
     # --- Computing EUEEA level
     N <- TimeCode <- NULL
     eueea <- dplyr::group_by(x, TimeCode)
-    eueea <- dplyr::summarise(eueea, "N" = sum(N, na.rm = TRUE))
+    eueea <- dplyr::summarise(eueea, "N" = sum(N, na.rm = TRUE), .groups = "drop")
     eueea <- dplyr::ungroup(eueea)
 
     # --- Computing EUEEA Moving average
@@ -202,6 +202,15 @@ getTrend <- function(x = EpiReport::SALM2016,
                                                bookmark = "TS_TREND",
                                                width = 6,
                                                height = 3)
+
+      ## ------ List of countries reporting consistently
+      countries <- EpiReport::MSCode$Country[EpiReport::MSCode$GeoCode %in% x$GeoCode]
+      countries <- paste(countries, collapse = ", ")
+      countries <- paste("Source: Country reports from ", countries, ".", sep = "")
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "TS_TREND_COUNTRIES",
+                                               value = countries)
+
     }
   }
 
