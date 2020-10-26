@@ -232,7 +232,11 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                              index = indexFig,
                              pathPNG = pathPNG,
                              doc = doc)
-    indexFig <- indexFig + 1
+    indexFig <- indexFig +
+      (reportParameters$MapNumbersUse == "Y" & "MAP_NB" %in% officer::docx_bookmarks(doc)) +
+      (reportParameters$MapRatesUse == "Y" & "MAP_RATE" %in% officer::docx_bookmarks(doc)) +
+      (reportParameters$MapASRUse == "Y" & "MAP_ASR" %in% officer::docx_bookmarks(doc))
+
   }
 
 
