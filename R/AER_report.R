@@ -125,6 +125,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                    MSCode = EpiReport::MSCode,
                    pathPNG = system.file("maps", package = "EpiReport")){
 
+
   ## ----
   ## Setting default arguments if missing
   ## ----
@@ -143,6 +144,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   if(missing(pathPNG)) { pathPNG <- system.file("maps", package = "EpiReport") }
 
 
+
   ## ----
   ## Filtering
   ## ----
@@ -156,10 +158,12 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   doc <- officer::read_docx(path = template)
 
 
+
   ## ----
   ## Preparing the data
   ## ----
   x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
+
 
 
   ## ----
@@ -190,10 +194,12 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                            value = dateAtlas)
 
 
+
   ## ----
   ## Initialising figures and tables numbering
   ## ----
   index <- 1
+
 
 
   ## ----
@@ -208,6 +214,23 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                    MSCode = MSCode,
                                    index = index,
                                    doc = doc)
+    index <- index + 1
+  }
+
+
+
+  ## ----
+  ## Map
+  ## ----
+  if ((reportParameters$MapNumbersUse == "Y" & "MAP_NB" %in% officer::docx_bookmarks(doc)) |
+      (reportParameters$MapRatesUse == "Y" & "MAP_RATE" %in% officer::docx_bookmarks(doc)) |
+      (reportParameters$MapASRUse == "Y" & "MAP_ASR" %in% officer::docx_bookmarks(doc)) ){
+    doc <- EpiReport::getMap(disease = disease,
+                             year = year,
+                             reportParameters = reportParameters,
+                             index = index,
+                             pathPNG = pathPNG,
+                             doc = doc)
     index <- index + 1
   }
 
@@ -230,8 +253,6 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
 
 
 
-
-
   ## ----
   ## Seasonal plot
   ## ----
@@ -249,27 +270,6 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
 
 
 
-
-
-
-  ## ----
-  ## Map
-  ## ----
-  if ((reportParameters$MapNumbersUse == "Y" & "MAP_NB" %in% officer::docx_bookmarks(doc)) |
-      (reportParameters$MapRatesUse == "Y" & "MAP_RATE" %in% officer::docx_bookmarks(doc)) |
-      (reportParameters$MapASRUse == "Y" & "MAP_ASR" %in% officer::docx_bookmarks(doc)) ){
-    doc <- EpiReport::getMap(disease = disease,
-                             year = year,
-                             reportParameters = reportParameters,
-                             index = index,
-                             pathPNG = pathPNG,
-                             doc = doc)
-    index <- index + 1
-  }
-
-
-
-
   ## ----
   ## Bar graph
   ## ----
@@ -283,8 +283,6 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                    geoCode = "EU_EEA31",
                                    index = index,
                                    doc = doc)}
-
-
 
 
 
