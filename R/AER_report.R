@@ -198,7 +198,8 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## ----
   ## Initialising figures and tables numbering
   ## ----
-  index <- 1
+  indexTab <- 1
+  indexFig <- 1
 
 
 
@@ -212,9 +213,9 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                    year = year,
                                    reportParameters = reportParameters,
                                    MSCode = MSCode,
-                                   index = index,
+                                   index = indexTab,
                                    doc = doc)
-    index <- index + 1
+    indexTab <- indexTab + 1
   }
 
 
@@ -228,10 +229,10 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
     doc <- EpiReport::getMap(disease = disease,
                              year = year,
                              reportParameters = reportParameters,
-                             index = index,
+                             index = indexFig,
                              pathPNG = pathPNG,
                              doc = doc)
-    index <- index + 1
+    indexFig <- indexFig + 1
   }
 
 
@@ -246,9 +247,9 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                year = year,
                                reportParameters = reportParameters,
                                MSCode = MSCode,
-                               index = index,
+                               index = indexFig,
                                doc = doc)
-    index <- index + 1
+    indexFig <- indexFig + 1
   }
 
 
@@ -263,9 +264,9 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                 year = year,
                                 reportParameters = reportParameters,
                                 MSCode = MSCode,
-                                index = index,
+                                index = indexFig,
                                 doc = doc)
-    index <- index + 1
+    indexFig <- indexFig + 1
   }
 
 
@@ -281,7 +282,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                    year = year,
                                    reportParameters= reportParameters,
                                    geoCode = "EU_EEA31",
-                                   index = index,
+                                   index = indexFig,
                                    doc = doc)}
 
 
