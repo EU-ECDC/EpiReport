@@ -344,8 +344,8 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
                      " cases, ", "EU/EEA, ", year - 4, "\U2013", year, sep = "")
     # doc <- officer::body_add_par(doc, value = caption)
     doc <- officer::body_replace_text_at_bkm(doc,
-                                      bookmark = "TABLE1_CAPTION",
-                                      value = caption)
+                                             bookmark = "TABLE1_CAPTION",
+                                             value = caption)
 
 
     # ----
@@ -414,17 +414,18 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
   ft <- flextable::border_remove(ft)
   std_border <- officer::fp_border(color = EcdcColors(col_scale = "grey", grey_shade = "mediumlight"))
   ft <- flextable::hline(ft, border = std_border)
-  # --- Headers
-  ft <- flextable::set_header_df(ft, mapping = headers, key = "col_keys" )
-  ft <- flextable::merge_h(ft, i = 1, part = "header")
-  for(col in seq(2, ncol(ft$header$dataset), by=2)) {
-    if(col+1 <= ncol(ft$header$dataset)) {
-      if(ft$header$dataset[2, col] == ft$header$dataset[2, col+1]){
-        ft <- flextable::merge_at(ft, i = 2, j = c(col, col+1), part = "header")
+  if(!missing(headers)){
+    # --- Headers
+    ft <- flextable::set_header_df(ft, mapping = headers, key = "col_keys" )
+    ft <- flextable::merge_h(ft, i = 1, part = "header")
+    for(col in seq(2, ncol(ft$header$dataset), by=2)) {
+      if(col+1 <= ncol(ft$header$dataset)) {
+        if(ft$header$dataset[2, col] == ft$header$dataset[2, col+1]){
+          ft <- flextable::merge_at(ft, i = 2, j = c(col, col+1), part = "header")
+        }
       }
     }
-  }
-  ft <- flextable::merge_v(ft, j = "Country", part = "header")
+    ft <- flextable::merge_v(ft, j = "Country", part = "header")}
   # --- Headers Borders
   hd_border <- officer::fp_border(color = "white")
   ft <- flextable::border_inner_v(ft, border = hd_border, part = "header")
