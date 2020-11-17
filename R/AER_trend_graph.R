@@ -189,8 +189,8 @@ getTrend <- function(x = EpiReport::SALM2016,
       ## ------ Caption
       pop <- ifelse(reportParameters$MeasurePopulation == "ALL", "", "-")
       pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
-      caption <- paste("Figure ", index, ". Trend and number of ", pop,
-                       reportParameters$Label, " cases, EU/EEA by month, ",
+      caption <- paste("Figure ", index, ". Distribution of ", pop,
+                       reportParameters$Label, " cases by month, EU/EEA, ",
                        year-4, "\U2013", year, sep = "")
       doc <- officer::body_replace_text_at_bkm(x = doc,
                                                bookmark = "TS_TREND_CAPTION",
@@ -204,7 +204,7 @@ getTrend <- function(x = EpiReport::SALM2016,
                                                height = 3)
 
       ## ------ List of countries reporting consistently
-      countries <- EpiReport::MSCode$Country[EpiReport::MSCode$GeoCode %in% x$GeoCode]
+      countries <- EpiReport::MSCode$TheCountry[EpiReport::MSCode$GeoCode %in% x$GeoCode]
       countries <- paste(countries, collapse = ", ")
       countries <- paste("Source: Country reports from ", countries, ".", sep = "")
       doc <- officer::body_replace_text_at_bkm(x = doc,

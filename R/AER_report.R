@@ -177,6 +177,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   doc <- officer::body_replace_text_at_bkm(doc,
                                            bookmark = "YEAR",
                                            value = as.character(year))
+  doc <- officer::headers_replace_all_text(doc, old_value = "YEAR", new_value = as.character(year), warn = FALSE)
 
 
 
@@ -296,8 +297,8 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## ----
 
   print(doc,
-        target = paste(outputPath, "/AnnualEpidemiologicalReport_",
-                       disease, year, ".docx", sep=""))
+        target = paste(outputPath, "/", disease, "_AER_",
+                        year, "_Report.docx", sep=""))
 
 }
 

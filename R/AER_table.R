@@ -340,8 +340,11 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
     ## ------ Caption definition
     pop <- ifelse(reportParameters$MeasurePopulation == "ALL", "", "-")
     pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
+    unit <- ifelse(reportParameters$TableUse != "COUNT" ,
+                   " and rates per 100 000 population", "")
     caption <- paste("Table 1. Distribution of ", pop, reportParameters$Label,
-                     " cases, ", "EU/EEA, ", year - 4, "\U2013", year, sep = "")
+                     " cases", unit, " by country and year, EU/EEA, ",
+                     year - 4, "\U2013", year, sep = "")
     # doc <- officer::body_add_par(doc, value = caption)
     doc <- officer::body_replace_text_at_bkm(doc,
                                              bookmark = "TABLE1_CAPTION",

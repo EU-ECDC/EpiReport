@@ -106,6 +106,8 @@
 #' @format A data frame with 32 rows and 3 variables:
 #' \describe{
 #'   \item{Country}{Full name of the country / Member State e.g. Austria, Belgium, etc.}
+#'   \item{TheCountry}{Full name of the country / Member State
+#'   including 'the' article for NL and UK  e.g. Austria, Belgium, the Netherlands, the United Kingdom etc.}
 #'   \item{GeoCode}{Associated code (see \code{GeoCode} variable
 #'      on the \code{SALM2016} internal dataset) e.g. AT, BE, BG, etc.}
 #'   \item{EUEEA}{For each Member State, variable specifying in the country

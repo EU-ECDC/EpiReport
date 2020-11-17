@@ -224,7 +224,7 @@ getSeason <- function(x = EpiReport::SALM2016,
                                                height = 3)
 
       ## ------ List of countries reporting consistently
-      countries <- EpiReport::MSCode$Country[EpiReport::MSCode$GeoCode %in% x$GeoCode]
+      countries <- EpiReport::MSCode$TheCountry[EpiReport::MSCode$GeoCode %in% x$GeoCode]
       countries <- paste(countries, collapse = ", ")
       countries <- paste("Source: Country reports from ", countries, ".", sep = "")
       doc <- officer::body_replace_text_at_bkm(x = doc,
