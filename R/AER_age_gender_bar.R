@@ -231,7 +231,7 @@ getAgeGender <- function(x = EpiReport::SALM2016,
                           yvar = "ZValue",
                           group = "YLabel",
                           fill_color = EcdcColors(col_scale = "qual", n = 2),
-                          xlabel = "Age",
+                          xlabel = "Age (years)",
                           ylabel  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
     } else {
       # --- Age only
@@ -239,7 +239,7 @@ getAgeGender <- function(x = EpiReport::SALM2016,
                    xvar = "XLabel",
                    yvar = "YValue",
                    fill_color = EcdcColors(col_scale = "qual", n = 1),
-                   xlabel = "Age",
+                   xlabel = "Age (years)",
                    ylabel  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
     }
 
