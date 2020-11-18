@@ -326,11 +326,12 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
     return(ft)
   } else {
 
-    # --- If there is a 'Word' document, then replace the corresponding bookmarks
-    officer::cursor_bookmark(doc, id = "TABLE1_CAPTION")
-
-    # --- First add a new Word section
-    officer::body_end_section_continuous(doc)
+    # --- First add a new Word section for landscape tables
+    if (reportParameters$TableUse == "STAGE") {
+      doc <- officer::cursor_bookmark(doc, id = "TABLE1_CAPTION")
+      doc <- officer::cursor_backward(doc)
+      doc <- officer::body_end_section_continuous(doc)
+    }
 
 
     # ----
@@ -345,7 +346,6 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
     caption <- paste("Table 1. Distribution of ", pop, reportParameters$Label,
                      " cases", unit, " by country and year, EU/EEA, ",
                      year - 4, "\U2013", year, sep = "")
-    # doc <- officer::body_add_par(doc, value = caption)
     doc <- officer::body_replace_text_at_bkm(doc,
                                              bookmark = "TABLE1_CAPTION",
                                              value = caption)
@@ -354,16 +354,16 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
     # ----
     # Adding then the table
     # ----
-    officer::cursor_bookmark(doc, id = "TABLE1")
+    doc <- officer::cursor_bookmark(doc, id = "TABLE1")
     doc <- flextable::body_add_flextable(doc, value = ft)
-    # doc <- flextable::body_replace_flextable_at_bkm(doc,
+    # doc <- flextable::body_replace_flextable_at_bkm(doc,  #---Nice but we loose bookmark
     #                                                 bookmark = "TABLE1",
     #                                                 value = ft)
 
 
     # --- Ending landscape section for large STAGE table
     if (reportParameters$TableUse == "STAGE") {
-      officer::body_end_section_landscape(doc)
+      doc <- officer::body_end_section_landscape(doc)
     }
 
 
