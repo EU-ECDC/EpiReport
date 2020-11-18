@@ -389,6 +389,8 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
 #' @param fname character, font name (Default \code{"Tahoma"})
 #' @param maincolor character string, hexadecimal code for the header background
 #' color (Default \code{EcdcColors(col_scale = "green", n=1)})
+#' @param lastbold bolean, last row in bold (Default \code{TRUE}),
+#' usually used when the last row includes totals (EU/EEA totals)
 #'
 #' @return flextable object (see \code{flextable} package)
 #'
@@ -397,7 +399,7 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
 #'
 #' @export
 #'
-shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
+shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor, lastbold){
 
   ## ----
   ## Setting default arguments if missing
@@ -406,6 +408,7 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
   if(missing(fsize)) {fsize <- 7}
   if(missing(fname)) {fname <- "Tahoma"}
   if(missing(maincolor)) {maincolor <- EcdcColors(col_scale = "green", n=1)}
+  if(missing(lastbold)) {lastbold <- TRUE}
 
 
 
@@ -419,6 +422,7 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
   ft <- flextable::hline(ft, border = std_border)
   if(!missing(headers)){
     # --- Headers
+    headers <- as.data.frame(lapply(headers, as.character))  #--- Getting rid of possible factors
     ft <- flextable::set_header_df(ft, mapping = headers, key = "col_keys" )
     ft <- flextable::merge_h(ft, i = 1, part = "header")
     for(col in seq(2, ncol(ft$header$dataset), by=2)) {
@@ -428,7 +432,7 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
         }
       }
     }
-    ft <- flextable::merge_v(ft, j = "Country", part = "header")}
+    ft <- flextable::merge_v(ft, j = 1, part = "header")}
   # --- Headers Borders
   hd_border <- officer::fp_border(color = "white")
   ft <- flextable::border_inner_v(ft, border = hd_border, part = "header")
@@ -444,7 +448,9 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
   ft <- flextable::align(ft, align = "center", part = "all")
   ft <- flextable::align(ft, align = "left", j = 1)
   # --- EUEEA bold
-  ft <- flextable::bold(ft, i = nrow(ft$body$dataset))
+  if(lastbold == TRUE){
+    ft <- flextable::bold(ft, i = nrow(ft$body$dataset))
+  }
   # --- Autofit
   ft <- flextable::autofit(ft)
 

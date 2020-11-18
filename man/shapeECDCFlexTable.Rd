@@ -4,7 +4,7 @@
 \alias{shapeECDCFlexTable}
 \title{Shaping the final table (layout, title, color, font)}
 \usage{
-shapeECDCFlexTable(ft, headers, fsize, fname, maincolor)
+shapeECDCFlexTable(ft, headers, fsize, fname, maincolor, lastbold)
 }
 \arguments{
 \item{ft}{flextable (see \code{'flextable'} package), table to shape into ECDC table layout}
@@ -19,6 +19,9 @@ Please note that the column \code{col_keys} should contain the names of the flex
 
 \item{maincolor}{character string, hexadecimal code for the header background
 color (Default \code{EcdcColors(col_scale = "green", n=1)})}
+
+\item{lastbold}{bolean, last row in bold (Default \code{TRUE}),
+usually used when the last row includes totals (EU/EEA totals)}
 }
 \value{
 flextable object (see \code{flextable} package)
