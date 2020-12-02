@@ -97,7 +97,7 @@ getTrend <- function(x = EpiReport::DENGUE2019,
 
     # --- Filtering on the required variables
     x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
-                            "TimeCode", "GeoCode", "N"))
+                            "TimeCode", "GeoCode", "YValue"))
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the necessary variables.'))
     }
@@ -122,6 +122,13 @@ getTrend <- function(x = EpiReport::DENGUE2019,
     studyPeriod <- paste(rep(studyPeriodYear, each = 12),
                          rep(studyPeriodMonth, times = 5), sep="-")
     x <- dplyr::filter(x, x$TimeCode %in% studyPeriod)
+    if(nrow(x) == 0) {
+      stop(paste('The dataset does not include the required 5-year',
+                 'study period for the selected disease "', disease, '".'))
+    }
+
+    # --- Excluding NA values as missing time points
+    x <- dplyr::filter(x, !is.na(x$YValue))
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the required 5-year',
                  'study period for the selected disease "', disease, '".'))
@@ -152,9 +159,9 @@ getTrend <- function(x = EpiReport::DENGUE2019,
     x <- dplyr::filter(x, !(x$GeoCode %in% unique(missingTimePoint$GeoCode)))
 
     # --- Computing EUEEA level
-    N <- TimeCode <- NULL
+    YValue <- TimeCode <- NULL
     eueea <- dplyr::group_by(x, TimeCode)
-    eueea <- dplyr::summarise(eueea, "N" = sum(N, na.rm = TRUE), .groups = "drop")
+    eueea <- dplyr::summarise(eueea, "N" = sum(YValue, na.rm = TRUE), .groups = "drop")
     eueea <- dplyr::ungroup(eueea)
 
     # --- Computing EUEEA Moving average

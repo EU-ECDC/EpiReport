@@ -99,7 +99,7 @@ getSeason <- function(x = EpiReport::DENGUE2019,
 
     # --- Filtering on the required variables
     x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
-                            "TimeCode", "GeoCode", "N"))
+                            "TimeCode", "GeoCode", "YValue"))
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the necessary variables.'))
     }
@@ -127,6 +127,13 @@ getSeason <- function(x = EpiReport::DENGUE2019,
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the required 5-year study period for the selected disease "',
                  disease, '".'))
+    }
+
+    # --- Excluding NA values as missing time points
+    x <- dplyr::filter(x, !is.na(x$YValue))
+    if(nrow(x) == 0) {
+      stop(paste('The dataset does not include the required 5-year',
+                 'study period for the selected disease "', disease, '".'))
     }
 
     # --- Filtering for analysis at country and EU-EEA level only, no EU level
@@ -168,9 +175,9 @@ getSeason <- function(x = EpiReport::DENGUE2019,
     x <- dplyr::mutate(x, TimeMonth = format(as.Date(x$TimeCode, "%Y-%m-%d"), "%m"))
 
     # --- Computing TS at EUEEA level
-    N <- TimeCode <- TimeYear <- TimeMonth <- NULL
+    N <- YValue <- TimeCode <- TimeYear <- TimeMonth <- NULL
     eueea <- dplyr::group_by(x, TimeCode, TimeYear, TimeMonth)
-    eueea <- dplyr::summarise(eueea, "N" = sum(N, na.rm = TRUE), .groups = "drop")
+    eueea <- dplyr::summarise(eueea, "N" = sum(YValue, na.rm = TRUE), .groups = "drop")
     eueea <- dplyr::ungroup(eueea)
 
     # --- Compute mean, min and max
