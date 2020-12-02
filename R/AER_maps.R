@@ -18,8 +18,8 @@
 #' (see ECDC reports
 #' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param disease character string, disease code (default \code{"SALM"}).
-#' @param year numeric, year to produce the map for (default \code{2016}).
+#' @param disease character string, disease code (default \code{"DENGUE"}).
+#' @param year numeric, year to produce the map for (default \code{2019}).
 #' @param reportParameters dataframe, dataset including the required parameters
 #' for the map and report production (default \code{AERparams}) (see specification
 #' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
@@ -38,7 +38,7 @@
 #' Default datasets: \code{\link{AERparams}}
 #'
 #' @examples
-#' # --- Preview of the PNG map using the default Salmonellosis dataset
+#' # --- Preview of the PNG map using the default Dengue dataset
 #' getMap()
 #'
 #' # --- Plot using external PNG image
@@ -47,8 +47,8 @@
 #'
 #' @export
 #'
-getMap <- function(disease = "SALM",
-                   year = 2016,
+getMap <- function(disease = "DENGUE",
+                   year = 2019,
                    reportParameters = EpiReport::AERparams,
                    index = 1,
                    pathPNG = system.file("maps", package = "EpiReport"),
@@ -58,8 +58,8 @@ getMap <- function(disease = "SALM",
   ## Setting default arguments if missing
   ## ----
 
-  if(missing(disease)) { disease <- "SALM" }
-  if(missing(year)) { year <- 2016 }
+  if(missing(disease)) { disease <- "DENGUE" }
+  if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(index)) { index <- 1 }
   if(missing(pathPNG)) { pathPNG <- system.file("maps", package = "EpiReport") }
@@ -179,8 +179,8 @@ getMap <- function(disease = "SALM",
 #' Function including the disease-specific PNG map in the 'Word' document
 #' at the specific bookmark location.
 #'
-#' @param disease character string, disease code (default \code{"SALM"}).
-#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' @param disease character string, disease code (default \code{"DENGUE"}).
+#' @param year numeric, year to produce the graph for (default \code{2019}).
 #' @param reportParameters dataframe, dataset including the required parameters
 #' for the graph and report production (default \code{AERparams}) (see specification
 #' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
@@ -250,8 +250,8 @@ includeMap <- function(disease, year, reportParameters,
 #'
 #' Function previewing the disease-specific PNG map
 #'
-#' @param disease character string, disease code (default \code{"SALM"}).
-#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' @param disease character string, disease code (default \code{"DENGUE"}).
+#' @param year numeric, year to produce the graph for (default \code{2019}).
 #' @param reportParameters dataframe, dataset including the required parameters
 #' for the graph and report production (default \code{AERparams}) (see specification
 #' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})

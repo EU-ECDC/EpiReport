@@ -7,9 +7,9 @@
 previewMap(disease, year, reportParameters, pathPNG, namePNGsuffix)
 }
 \arguments{
-\item{disease}{character string, disease code (default \code{"SALM"}).}
+\item{disease}{character string, disease code (default \code{"DENGUE"}).}
 
-\item{year}{numeric, year to produce the graph for (default \code{2016}).}
+\item{year}{numeric, year to produce the graph for (default \code{2019}).}
 
 \item{reportParameters}{dataframe, dataset including the required parameters
 for the graph and report production (default \code{AERparams}) (see specification

@@ -75,11 +75,11 @@ getTemplate <- function(output_path){
 #' Default value is the current working directory \code{getwd()}.
 #' @param x dataframe, raw disease-specific dataset (see specification of the dataset in the
 #' package vignette with \code{browseVignettes("EpiReport")})
-#' (default \code{SALM2016})
-#' @param disease character string, disease code (default \code{"SALM"}).
+#' (default \code{DENGUE2019})
+#' @param disease character string, disease code (default \code{"DENGUE"}).
 #' Please make sure the disease code is included in the disease-specific dataset x
 #' in the \code{HealthTopicCode} variable.
-#' @param year numeric, year to produce the report for (default \code{2016}).
+#' @param year numeric, year to produce the report for (default \code{2019}).
 #' Please make sure the year is included in the disease-specific dataset x in the \code{TimeCode} variable.
 #' @param reportParameters dataframe, dataset including the required parameters for the report
 #' production (default \code{AERparams}) (see specification of the dataset in the
@@ -92,14 +92,14 @@ getTemplate <- function(output_path){
 #'
 #' @seealso Default template: \code{\link{getTemplate}} \cr
 #' Default datasets: \code{\link{MSCode}}
-#' \code{\link{AERparams}} \code{\link{SALM2016}} \cr
+#' \code{\link{AERparams}} \code{\link{SALM2016}} \code{\link{DENGUE2019}}\cr
 #' Disease-specific outputs: \code{\link{getTableByMS}}
 #' \code{\link{getSeason}} \code{\link{getTrend}} \code{\link{getMap}} \code{\link{getAgeGender}}
 #'
 #' @examples
 #'
 #' \donttest{
-#' # --- Generating the AER report using the default Salmonellosis dataset
+#' # --- Generating the AER report using the default Dengue dataset
 #' getAER()
 #' }
 #'
@@ -118,9 +118,9 @@ getTemplate <- function(output_path){
 #'
 getAER <- function(template =  file.path(system.file(package = "EpiReport"), "template/AER_template.docx" ),
                    outputPath = getwd(),
-                   x = EpiReport::SALM2016,
-                   disease = "SALM",
-                   year = 2016,
+                   x = EpiReport::DENGUE2019,
+                   disease = "DENGUE",
+                   year = 2019,
                    reportParameters = EpiReport::AERparams,
                    MSCode = EpiReport::MSCode,
                    pathPNG = system.file("maps", package = "EpiReport")){
@@ -136,9 +136,9 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   if(missing(outputPath)){
     outputPath <- getwd()
   }
-  if(missing(x)) { x <- EpiReport::SALM2016 }
-  if(missing(disease)) { disease <- "SALM" }
-  if(missing(year)) { year <- 2016 }
+  if(missing(x)) { x <- EpiReport::DENGUE2019 }
+  if(missing(disease)) { disease <- "DENGUE" }
+  if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
   if(missing(pathPNG)) { pathPNG <- system.file("maps", package = "EpiReport") }

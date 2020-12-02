@@ -5,9 +5,9 @@
 \title{Get disease-specific age and gender bar graph}
 \usage{
 getAgeGender(
-  x = EpiReport::SALM2016,
-  disease = "SALM",
-  year = 2016,
+  x = EpiReport::DENGUE2019,
+  disease = "DENGUE",
+  year = 2019,
   reportParameters = EpiReport::AERparams,
   geoCode = "EU_EEA31",
   index = 1,
@@ -17,13 +17,13 @@ getAgeGender(
 \arguments{
 \item{x}{dataframe, raw disease-specific dataset (see specification of the
 dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
-(default \code{SALM2016})}
+(default \code{DENGUE2019})}
 
-\item{disease}{character string, disease code (default \code{"SALM"}).
+\item{disease}{character string, disease code (default \code{"DENGUE"}).
 Please make sure the disease code is included in the disease-specific dataset x
 in the \code{HealthTopicCode} variable.}
 
-\item{year}{numeric, year to produce the graph for (default \code{2016}).
+\item{year}{numeric, year to produce the graph for (default \code{2019}).
 Please make sure the year is included in the disease-specific dataset x
 in the \code{TimeCode} variable.}
 

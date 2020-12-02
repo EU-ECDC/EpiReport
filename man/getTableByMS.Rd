@@ -5,9 +5,9 @@
 \title{Get disease-specific table: distribution of cases by Member State (GeoCode)}
 \usage{
 getTableByMS(
-  x = EpiReport::SALM2016,
-  disease = "SALM",
-  year = 2016,
+  x = EpiReport::DENGUE2019,
+  disease = "DENGUE",
+  year = 2019,
   reportParameters = EpiReport::AERparams,
   MSCode = EpiReport::MSCode,
   index = 1,
@@ -17,13 +17,13 @@ getTableByMS(
 \arguments{
 \item{x}{dataframe, raw disease-specific dataset (see specification of the dataset in the
 package vignette with \code{browseVignettes(package = "EpiReport")})
-(default \code{SALM2016})}
+(default \code{DENGUE2019})}
 
-\item{disease}{character string, disease code (default \code{"SALM"}).
+\item{disease}{character string, disease code (default \code{"DENGUE"}).
 Please make sure the disease code is included in the disease-specific dataset x
 in the \code{HealthTopicCode} variable.}
 
-\item{year}{numeric, year to produce the table for (default \code{2016}).
+\item{year}{numeric, year to produce the table for (default \code{2019}).
 Please make sure the year is included in the disease-specific dataset x in the \code{TimeCode} variable.}
 
 \item{reportParameters}{dataframe, dataset including the required parameters for the report
@@ -63,12 +63,12 @@ package vignette with \code{browseVignettes(package = "EpiReport")}):
 }
 }
 \examples{
-# --- Draft the table using the default Salmonellosis dataset
+# --- Draft the table using the default Dengue dataset
 getTableByMS()
 
 }
 \seealso{
-Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+Global function for the full epidemiological report: \code{\link{getAER}}  \cr
 Required Packages: \code{\link{flextable}} \code{\link{officer}} \cr
 Internal functions: \code{\link{shapeECDCFlexTable}} \code{\link{cleanECDCTable}} \cr
 Default datasets: \code{\link{AERparams}} \code{\link{MSCode}}

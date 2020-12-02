@@ -5,8 +5,8 @@
 \title{Get disease-specific map: distribution of cases by Member State}
 \usage{
 getMap(
-  disease = "SALM",
-  year = 2016,
+  disease = "DENGUE",
+  year = 2019,
   reportParameters = EpiReport::AERparams,
   index = 1,
   pathPNG = system.file("maps", package = "EpiReport"),
@@ -14,9 +14,9 @@ getMap(
 )
 }
 \arguments{
-\item{disease}{character string, disease code (default \code{"SALM"}).}
+\item{disease}{character string, disease code (default \code{"DENGUE"}).}
 
-\item{year}{numeric, year to produce the map for (default \code{2016}).}
+\item{year}{numeric, year to produce the map for (default \code{2019}).}
 
 \item{reportParameters}{dataframe, dataset including the required parameters
 for the map and report production (default \code{AERparams}) (see specification
@@ -54,7 +54,7 @@ Three type of maps can be included in the report:
 \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
-# --- Preview of the PNG map using the default Salmonellosis dataset
+# --- Preview of the PNG map using the default Dengue dataset
 getMap()
 
 # --- Plot using external PNG image

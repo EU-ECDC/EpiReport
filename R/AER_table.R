@@ -20,11 +20,11 @@
 #'
 #' @param x dataframe, raw disease-specific dataset (see specification of the dataset in the
 #' package vignette with \code{browseVignettes(package = "EpiReport")})
-#' (default \code{SALM2016})
-#' @param disease character string, disease code (default \code{"SALM"}).
+#' (default \code{DENGUE2019})
+#' @param disease character string, disease code (default \code{"DENGUE"}).
 #' Please make sure the disease code is included in the disease-specific dataset x
 #' in the \code{HealthTopicCode} variable.
-#' @param year numeric, year to produce the table for (default \code{2016}).
+#' @param year numeric, year to produce the table for (default \code{2019}).
 #' Please make sure the year is included in the disease-specific dataset x in the \code{TimeCode} variable.
 #' @param reportParameters dataframe, dataset including the required parameters for the report
 #' production (default \code{AERparams}) (see specification of the dataset in the
@@ -39,20 +39,20 @@
 #'
 #' @return 'Word' doc or \code{flextable} object (see \code{'flextable'} package)
 #'
-#' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+#' @seealso Global function for the full epidemiological report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{flextable}} \code{\link{officer}} \cr
 #' Internal functions: \code{\link{shapeECDCFlexTable}} \code{\link{cleanECDCTable}} \cr
 #' Default datasets: \code{\link{AERparams}} \code{\link{MSCode}}
 #'
 #' @examples
-#' # --- Draft the table using the default Salmonellosis dataset
+#' # --- Draft the table using the default Dengue dataset
 #' getTableByMS()
 #'
 #' @export
 #'
-getTableByMS <- function(x = EpiReport::SALM2016 ,
-                         disease = "SALM",
-                         year = 2016,
+getTableByMS <- function(x = EpiReport::DENGUE2019 ,
+                         disease = "DENGUE",
+                         year = 2019,
                          reportParameters = EpiReport::AERparams,
                          MSCode = EpiReport::MSCode,
                          index = 1,
@@ -62,9 +62,9 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
   ## Setting default arguments if missing
   ## ----
 
-  if(missing(x)) { x <- EpiReport::SALM2016 }
-  if(missing(disease)) { disease <- "SALM" }
-  if(missing(year)) { year <- 2016 }
+  if(missing(x)) { x <- EpiReport::DENGUE2019 }
+  if(missing(disease)) { disease <- "DENGUE" }
+  if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
   if(missing(index)) { index <- 1 }
