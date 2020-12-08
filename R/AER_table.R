@@ -422,7 +422,7 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor, lastbold){
   ft <- flextable::hline(ft, border = std_border)
   if(!missing(headers)){
     # --- Headers
-    headers <- as.data.frame(lapply(headers, as.character))  #--- Getting rid of possible factors
+    # headers <- as.data.frame(lapply(headers, as.character))  #--- Getting rid of possible factors
     ft <- flextable::set_header_df(ft, mapping = headers, key = "col_keys" )
     ft <- flextable::merge_h(ft, i = 1, part = "header")
     for(col in seq(2, ncol(ft$header$dataset), by=2)) {
