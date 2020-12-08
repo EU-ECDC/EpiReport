@@ -122,7 +122,8 @@ getTrend <- function(x = EpiReport::DENGUE2019,
     studyPeriod <- paste(rep(studyPeriodYear, each = 12),
                          rep(studyPeriodMonth, times = 5), sep="-")
     x <- dplyr::filter(x, x$TimeCode %in% studyPeriod)
-    if(nrow(x) == 0) {
+    if(nrow(x) == 0 |
+       sum(studyPeriod %in% x$TimeCode, na.rm = TRUE) != length(studyPeriod)) {
       stop(paste('The dataset does not include the required 5-year',
                  'study period for the selected disease "', disease, '".'))
     }

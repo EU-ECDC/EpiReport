@@ -110,7 +110,7 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
 
   # --- Filtering on 5-year period
   x <- dplyr::filter(x, x$TimeCode %in% (year-4):year)
-  if(nrow(x) == 0) {
+  if(nrow(x) == 0 | length(unique(x$TimeCode)) != 5) {
     stop(paste('The dataset does not include the required 5-year study period for the selected disease "',
                disease, '".'))
   }
