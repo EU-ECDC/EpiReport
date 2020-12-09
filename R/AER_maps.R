@@ -115,7 +115,7 @@ getMap <- function(disease = "DENGUE",
       doc <- includeMap(disease, year, reportParameters,
                         index, pathPNG, doc, pop,
                         namePNGsuffix = "RATE",
-                        unit = "per 100 000 population",
+                        unit = "per 100 000 population ",
                         mapBookmark = "MAP_RATE",
                         captionBookmark = "MAP_RATE_CAPTION")
       index <- index + 1
@@ -136,7 +136,7 @@ getMap <- function(disease = "DENGUE",
       doc <- includeMap(disease, year, reportParameters,
                         index, pathPNG, doc, pop,
                         namePNGsuffix = "AGESTANDARDISED",
-                        unit = "per 100 000 population",
+                        unit = "per 100 000 population ",
                         mapBookmark = "MAP_ASR",
                         captionBookmark = "MAP_ASR_CAPTION")
       index <- index + 1
@@ -233,7 +233,7 @@ includeMap <- function(disease, year, reportParameters,
 
   ## ------ Caption definition
   caption <- paste("Figure ", index, ". Distribution of ", pop, reportParameters$Label,
-                   " cases ", unit, " by country, ",
+                   " cases ", unit, "by country, ",
                    "EU/EEA, ", year, sep = "")
   doc <- officer::body_replace_text_at_bkm(x = doc,
                                            bookmark = captionBookmark,
