@@ -185,7 +185,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## Extraction date on which the Atlas is based on
   ## ----
   dateAtlas <- paste("This report is based on data for ", year,
-                     " retrieved from The European Surveillance System (TESSy) on ",
+                     " retrieved from The European Surveillance System (TESSy) on",
                      reportParameters$DatePublicAtlas,
                      ". TESSy is a system for the collection, analysis and dissemination",
                      " of data on communicable diseases.",

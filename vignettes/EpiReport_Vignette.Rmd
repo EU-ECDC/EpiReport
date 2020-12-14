@@ -326,6 +326,39 @@ each output.
 
 
 
+### 2.3. Word bookmarks
+
+Each epidemiological output will be included in the Word template 
+in the corresponding report chapter. 
+The `EpiReport` package relies on Microsoft Word bookmarks to specify 
+the exact location where to include each output.
+
+The list of bookmarks recognised by the `EpiReport` package are:
+
+- YEAR
+- DISEASE
+- DATEPUBLICATLAS
+- TABLE1_CAPTION
+- TABLE1
+- MAP_NB_CAPTION
+- MAP_NB
+- MAP_RATE_CAPTION
+- MAP_RATE
+- MAP_ASR_CAPTION
+- MAP_ASR
+- TS_TREND_CAPTION
+- TS_TREND
+- TS_TREND_COUNTRIES
+- TS_SEASON_CAPTION
+- TS_SEASON
+- TS_SEASON_COUNTRIES
+- BARGPH_AGEGENDER_CAPTION
+- BARGPH_AGEGENDER
+- BARGPH_AGE_CAPTION
+- BARGPH_AGE
+
+
+
 ## 3. How to generate each epidemiological outputs independently
 
 The `EpiReport` package allows the user to generate each epidemiological output 
