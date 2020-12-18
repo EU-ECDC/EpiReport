@@ -2,7 +2,7 @@ Package: EpiReport
 Type: Package
 Title: Epidemiological Report
 Version: 1.0.0
-Date: 2020-12-02
+Date: 2020-12-18
 Authors@R: c( 
   person( given = "Lore", family = "Merdrignac", 
           role = c("aut", "ctr", "cre"), email = "l.merdrignac@epiconcept.fr", comment = "Author of the package and original code"),
