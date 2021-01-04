@@ -223,6 +223,7 @@ body_replace_gg_at_bkm <- function(doc, gg, bookmark,
                                           value = officer::external_img(src = paste(temp, "\\temp_ggplot.png", sep = ""),
                                                                         width = width,
                                                                         height = height))
+  file.remove(paste(temp, "\\temp_ggplot.png", sep = ""))
   return(doc)
 }
 

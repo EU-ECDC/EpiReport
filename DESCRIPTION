@@ -2,7 +2,7 @@ Package: EpiReport
 Type: Package
 Title: Epidemiological Report
 Version: 1.0.0
-Date: 2020-12-18
+Date: 2021-01-04
 Authors@R: c( 
   person( given = "Lore", family = "Merdrignac", 
           role = c("aut", "ctr", "cre"), email = "l.merdrignac@epiconcept.fr", comment = "Author of the package and original code"),
@@ -41,4 +41,4 @@ Imports:
     ggplot2
 Suggests: knitr (>= 1.20)
 VignetteBuilder: knitr
-URL: https://ecdc.europa.eu/en/annual-epidemiological-reports
+URL: https://www.ecdc.europa.eu/en/annual-epidemiological-reports

@@ -53,7 +53,11 @@
 #'                                sample(1:300/10, 10),
 #'                                sample(1:400/10, 10),
 #'                                sample(1:500/10, 10)),
-#'                     YLabel = rep(c("United Kingdom", "France", "Spain", "Netherlands", "Belgium"), each = 10))
+#'                     YLabel = rep(c("United Kingdom",
+#'                                    "France",
+#'                                    "Spain",
+#'                                    "Netherlands",
+#'                                    "Belgium"), each = 10))
 #'
 #' # --- Plot the dummy data
 #' plotTSGrouped(mydat,
