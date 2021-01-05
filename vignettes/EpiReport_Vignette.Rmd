@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 ## Description
 
 The EpiReport package allows the user to draft an epidemiological report similar to the ECDC Annual Epidemiological Report (AER) 
-(see https://ecdc.europa.eu/en/annual-epidemiological-reports) in Microsoft Word format for a given disease.
+(see https://www.ecdc.europa.eu/en/annual-epidemiological-reports) in Microsoft Word format for a given disease.
 
 Through standalone functions, the package is specifically designed to generate
 each disease-specific output presented in these reports, using ECDC Atlas export data. 
@@ -69,7 +69,7 @@ Link to the ECDC AER reports | `r pkgUrl`
 
 ECDC's annual epidemiological report is available as a series of individual 
 epidemiological disease reports. Reports are published on the ECDC website 
-https://ecdc.europa.eu/en/annual-epidemiological-reports as they become available.
+https://www.ecdc.europa.eu/en/annual-epidemiological-reports as they become available.
 
 The year given in the title of the report (i.e. 'Annual epidemiological report for 2016') 
 refers to the year the data were collected. Reports are usually available for publication 

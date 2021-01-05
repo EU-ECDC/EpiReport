@@ -16,7 +16,7 @@
 #'    An additional caption will be included at the location of the bookmark \code{'MAP_ASR_CAPTION'}.}
 #' }
 #' (see ECDC reports
-#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' @param disease character string, disease code (default \code{"DENGUE"}).
 #' @param year numeric, year to produce the map for (default \code{2019}).

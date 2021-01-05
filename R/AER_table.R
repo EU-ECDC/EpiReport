@@ -5,7 +5,7 @@
 #' of the template report. An additional caption will be included at the location
 #' of the bookmark \code{'TABLE1_CAPTION'}. \cr
 #' (see Table 1 of the ECDC annual reports
-#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' The current version of the \code{'EpiReport'} package includes three types of table
 #' (see detailed specification of the tables in the

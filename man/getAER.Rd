@@ -56,7 +56,7 @@ Function to generate the 'Microsoft Word' epidemiological report
 including all disease-specific outputs at each output-specific bookmarks exact location. \cr
 (for further information on the outputs and the corresponding bookmarks,
 please see the package vignette "The Epidemiological Report Package" with \code{browseVignettes("EpiReport")})\cr
-(see ECDC AER \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+(see ECDC AER \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 

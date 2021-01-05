@@ -56,7 +56,7 @@ The bar graph presents the distribution of cases at EU/EEA level using either:
 }
 The choice of the type of bar graph is set in the report parameters table \code{AERparams}. \cr
 (see ECDC reports
-\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+\url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 

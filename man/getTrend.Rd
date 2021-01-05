@@ -56,7 +56,7 @@ over the past five years, with:
    \item{}{The 12-month moving average of the number of cases by month (green solid line)}
 }
 (see ECDC reports
-\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+\url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 
