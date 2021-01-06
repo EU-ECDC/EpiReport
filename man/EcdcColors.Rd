@@ -19,7 +19,7 @@ Defaults to floored half of total hotcold colours.}
 }
 \description{
 Full document: European Centre for Disease Prevention and Control. Guidelines for presentation of surveillance data.
-Stockholm: ECDC; 2018. Available from: \href{https://ecdc.europa.eu/en/publications-data/guidelines-presentation-surveillance-data}{Guidelines for presentation of surveillance data}
+Stockholm: ECDC; 2018. Available from: \href{https://www.ecdc.europa.eu/en/publications-data/guidelines-presentation-surveillance-data}{Guidelines for presentation of surveillance data}
 }
 \examples{
 # Select three first green colours
