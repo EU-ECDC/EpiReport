@@ -5,9 +5,9 @@
 \title{Get disease-specific trend plot: trend and number of cases by month}
 \usage{
 getTrend(
-  x = EpiReport::SALM2016,
-  disease = "SALM",
-  year = 2016,
+  x = EpiReport::DENGUE2019,
+  disease = "DENGUE",
+  year = 2019,
   reportParameters = EpiReport::AERparams,
   MSCode = EpiReport::MSCode,
   index = 1,
@@ -17,13 +17,13 @@ getTrend(
 \arguments{
 \item{x}{dataframe, raw disease-specific dataset (see specification of the
 dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
-(default \code{SALM2016})}
+(default \code{DENGUE2019})}
 
-\item{disease}{character string, disease code (default \code{"SALM"}).
+\item{disease}{character string, disease code (default \code{"DENGUE"}).
 Please make sure the disease code is included in the disease-specific dataset x
 in the \code{HealthTopicCode} variable.}
 
-\item{year}{numeric, year to produce the graph for (default \code{2016}).
+\item{year}{numeric, year to produce the graph for (default \code{2019}).
 Please make sure the year is included in the disease-specific dataset x
 in the \code{TimeCode} variable.}
 
@@ -47,7 +47,7 @@ If doc is missing, \code{getTrend} returns the \code{ggplot2} object.}
 \description{
 Function returning the plot describing the trend of the disease over time
 that will be included in the epidemiological report at the bookmark location
-\code{'TS_TREND_BOOKMARK'} on the template report. \cr
+\code{'TS_TREND'} on the template report. \cr
 \cr
 The graph includes the number of cases at EU/EEA level, by month,
 over the past five years, with:
@@ -56,7 +56,7 @@ over the past five years, with:
    \item{}{The 12-month moving average of the number of cases by month (green solid line)}
 }
 (see ECDC reports
-\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+\url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 

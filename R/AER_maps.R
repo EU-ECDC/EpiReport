@@ -6,20 +6,20 @@
 #' of the template report, depending of the type of map.
 #' Three type of maps can be included in the report:
 #' \itemize{
-#'    \item{Bookmark \code{'MAP_NB_BOOKMARK'}: }{Distribution of cases by country.
+#'    \item{Bookmark \code{'MAP_NB'}: }{Distribution of cases by country.
 #'    An additional caption will be included at the location of the bookmark \code{'MAP_NB_CAPTION'}.}
-#'    \item{Bookmark \code{'MAP_RATE_BOOKMARK'}: }{Distribution of cases
+#'    \item{Bookmark \code{'MAP_RATE'}: }{Distribution of cases
 #'    per 100 000 population by country. An additional caption will be included
 #'    at the location of the bookmark \code{'MAP_RATE_CAPTION'}.}
-#'    \item{Bookmark \code{'MAP_ASR_BOOKMARK'}: }{Distribution of cases using
+#'    \item{Bookmark \code{'MAP_ASR'}: }{Distribution of cases using
 #'    age-strandardised rates per 100 000 population by country.
 #'    An additional caption will be included at the location of the bookmark \code{'MAP_ASR_CAPTION'}.}
 #' }
 #' (see ECDC reports
-#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
-#' @param disease character string, disease code (default \code{"SALM"}).
-#' @param year numeric, year to produce the map for (default \code{2016}).
+#' @param disease character string, disease code (default \code{"DENGUE"}).
+#' @param year numeric, year to produce the map for (default \code{2019}).
 #' @param reportParameters dataframe, dataset including the required parameters
 #' for the map and report production (default \code{AERparams}) (see specification
 #' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
@@ -38,7 +38,7 @@
 #' Default datasets: \code{\link{AERparams}}
 #'
 #' @examples
-#' # --- Preview of the PNG map using the default Salmonellosis dataset
+#' # --- Preview of the PNG map using the default Dengue dataset
 #' getMap()
 #'
 #' # --- Plot using external PNG image
@@ -47,8 +47,8 @@
 #'
 #' @export
 #'
-getMap <- function(disease = "SALM",
-                   year = 2016,
+getMap <- function(disease = "DENGUE",
+                   year = 2019,
                    reportParameters = EpiReport::AERparams,
                    index = 1,
                    pathPNG = system.file("maps", package = "EpiReport"),
@@ -58,8 +58,8 @@ getMap <- function(disease = "SALM",
   ## Setting default arguments if missing
   ## ----
 
-  if(missing(disease)) { disease <- "SALM" }
-  if(missing(year)) { year <- 2016 }
+  if(missing(disease)) { disease <- "DENGUE" }
+  if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(index)) { index <- 1 }
   if(missing(pathPNG)) { pathPNG <- system.file("maps", package = "EpiReport") }
@@ -95,7 +95,7 @@ getMap <- function(disease = "SALM",
                         index, pathPNG, doc, pop,
                         namePNGsuffix = "COUNT",
                         unit = "",
-                        mapBookmark = "MAP_NB_BOOKMARK",
+                        mapBookmark = "MAP_NB",
                         captionBookmark = "MAP_NB_CAPTION")
       index <- index + 1
     }
@@ -115,8 +115,8 @@ getMap <- function(disease = "SALM",
       doc <- includeMap(disease, year, reportParameters,
                         index, pathPNG, doc, pop,
                         namePNGsuffix = "RATE",
-                        unit = "per 100 000 population",
-                        mapBookmark = "MAP_RATE_BOOKMARK",
+                        unit = "per 100 000 population ",
+                        mapBookmark = "MAP_RATE",
                         captionBookmark = "MAP_RATE_CAPTION")
       index <- index + 1
     }
@@ -136,8 +136,8 @@ getMap <- function(disease = "SALM",
       doc <- includeMap(disease, year, reportParameters,
                         index, pathPNG, doc, pop,
                         namePNGsuffix = "AGESTANDARDISED",
-                        unit = "per 100 000 population",
-                        mapBookmark = "MAP_ASR_BOOKMARK",
+                        unit = "per 100 000 population ",
+                        mapBookmark = "MAP_ASR",
                         captionBookmark = "MAP_ASR_CAPTION")
       index <- index + 1
     }
@@ -179,8 +179,8 @@ getMap <- function(disease = "SALM",
 #' Function including the disease-specific PNG map in the 'Word' document
 #' at the specific bookmark location.
 #'
-#' @param disease character string, disease code (default \code{"SALM"}).
-#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' @param disease character string, disease code (default \code{"DENGUE"}).
+#' @param year numeric, year to produce the graph for (default \code{2019}).
 #' @param reportParameters dataframe, dataset including the required parameters
 #' for the graph and report production (default \code{AERparams}) (see specification
 #' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
@@ -219,7 +219,11 @@ includeMap <- function(disease, year, reportParameters,
   # --- If 'Word' document provided, add the maps in the doc
   officer::cursor_bookmark(doc, id = mapBookmark)
   if( file.exists(namePNG) ){
-    doc <- officer::body_add_img(doc, namePNG, width = 7.018, height = 4.956)
+    doc <- officer::body_replace_img_at_bkm(x = doc,
+                                            bookmark = mapBookmark,
+                                            value = officer::external_img(src = namePNG,
+                                                                          width = 7.018,
+                                                                          height = 4.956))
   } else {
     warning(paste('The file "', namePNG,
                   '"does not exist and could not be included in the report.',
@@ -229,10 +233,11 @@ includeMap <- function(disease, year, reportParameters,
 
   ## ------ Caption definition
   caption <- paste("Figure ", index, ". Distribution of ", pop, reportParameters$Label,
-                   " cases ", unit, " by country, ",
+                   " cases ", unit, "by country, ",
                    "EU/EEA, ", year, sep = "")
-  officer::cursor_bookmark(doc, id = captionBookmark)
-  doc <- officer::body_add_par(doc, value = caption)
+  doc <- officer::body_replace_text_at_bkm(x = doc,
+                                           bookmark = captionBookmark,
+                                           value = caption)
 
   return(doc)
 
@@ -245,8 +250,8 @@ includeMap <- function(disease, year, reportParameters,
 #'
 #' Function previewing the disease-specific PNG map
 #'
-#' @param disease character string, disease code (default \code{"SALM"}).
-#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' @param disease character string, disease code (default \code{"DENGUE"}).
+#' @param year numeric, year to produce the graph for (default \code{2019}).
 #' @param reportParameters dataframe, dataset including the required parameters
 #' for the graph and report production (default \code{AERparams}) (see specification
 #' of the dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})

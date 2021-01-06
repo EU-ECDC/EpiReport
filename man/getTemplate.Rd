@@ -21,7 +21,7 @@ The modified version of the template can then be used to produce the final
 epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \cr
 (see the package vignette "The Epidemiological Report Package" with
 \code{browseVignettes("EpiReport")})  \cr
-(see ECDC annual epidemilogical reports \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+(see ECDC annual epidemilogical reports \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 

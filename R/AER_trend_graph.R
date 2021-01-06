@@ -2,7 +2,7 @@
 #'
 #' Function returning the plot describing the trend of the disease over time
 #' that will be included in the epidemiological report at the bookmark location
-#' \code{'TS_TREND_BOOKMARK'} on the template report. \cr
+#' \code{'TS_TREND'} on the template report. \cr
 #' \cr
 #' The graph includes the number of cases at EU/EEA level, by month,
 #' over the past five years, with:
@@ -11,15 +11,15 @@
 #'    \item{}{The 12-month moving average of the number of cases by month (green solid line)}
 #' }
 #' (see ECDC reports
-#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' @param x dataframe, raw disease-specific dataset (see specification of the
 #' dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
-#' (default \code{SALM2016})
-#' @param disease character string, disease code (default \code{"SALM"}).
+#' (default \code{DENGUE2019})
+#' @param disease character string, disease code (default \code{"DENGUE"}).
 #' Please make sure the disease code is included in the disease-specific dataset x
 #' in the \code{HealthTopicCode} variable.
-#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' @param year numeric, year to produce the graph for (default \code{2019}).
 #' Please make sure the year is included in the disease-specific dataset x
 #' in the \code{TimeCode} variable.
 #' @param reportParameters dataframe, dataset including the required parameters
@@ -51,9 +51,9 @@
 #'
 #' @export
 #'
-getTrend <- function(x = EpiReport::SALM2016,
-                     disease = "SALM",
-                     year = 2016,
+getTrend <- function(x = EpiReport::DENGUE2019,
+                     disease = "DENGUE",
+                     year = 2019,
                      reportParameters = EpiReport::AERparams,
                      MSCode = EpiReport::MSCode,
                      index = 1,
@@ -63,9 +63,9 @@ getTrend <- function(x = EpiReport::SALM2016,
   ## Setting default arguments if missing
   ## ----
 
-  if(missing(x)) { x <- EpiReport::SALM2016 }
-  if(missing(disease)) { disease <- "SALM" }
-  if(missing(year)) { year <- 2016 }
+  if(missing(x)) { x <- EpiReport::DENGUE2019 }
+  if(missing(disease)) { disease <- "DENGUE" }
+  if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
   if(missing(index)) { index <- 1 }
@@ -97,7 +97,7 @@ getTrend <- function(x = EpiReport::SALM2016,
 
     # --- Filtering on the required variables
     x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
-                            "TimeCode", "GeoCode", "N"))
+                            "TimeCode", "GeoCode", "YValue"))
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the necessary variables.'))
     }
@@ -122,6 +122,14 @@ getTrend <- function(x = EpiReport::SALM2016,
     studyPeriod <- paste(rep(studyPeriodYear, each = 12),
                          rep(studyPeriodMonth, times = 5), sep="-")
     x <- dplyr::filter(x, x$TimeCode %in% studyPeriod)
+    if(nrow(x) == 0 |
+       sum(studyPeriod %in% x$TimeCode, na.rm = TRUE) != length(studyPeriod)) {
+      stop(paste('The dataset does not include the required 5-year',
+                 'study period for the selected disease "', disease, '".'))
+    }
+
+    # --- Excluding NA values as missing time points
+    x <- dplyr::filter(x, !is.na(x$YValue))
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the required 5-year',
                  'study period for the selected disease "', disease, '".'))
@@ -152,9 +160,9 @@ getTrend <- function(x = EpiReport::SALM2016,
     x <- dplyr::filter(x, !(x$GeoCode %in% unique(missingTimePoint$GeoCode)))
 
     # --- Computing EUEEA level
-    N <- TimeCode <- NULL
+    YValue <- TimeCode <- NULL
     eueea <- dplyr::group_by(x, TimeCode)
-    eueea <- dplyr::summarise(eueea, "N" = sum(N, na.rm = TRUE))
+    eueea <- dplyr::summarise(eueea, "N" = sum(YValue, na.rm = TRUE), .groups = "drop")
     eueea <- dplyr::ungroup(eueea)
 
     # --- Computing EUEEA Moving average
@@ -189,18 +197,28 @@ getTrend <- function(x = EpiReport::SALM2016,
       ## ------ Caption
       pop <- ifelse(reportParameters$MeasurePopulation == "ALL", "", "-")
       pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
-      caption <- paste("Figure ", index, ". Trend and number of ", pop,
-                       reportParameters$Label, " cases, EU/EEA by month, ",
+      caption <- paste("Figure ", index, ". Distribution of ", pop,
+                       reportParameters$Label, " cases by month, EU/EEA, ",
                        year-4, "\U2013", year, sep = "")
-      officer::cursor_bookmark(doc, id = "TS_TREND_BOOKMARK")
-      doc <- officer::body_add_par(doc,
-                                   value = caption)
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "TS_TREND_CAPTION",
+                                               value = caption)
 
       ## ------ Plot
-      doc <- officer::body_add_gg(doc,
-                                  value = p,
-                                  width = 6,
-                                  height = 3)
+      doc <- EpiReport::body_replace_gg_at_bkm(doc = doc,
+                                               gg = p,
+                                               bookmark = "TS_TREND",
+                                               width = 6,
+                                               height = 3)
+
+      ## ------ List of countries reporting consistently
+      countries <- EpiReport::MSCode$TheCountry[EpiReport::MSCode$GeoCode %in% x$GeoCode]
+      countries <- paste(countries, collapse = ", ")
+      countries <- paste("Source: Country reports from ", countries, ".", sep = "")
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "TS_TREND_COUNTRIES",
+                                               value = countries)
+
     }
   }
 
@@ -246,7 +264,7 @@ getTrend <- function(x = EpiReport::SALM2016,
 #' }
 #' Expects aggregated data and pre-calculated 12-month moving average.
 #'
-#' @param data dataframe containing the variables to plot
+#' @param .data dataframe containing the variables to plot
 #' @param xvar character string, name of the time variable to plot on the x-axis
 #' in quotes (default \code{"TimeCode"})
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
@@ -259,8 +277,7 @@ getTrend <- function(x = EpiReport::SALM2016,
 #' @seealso Global function: \code{\link{getTrend}}  \cr
 #' Required Packages: \code{\link{ggplot2}}
 #'
-#'#' @examples
-#'
+#' @examples
 #'
 #' # --- Plot using external dataset
 #'
@@ -270,14 +287,14 @@ getTrend <- function(x = EpiReport::SALM2016,
 #'                    mean = sample(c(4000:5000), 12))
 #'
 #' # Plot the dummy data
-#' plotTS12MAvg(data = test,
+#' plotTS12MAvg(test,
 #'              xvar = "Time",
 #'              yvar = "N",
 #'              movAverage = "mean")
 #'
 #' @export
 #'
-plotTS12MAvg <- function(data,
+plotTS12MAvg <- function(.data,
                          xvar = "TimeCode",
                          yvar = "N",
                          movAverage = "MAV"){
@@ -286,8 +303,8 @@ plotTS12MAvg <- function(data,
   # --- Breaks for the Y axis
 
   FIGTSBREAKS <- pretty(seq(0,
-                            max(data[[yvar]]),
-                            by = max(data[[yvar]])/7))
+                            max(.data[[yvar]]),
+                            by = max(.data[[yvar]])/7))
 
 
   # --- Please Note: ECDC AER plots use the font "Tahoma"
@@ -308,12 +325,12 @@ plotTS12MAvg <- function(data,
 
   # --- Plotting
 
-  p <- ggplot2::ggplot(data,
-                       ggplot2::aes(data[[xvar]])) +
+  p <- ggplot2::ggplot(.data,
+                       ggplot2::aes(.data[[xvar]])) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[yvar]] , color = "Number of cases"), size = 0.6) +
+      ggplot2::aes(y = .data[[yvar]] , color = "Number of cases"), size = 0.6) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[movAverage]], color = "12-month moving average"), size = 1.1, na.rm = TRUE) +
+      ggplot2::aes(y = .data[[movAverage]], color = "12-month moving average"), size = 1.1, na.rm = TRUE) +
     ggplot2::scale_x_date(
       date_label = "%b \n %Y",
       date_breaks = "6 months",
@@ -326,11 +343,12 @@ plotTS12MAvg <- function(data,
     ggplot2::ylab("Number of cases") +
     ggplot2::scale_colour_manual(
       "lines",
-      values=c("Number of cases" = "#767171", "12-month moving average"= "#69AE23")) +
+      values=c("Number of cases" = EcdcColors(col_scale = "grey", grey_shade = "mediumdark"),
+               "12-month moving average"= EcdcColors(col_scale = "green", n=1))) +
     ggplot2::theme(
       axis.text = ggplot2::element_text(size = 8, family = FONT),
       axis.title = ggplot2::element_text(size = 9, family = FONT),
-      axis.line = ggplot2::element_line(colour = "#767171"),
+      axis.line = ggplot2::element_line(colour = EcdcColors(col_scale = "grey", grey_shade = "mediumdark")),
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       panel.background = ggplot2::element_blank(),

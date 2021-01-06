@@ -2,7 +2,7 @@
 #'
 #' Function returning the plot describing the seasonality of the disease
 #' that will be included in the epidemiological report at the bookmark location
-#' \code{'TS_SEASON_BOOKMARK'} of the template report. \cr
+#' \code{'TS_SEASON'} of the template report. \cr
 #' \cr
 #' The graph includes the distribution of cases at EU/EEA level, by month,
 #' over the past five years, with:
@@ -13,15 +13,15 @@
 #'    \item{}{The maximum number of cases by month in the four previous years (grey area)}
 #' }
 #' (see ECDC reports
-#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' @param x dataframe, raw disease-specific dataset (see specification of the
 #' dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
-#' (default \code{SALM2016})
-#' @param disease character string, disease code (default \code{"SALM"}).
+#' (default \code{DENGUE2019})
+#' @param disease character string, disease code (default \code{"DENGUE"}).
 #' Please make sure the disease code is included in the disease-specific dataset x
 #' in the \code{HealthTopicCode} variable.
-#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' @param year numeric, year to produce the graph for (default \code{2019}).
 #' Please make sure the year is included in the disease-specific dataset x
 #' in the \code{TimeCode} variable.
 #' @param reportParameters dataframe, dataset including the required parameters
@@ -53,9 +53,9 @@
 #'
 #' @export
 #'
-getSeason <- function(x = EpiReport::SALM2016,
-                      disease = "SALM",
-                      year = 2016,
+getSeason <- function(x = EpiReport::DENGUE2019,
+                      disease = "DENGUE",
+                      year = 2019,
                       reportParameters = EpiReport::AERparams,
                       MSCode = EpiReport::MSCode,
                       index = 1,
@@ -65,9 +65,9 @@ getSeason <- function(x = EpiReport::SALM2016,
   ## Setting default arguments if missing
   ## ----
 
-  if(missing(x)) { x <- EpiReport::SALM2016 }
-  if(missing(disease)) { disease <- "SALM" }
-  if(missing(year)) { year <- 2016 }
+  if(missing(x)) { x <- EpiReport::DENGUE2019 }
+  if(missing(disease)) { disease <- "DENGUE" }
+  if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
   if(missing(index)) { index <- 1 }
@@ -99,7 +99,7 @@ getSeason <- function(x = EpiReport::SALM2016,
 
     # --- Filtering on the required variables
     x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
-                            "TimeCode", "GeoCode", "N"))
+                            "TimeCode", "GeoCode", "YValue"))
     if(nrow(x) == 0) {
       stop(paste('The dataset does not include the necessary variables.'))
     }
@@ -124,9 +124,17 @@ getSeason <- function(x = EpiReport::SALM2016,
     studyPeriod <- paste(rep(studyPeriodYear, each = 12),
                          rep(studyPeriodMonth, times = 5), sep="-")
     x <- dplyr::filter(x, x$TimeCode %in% studyPeriod)
-    if(nrow(x) == 0) {
+    if(nrow(x) == 0 |
+       sum(studyPeriod %in% x$TimeCode, na.rm = TRUE) != length(studyPeriod)) {
       stop(paste('The dataset does not include the required 5-year study period for the selected disease "',
                  disease, '".'))
+    }
+
+    # --- Excluding NA values as missing time points
+    x <- dplyr::filter(x, !is.na(x$YValue))
+    if(nrow(x) == 0) {
+      stop(paste('The dataset does not include the required 5-year',
+                 'study period for the selected disease "', disease, '".'))
     }
 
     # --- Filtering for analysis at country and EU-EEA level only, no EU level
@@ -168,9 +176,9 @@ getSeason <- function(x = EpiReport::SALM2016,
     x <- dplyr::mutate(x, TimeMonth = format(as.Date(x$TimeCode, "%Y-%m-%d"), "%m"))
 
     # --- Computing TS at EUEEA level
-    N <- TimeCode <- TimeYear <- TimeMonth <- NULL
+    N <- YValue <- TimeCode <- TimeYear <- TimeMonth <- NULL
     eueea <- dplyr::group_by(x, TimeCode, TimeYear, TimeMonth)
-    eueea <- dplyr::summarise(eueea, "N" = sum(N, na.rm = TRUE))
+    eueea <- dplyr::summarise(eueea, "N" = sum(YValue, na.rm = TRUE), .groups = "drop")
     eueea <- dplyr::ungroup(eueea)
 
     # --- Compute mean, min and max
@@ -179,7 +187,8 @@ getSeason <- function(x = EpiReport::SALM2016,
     summ <- dplyr::summarise(summ,
                              Mean4Years = mean(N, na.rm = TRUE),
                              Max4Years=max(N, na.rm = TRUE),
-                             Min4Years=min(N, na.rm = TRUE))
+                             Min4Years=min(N, na.rm = TRUE),
+                             .groups = "drop")
     summ <- dplyr::ungroup(summ)
 
     # --- Finalysing the result table
@@ -192,7 +201,7 @@ getSeason <- function(x = EpiReport::SALM2016,
     ## Plot
     ## ----
 
-    p <- plotSeasonality(data = agg,
+    p <- plotSeasonality(agg,
                          xvar = "TimeCode",
                          yvar = "N",
                          min4years = "Min4Years",
@@ -211,15 +220,24 @@ getSeason <- function(x = EpiReport::SALM2016,
       caption <- paste("Figure ", index, ". Distribution of ", pop,
                        reportParameters$Label, " cases by month, EU/EEA, ",
                        year, " and ", year-4, "\U2013", year-1, sep = "")
-      officer::cursor_bookmark(doc, id = "TS_SEASON_BOOKMARK")
-      doc <- officer::body_add_par(doc,
-                                   value = caption)
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "TS_SEASON_CAPTION",
+                                               value = caption)
 
       ## ------ Plot
-      doc <- officer::body_add_gg(doc,
-                                  value = p,
-                                  width = 6,
-                                  height = 3)
+      doc <- EpiReport::body_replace_gg_at_bkm(doc = doc,
+                                               gg = p,
+                                               bookmark = "TS_SEASON",
+                                               width = 6,
+                                               height = 3)
+
+      ## ------ List of countries reporting consistently
+      countries <- EpiReport::MSCode$TheCountry[EpiReport::MSCode$GeoCode %in% x$GeoCode]
+      countries <- paste(countries, collapse = ", ")
+      countries <- paste("Source: Country reports from ", countries, ".", sep = "")
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "TS_SEASON_COUNTRIES",
+                                               value = countries)
     }
   }
 
@@ -265,7 +283,7 @@ getSeason <- function(x = EpiReport::SALM2016,
 #' }
 #' Expects aggregated data and pre-calculated min, max and mean figures.
 #'
-#' @param data dataframe containing the variables to plot
+#' @param .data dataframe containing the variables to plot
 #' @param xvar character string, name of the time variable on the x-axis in quotes
 #' (default \code{"TimeCode"})
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
@@ -295,7 +313,7 @@ getSeason <- function(x = EpiReport::SALM2016,
 #'                    high = sample(c(5000:6000), 12))
 #'
 #' # Plot the dummy data
-#' plotSeasonality(data = test,
+#' plotSeasonality(test,
 #'                 xvar = "Time",
 #'                 yvar = "N",
 #'                 min4years = "low",
@@ -312,7 +330,7 @@ getSeason <- function(x = EpiReport::SALM2016,
 #'
 #' @export
 #'
-plotSeasonality <- function(data,
+plotSeasonality <- function(.data,
                             xvar = "TimeCode",
                             yvar = "N",
                             min4years = "Min4Years",
@@ -324,8 +342,8 @@ plotSeasonality <- function(data,
   # --- Setting breaks for the time series to be nice
 
   FIGTSBREAKS <- pretty(seq(0,
-                            max(data[[max4years]], data[[yvar]]),
-                            by = max(data[[max4years]], data[[yvar]])/7))
+                            max(.data[[max4years]], .data[[yvar]]),
+                            by = max(.data[[max4years]], .data[[yvar]])/7))
 
 
   # --- Please Note: ECDC AER plots use the font "Tahoma"
@@ -347,17 +365,17 @@ plotSeasonality <- function(data,
 
   # --- Plotting
 
-  p <- ggplot2::ggplot(data, ggplot2::aes(data[[xvar]])) +
+  p <- ggplot2::ggplot(.data, ggplot2::aes(.data[[xvar]])) +
     ggplot2::geom_ribbon(
-      ggplot2::aes(ymin = data[[min4years]] ,
-                   ymax = data[[max4years]],
+      ggplot2::aes(ymin = .data[[min4years]] ,
+                   ymax = .data[[max4years]],
                    fill = paste("Min-max (", year - 4, "\U2013", year - 1, ")",sep = "")) , alpha = 0.5) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[mean4years]],
+      ggplot2::aes(y = .data[[mean4years]],
                    color = "Mean"),
       linetype = "longdash", size = 0.6) +
     ggplot2::geom_line(
-      ggplot2::aes(y = data[[yvar]], color = "year"), size = 1.1) +
+      ggplot2::aes(y = .data[[yvar]], color = "year"), size = 1.1) +
     ggplot2::scale_x_date(
       date_labels = "%b", date_breaks = "1 month", expand = c(0, 0)) +
     ggplot2::scale_y_continuous(
@@ -365,17 +383,18 @@ plotSeasonality <- function(data,
     ggplot2::xlab("Month") +
     ggplot2::ylab("Number of cases") +
     ggplot2::scale_colour_manual("lines",
-                                 values = c("year" = "#69AE23", "Mean" = "#767171"),
+                                 values = c("year" = EcdcColors(col_scale = "green", n=1),
+                                            "Mean" = EcdcColors(col_scale = "grey", grey_shade = "mediumdark")),
                                  labels = c("year" = as.character(year),
                                             "Mean" = paste("Mean (", year - 4 , "\U2013", year - 1, ")", sep = ""))) +
-    ggplot2::scale_fill_manual("", values = "grey80") +
+    ggplot2::scale_fill_manual("", values = EcdcColors(col_scale = "grey", grey_shade = "mediumlight")) +
     ggplot2::theme(
       axis.text = ggplot2::element_text(size = 8, family = FONT),
       axis.title = ggplot2::element_text(size = 9, family = FONT),
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       panel.background = ggplot2::element_blank(),
-      axis.line = ggplot2::element_line(colour = "#767171"),
+      axis.line = ggplot2::element_line(colour = EcdcColors(col_scale = "grey", grey_shade = "mediumdark")),
       legend.position = "right",
       legend.title = ggplot2::element_blank(),
       legend.text = ggplot2::element_text(size = 8, family = FONT),

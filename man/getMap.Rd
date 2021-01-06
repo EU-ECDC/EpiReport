@@ -5,8 +5,8 @@
 \title{Get disease-specific map: distribution of cases by Member State}
 \usage{
 getMap(
-  disease = "SALM",
-  year = 2016,
+  disease = "DENGUE",
+  year = 2019,
   reportParameters = EpiReport::AERparams,
   index = 1,
   pathPNG = system.file("maps", package = "EpiReport"),
@@ -14,9 +14,9 @@ getMap(
 )
 }
 \arguments{
-\item{disease}{character string, disease code (default \code{"SALM"}).}
+\item{disease}{character string, disease code (default \code{"DENGUE"}).}
 
-\item{year}{numeric, year to produce the map for (default \code{2016}).}
+\item{year}{numeric, year to produce the map for (default \code{2019}).}
 
 \item{reportParameters}{dataframe, dataset including the required parameters
 for the map and report production (default \code{AERparams}) (see specification
@@ -41,20 +41,20 @@ that will be included in the epidemiological report at the bookmark location
 of the template report, depending of the type of map.
 Three type of maps can be included in the report:
 \itemize{
-   \item{Bookmark \code{'MAP_NB_BOOKMARK'}: }{Distribution of cases by country.
+   \item{Bookmark \code{'MAP_NB'}: }{Distribution of cases by country.
    An additional caption will be included at the location of the bookmark \code{'MAP_NB_CAPTION'}.}
-   \item{Bookmark \code{'MAP_RATE_BOOKMARK'}: }{Distribution of cases
+   \item{Bookmark \code{'MAP_RATE'}: }{Distribution of cases
    per 100 000 population by country. An additional caption will be included
    at the location of the bookmark \code{'MAP_RATE_CAPTION'}.}
-   \item{Bookmark \code{'MAP_ASR_BOOKMARK'}: }{Distribution of cases using
+   \item{Bookmark \code{'MAP_ASR'}: }{Distribution of cases using
    age-strandardised rates per 100 000 population by country.
    An additional caption will be included at the location of the bookmark \code{'MAP_ASR_CAPTION'}.}
 }
 (see ECDC reports
-\url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+\url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
-# --- Preview of the PNG map using the default Salmonellosis dataset
+# --- Preview of the PNG map using the default Dengue dataset
 getMap()
 
 # --- Plot using external PNG image
