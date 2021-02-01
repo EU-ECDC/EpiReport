@@ -16,7 +16,7 @@
 #'
 #' @examples
 #'
-#' \donttest{
+#' \dontrun{
 #' # --- Export the template in the default folder: working directory
 #' getTemplate()
 #'
@@ -98,7 +98,7 @@ getTemplate <- function(output_path){
 #'
 #' @examples
 #'
-#' \donttest{
+#' \dontrun{
 #' # --- Generating the AER report using the default Dengue dataset
 #' getAER()
 #' }
