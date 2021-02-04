@@ -69,7 +69,7 @@ plotTS <- function(.data,
   ## ----
 
   if (log10_scale == TRUE) {
-    MAX <- max(.data[[yvar]])
+    MAX <- max(.data[[yvar]], na.rm = TRUE)
     if (floor(MAX) > 1) {
       BREAKS <- c( log10(10^((1:10)/10)), log10(10^(2:floor(MAX))) )
       LABELS <- rep("", length(BREAKS))
@@ -84,8 +84,8 @@ plotTS <- function(.data,
     }
   } else {
     LABELS <- pretty(seq(0,
-                         max(.data[[yvar]]),
-                         by = max(.data[[yvar]])/5))
+                         max(.data[[yvar]], na.rm = TRUE),
+                         by = max(.data[[yvar]], na.rm = TRUE)/5))
   }
 
 
@@ -121,7 +121,7 @@ plotTS <- function(.data,
   } else {
     p <- p +
       ggplot2::scale_y_continuous(expand = c(0,0),
-                                  limits = c(0, max(LABELS)),
+                                  limits = c(0, max(LABELS, na.rm = TRUE)),
                                   breaks = LABELS)
   }
 

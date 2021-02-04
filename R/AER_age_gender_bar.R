@@ -383,8 +383,8 @@ plotBarGrouped <- function(.data,
   # --- Breaks for the Y axis
   if (position == "dodge") {
     FIGBREAKS <- pretty(seq(0,
-                            max(.data[[yvar]]),
-                            by = max(.data[[yvar]])/5))
+                            max(.data[[yvar]], na.rm = TRUE),
+                            by = max(.data[[yvar]], na.rm = TRUE)/5))
   } else {
     max <- .data %>%
       dplyr::group_by(.data[[xvar]]) %>%
@@ -396,6 +396,7 @@ plotBarGrouped <- function(.data,
 
   # --- Reversing order of levels if stacked bars
   if (position == "stack") {
+    .data[[group]] <- factor(.data[[group]])
     .data[[group]] <- factor(.data[[group]],
                              levels = rev(levels(.data[[group]])))
   }
@@ -490,8 +491,8 @@ plotBar <- function(.data,
   # --- Breaks for the Y axis
 
   FIGBREAKS <- pretty(seq(0,
-                          max(.data[[yvar]]),
-                          by = max(.data[[yvar]])/5))
+                          max(.data[[yvar]], na.rm = TRUE),
+                          by = max(.data[[yvar]], na.rm = TRUE)/5))
 
   # --- Plotting
 

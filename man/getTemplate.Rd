@@ -25,7 +25,7 @@ epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \
 }
 \examples{
 
-\donttest{
+\dontrun{
 # --- Export the template in the default folder: working directory
 getTemplate()
 

@@ -60,7 +60,7 @@ please see the package vignette "The Epidemiological Report Package" with \code{
 }
 \examples{
 
-\donttest{
+\dontrun{
 # --- Generating the AER report using the default Dengue dataset
 getAER()
 }

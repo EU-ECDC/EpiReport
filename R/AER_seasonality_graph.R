@@ -342,8 +342,8 @@ plotSeasonality <- function(.data,
   # --- Setting breaks for the time series to be nice
 
   FIGTSBREAKS <- pretty(seq(0,
-                            max(.data[[max4years]], .data[[yvar]]),
-                            by = max(.data[[max4years]], .data[[yvar]])/7))
+                            max(.data[[max4years]], .data[[yvar]], na.rm = TRUE),
+                            by = max(.data[[max4years]], .data[[yvar]], na.rm = TRUE)/7))
 
 
   # --- Please Note: ECDC AER plots use the font "Tahoma"
@@ -379,7 +379,7 @@ plotSeasonality <- function(.data,
     ggplot2::scale_x_date(
       date_labels = "%b", date_breaks = "1 month", expand = c(0, 0)) +
     ggplot2::scale_y_continuous(
-      breaks = FIGTSBREAKS, limits = c(0,max(FIGTSBREAKS)), expand = c(0, 0)) +
+      breaks = FIGTSBREAKS, limits = c(0,max(FIGTSBREAKS, na.rm = TRUE)), expand = c(0, 0)) +
     ggplot2::xlab("Month") +
     ggplot2::ylab("Number of cases") +
     ggplot2::scale_colour_manual("lines",
