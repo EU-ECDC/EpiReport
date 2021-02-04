@@ -106,6 +106,8 @@
 #' @format A data frame with 32 rows and 3 variables:
 #' \describe{
 #'   \item{Country}{Full name of the country / Member State e.g. Austria, Belgium, etc.}
+#'   \item{TheCountry}{Full name of the country / Member State
+#'   including 'the' article for NL and UK  e.g. Austria, Belgium, the Netherlands, the United Kingdom etc.}
 #'   \item{GeoCode}{Associated code (see \code{GeoCode} variable
 #'      on the \code{SALM2016} internal dataset) e.g. AT, BE, BG, etc.}
 #'   \item{EUEEA}{For each Member State, variable specifying in the country
@@ -119,3 +121,40 @@
 "MSCode"
 
 
+#' Dataset including Dengue data for 2015-2019
+#'
+#' A dataset containing the data and indicators required to build the epidemiological report
+#' for Dengue 2019 TESSy data (default dataset used throughout \code{EpiReport})
+#'
+#' @format A data frame with 44,332 rows and 11 variables:
+#' \describe{
+#'   \item{HealthTopicCode}{Disease code e.g. \code{ANTH}, \code{SALM}, etc.}
+#'   \item{MeasureCode}{Code of the measure indicator}
+#'   \item{TimeUnit}{Unit of the time variable i.e. \code{Y} for yearly data or \code{M} for monthly data}
+#'   \item{TimeCode}{Time variable including dates in any formats available
+#'   (according to the unit defined in \code{TimeUnit}) yearly data (e.g. 2001) or monthly data (e.g. 2001-01)}
+#'   \item{GeoCode}{Geographical level in coded format including country names
+#'   (e.g. \code{AT} for Austria, \code{BE} for Belgium, \code{BG} for Bulgaria,
+#'   see also the \code{EpiReport::MSCode} table, correspondence table for Member State labels and codes)}
+#'   \item{XValue}{XValue}
+#'   \item{XLabel}{The label associated with the x-axis in the epidemiological report
+#'   (see \code{getAgeGender()} and \code{plotAgeGender()} bar graph for the age variable)}
+#'   \item{YValue}{The value associated with the y-axis in the epidemiological report
+#'   (see \code{plotAge()} bar graph for the variable age, or \code{getTableByMS()}
+#'   for the number of cases, rate or age-standardised rate in the table by Member States by year)}
+#'   \item{YLabel}{The label associated with the y-axis in the epidemiological report
+#'   (see \code{getAgeGender()} and \code{plotAgeGender()} bar graph for the grouping variable gender)}
+#'   \item{ZValue}{The value associated with the stratification of XLabel and YLabel
+#'   in the age and gender bar graph (see \code{getAgeGender()} and \code{plotAgeGender()})}
+#'   \item{N}{Number of cases (see \code{getTrend()} and \code{getSeason()} line graph)}
+#' }
+#' @docType data
+#' @keywords datasets dengue
+#' @name DENGUE2019
+#' @usage DENGUE2019
+#' @seealso The correspondence table for Member State labels and codes \code{\link{MSCode}} \cr
+#' and the functions mentioned above: \code{\link{getAgeGender}},
+#' \code{\link{plotAgeGender}},  \code{\link{plotAge}},  \code{\link{getTableByMS}},
+#' \code{\link{getTrend}} and \code{\link{getSeason}}.
+#'
+"DENGUE2019"

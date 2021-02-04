@@ -7,7 +7,7 @@
 #' epidemiological report using \code{getAER(template = 'NewTemplate.docx', ...)} \cr
 #' (see the package vignette "The Epidemiological Report Package" with
 #' \code{browseVignettes("EpiReport")})  \cr
-#' (see ECDC annual epidemilogical reports \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' (see ECDC annual epidemilogical reports \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' @param output_path character string, the full path where to create the 'Word' output.
 #' Defaut location will be the current working directory (default \code{getwd()})
@@ -16,7 +16,7 @@
 #'
 #' @examples
 #'
-#' \donttest{
+#' \dontrun{
 #' # --- Export the template in the default folder: working directory
 #' getTemplate()
 #'
@@ -65,7 +65,7 @@ getTemplate <- function(output_path){
 #' including all disease-specific outputs at each output-specific bookmarks exact location. \cr
 #' (for further information on the outputs and the corresponding bookmarks,
 #' please see the package vignette "The Epidemiological Report Package" with \code{browseVignettes("EpiReport")})\cr
-#' (see ECDC AER \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' (see ECDC AER \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' @param template doc (see \code{'officer'} package), the empty 'Word' document template in which
 #' to include the table and plots disease-specific outputs.
@@ -75,11 +75,11 @@ getTemplate <- function(output_path){
 #' Default value is the current working directory \code{getwd()}.
 #' @param x dataframe, raw disease-specific dataset (see specification of the dataset in the
 #' package vignette with \code{browseVignettes("EpiReport")})
-#' (default \code{SALM2016})
-#' @param disease character string, disease code (default \code{"SALM"}).
+#' (default \code{DENGUE2019})
+#' @param disease character string, disease code (default \code{"DENGUE"}).
 #' Please make sure the disease code is included in the disease-specific dataset x
 #' in the \code{HealthTopicCode} variable.
-#' @param year numeric, year to produce the report for (default \code{2016}).
+#' @param year numeric, year to produce the report for (default \code{2019}).
 #' Please make sure the year is included in the disease-specific dataset x in the \code{TimeCode} variable.
 #' @param reportParameters dataframe, dataset including the required parameters for the report
 #' production (default \code{AERparams}) (see specification of the dataset in the
@@ -92,14 +92,14 @@ getTemplate <- function(output_path){
 #'
 #' @seealso Default template: \code{\link{getTemplate}} \cr
 #' Default datasets: \code{\link{MSCode}}
-#' \code{\link{AERparams}} \code{\link{SALM2016}} \cr
+#' \code{\link{AERparams}} \code{\link{SALM2016}} \code{\link{DENGUE2019}}\cr
 #' Disease-specific outputs: \code{\link{getTableByMS}}
 #' \code{\link{getSeason}} \code{\link{getTrend}} \code{\link{getMap}} \code{\link{getAgeGender}}
 #'
 #' @examples
 #'
-#' \donttest{
-#' # --- Generating the AER report using the default Salmonellosis dataset
+#' \dontrun{
+#' # --- Generating the AER report using the default Dengue dataset
 #' getAER()
 #' }
 #'
@@ -118,12 +118,13 @@ getTemplate <- function(output_path){
 #'
 getAER <- function(template =  file.path(system.file(package = "EpiReport"), "template/AER_template.docx" ),
                    outputPath = getwd(),
-                   x = EpiReport::SALM2016,
-                   disease = "SALM",
-                   year = 2016,
+                   x = EpiReport::DENGUE2019,
+                   disease = "DENGUE",
+                   year = 2019,
                    reportParameters = EpiReport::AERparams,
                    MSCode = EpiReport::MSCode,
                    pathPNG = system.file("maps", package = "EpiReport")){
+
 
   ## ----
   ## Setting default arguments if missing
@@ -135,12 +136,13 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   if(missing(outputPath)){
     outputPath <- getwd()
   }
-  if(missing(x)) { x <- EpiReport::SALM2016 }
-  if(missing(disease)) { disease <- "SALM" }
-  if(missing(year)) { year <- 2016 }
+  if(missing(x)) { x <- EpiReport::DENGUE2019 }
+  if(missing(disease)) { disease <- "DENGUE" }
+  if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
   if(missing(pathPNG)) { pathPNG <- system.file("maps", package = "EpiReport") }
+
 
 
   ## ----
@@ -156,21 +158,26 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   doc <- officer::read_docx(path = template)
 
 
+
   ## ----
   ## Preparing the data
   ## ----
   x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
 
 
+
   ## ----
   ## Disease and year title
   ## ----
-  doc <- officer::body_replace_text_at_bkm(doc,
-                                           bookmark = "DISEASE",
-                                           value = toCapTitle(reportParameters$Label))
+  if ("DISEASE" %in% officer::docx_bookmarks(doc)) {
+    doc <- officer::body_replace_text_at_bkm(doc,
+                                             bookmark = "DISEASE",
+                                             value = toCapTitle(reportParameters$Label))
+  }
   doc <- officer::body_replace_text_at_bkm(doc,
                                            bookmark = "YEAR",
                                            value = as.character(year))
+  doc <- officer::headers_replace_all_text(doc, old_value = "YEAR", new_value = as.character(year), warn = FALSE)
 
 
 
@@ -178,7 +185,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## Extraction date on which the Atlas is based on
   ## ----
   dateAtlas <- paste("This report is based on data for ", year,
-                     " retrieved from The European Surveillance System (TESSy) on ",
+                     " retrieved from The European Surveillance System (TESSy) on",
                      reportParameters$DatePublicAtlas,
                      ". TESSy is a system for the collection, analysis and dissemination",
                      " of data on communicable diseases.",
@@ -190,65 +197,82 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
 
 
   ## ----
+  ## Initialising figures and tables numbering
+  ## ----
+  indexTab <- 1
+  indexFig <- 1
+
+
+
+  ## ----
   ## Adding the table
   ## ----
-  index <- 1
-  doc <- EpiReport::getTableByMS(x = x,
-                                 disease = disease,
-                                 year = year,
-                                 reportParameters = reportParameters,
-                                 MSCode = MSCode,
-                                 index = index,
-                                 doc = doc)
-  index <- index + 1
-
-
-
-
-  ## ----
-  ## Trend plot
-  ## ----
-  doc <- EpiReport::getTrend(x = x,
-                             disease = disease,
-                             year = year,
-                             reportParameters = reportParameters,
-                             MSCode = MSCode,
-                             index = index,
-                             doc = doc)
-  index <- index + 1
-
-
-
-
-
-  ## ----
-  ## Seasonal plot
-  ## ----
-  doc <- EpiReport::getSeason(x = x,
-                              disease = disease,
-                              year = year,
-                              reportParameters = reportParameters,
-                              MSCode = MSCode,
-                              index = index,
-                              doc = doc)
-  index <- index + 1
-
-
-
+  if (reportParameters$TableUse != "NO" &
+      "TABLE1" %in% officer::docx_bookmarks(doc)){
+    doc <- EpiReport::getTableByMS(x = x,
+                                   disease = disease,
+                                   year = year,
+                                   reportParameters = reportParameters,
+                                   MSCode = MSCode,
+                                   index = indexTab,
+                                   doc = doc)
+    indexTab <- indexTab + 1
+  }
 
 
 
   ## ----
   ## Map
   ## ----
-  doc <- EpiReport::getMap(disease = disease,
-                           year = year,
-                           reportParameters = reportParameters,
-                           index = index,
-                           pathPNG = pathPNG,
-                           doc = doc)
-  index <- index + 1
+  if ((reportParameters$MapNumbersUse == "Y" & "MAP_NB" %in% officer::docx_bookmarks(doc)) |
+      (reportParameters$MapRatesUse == "Y" & "MAP_RATE" %in% officer::docx_bookmarks(doc)) |
+      (reportParameters$MapASRUse == "Y" & "MAP_ASR" %in% officer::docx_bookmarks(doc)) ){
+    doc <- EpiReport::getMap(disease = disease,
+                             year = year,
+                             reportParameters = reportParameters,
+                             index = indexFig,
+                             pathPNG = pathPNG,
+                             doc = doc)
+    indexFig <- indexFig +
+      (reportParameters$MapNumbersUse == "Y" & "MAP_NB" %in% officer::docx_bookmarks(doc)) +
+      (reportParameters$MapRatesUse == "Y" & "MAP_RATE" %in% officer::docx_bookmarks(doc)) +
+      (reportParameters$MapASRUse == "Y" & "MAP_ASR" %in% officer::docx_bookmarks(doc))
 
+  }
+
+
+
+  ## ----
+  ## Trend plot
+  ## ----
+  if (reportParameters$TSTrendGraphUse != "N" &
+      "TS_TREND" %in% officer::docx_bookmarks(doc)){
+    doc <- EpiReport::getTrend(x = x,
+                               disease = disease,
+                               year = year,
+                               reportParameters = reportParameters,
+                               MSCode = MSCode,
+                               index = indexFig,
+                               doc = doc)
+    indexFig <- indexFig + 1
+  }
+
+
+
+  ## ----
+  ## Seasonal plot
+  ## ----
+  if (reportParameters$TSSeasonalityGraphUse != "N" &
+      "TS_SEASON" %in% officer::docx_bookmarks(doc)){
+    doc <- EpiReport::getSeason(x = x,
+                                disease = disease,
+                                year = year,
+                                reportParameters = reportParameters,
+                                MSCode = MSCode,
+                                index = indexFig,
+                                doc = doc)
+    indexFig <- indexFig + 1
+  }
 
 
 
@@ -256,15 +280,15 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## Bar graph
   ## ----
 
-  doc <- EpiReport::getAgeGender(x = x,
-                                 disease = disease,
-                                 year = year,
-                                 reportParameters= reportParameters,
-                                 geoCode = "EU_EEA31",
-                                 index = index,
-                                 doc = doc)
-
-
+  if (reportParameters$AgeGenderUse != "NO" &
+      "BARGPH_AGEGENDER" %in% officer::docx_bookmarks(doc)){
+    doc <- EpiReport::getAgeGender(x = x,
+                                   disease = disease,
+                                   year = year,
+                                   reportParameters= reportParameters,
+                                   geoCode = "EU_EEA31",
+                                   index = indexFig,
+                                   doc = doc)}
 
 
 
@@ -273,8 +297,8 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   ## ----
 
   print(doc,
-        target = paste(outputPath, "/AnnualEpidemiologicalReport_",
-                       disease, year, ".docx", sep=""))
+        target = paste(outputPath, "/", disease, "_AER_",
+                        year, "_Report.docx", sep=""))
 
 }
 

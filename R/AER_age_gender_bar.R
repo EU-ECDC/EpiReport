@@ -1,7 +1,7 @@
 #' Get disease-specific age and gender bar graph
 #'
 #' Function returning the age and gender bar graph that will be included
-#' in the epidemiological report at the bookmark location \code{'BARGPH_AGEGENDER_BOOKMARK'}
+#' in the epidemiological report at the bookmark location \code{'BARGPH_AGEGENDER'}
 #' of the template report. \cr
 #' The bar graph presents the distribution of cases at EU/EEA level using either:
 #' \itemize{
@@ -12,15 +12,15 @@
 #' }
 #' The choice of the type of bar graph is set in the report parameters table \code{AERparams}. \cr
 #' (see ECDC reports
-#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' @param x dataframe, raw disease-specific dataset (see specification of the
 #' dataset in the package vignette with \code{browseVignettes(package = "EpiReport")})
-#' (default \code{SALM2016})
-#' @param disease character string, disease code (default \code{"SALM"}).
+#' (default \code{DENGUE2019})
+#' @param disease character string, disease code (default \code{"DENGUE"}).
 #' Please make sure the disease code is included in the disease-specific dataset x
 #' in the \code{HealthTopicCode} variable.
-#' @param year numeric, year to produce the graph for (default \code{2016}).
+#' @param year numeric, year to produce the graph for (default \code{2019}).
 #' Please make sure the year is included in the disease-specific dataset x
 #' in the \code{TimeCode} variable.
 #' @param reportParameters dataframe, dataset including the required parameters
@@ -37,7 +37,9 @@
 #'
 #' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{ggplot2}} \code{\link{officer}} \cr
-#' Internal functions: \code{\link{plotAgeGender}} \code{\link{plotAge}} \cr
+#' Internal functions: \code{\link{plotBarGrouped}} (use of \code{plotAgeGender} discouraged)
+#' \code{\link{plotBar}} (use of \code{plotAge} discouraged)
+#' \code{\link{EcdcColors}} \cr
 #' Default datasets: \code{\link{AERparams}}
 #'
 #' @examples
@@ -51,9 +53,9 @@
 #'
 #' @export
 #'
-getAgeGender <- function(x = EpiReport::SALM2016,
-                         disease = "SALM",
-                         year = 2016,
+getAgeGender <- function(x = EpiReport::DENGUE2019,
+                         disease = "DENGUE",
+                         year = 2019,
                          reportParameters = EpiReport::AERparams,
                          geoCode = "EU_EEA31",
                          index = 1,
@@ -63,9 +65,9 @@ getAgeGender <- function(x = EpiReport::SALM2016,
   ## Setting default arguments if missing
   ## ----
 
-  if(missing(x)) { x <- EpiReport::SALM2016 }
-  if(missing(disease)) { disease <- "SALM" }
-  if(missing(year)) { year <- 2016 }
+  if(missing(x)) { x <- EpiReport::DENGUE2019 }
+  if(missing(disease)) { disease <- "DENGUE" }
+  if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(geoCode)) { geoCode <- "EU_EEA31" }
   if(missing(index)) { index <- 1 }
@@ -211,10 +213,10 @@ getAgeGender <- function(x = EpiReport::SALM2016,
     ## Ordering the labels for gender variable
     ## ----
 
-    x$XLabel = factor(x$XLabel, orderQuasinum(unique(x$XLabel)))
+    x$XLabel <- factor(x$XLabel, orderQuasinum(unique(x$XLabel)))
     # --- for Age by Gender
     if(substr(reportParameters$AgeGenderUse, 1, 2) == "AG") {
-      x$YLabel = factor(x$YLabel, c("Male","Female"))
+      x$YLabel <- factor(x$YLabel, c("Male","Female"))
     }
 
 
@@ -224,20 +226,21 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 
     if(substr(reportParameters$AgeGenderUse, 1, 2) == "AG") {
       # --- Age by Gender
-      p <- plotAgeGender(x,
-                         xvar = "XLabel",
-                         yvar = "ZValue",
-                         group = "YLabel",
-                         fill_color1 = "#65B32E",
-                         fill_color2 = "#7CBDC4",
-                         ytitle  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
+      p <- plotBarGrouped(x,
+                          xvar = "XLabel",
+                          yvar = "ZValue",
+                          group = "YLabel",
+                          fill_color = EcdcColors(col_scale = "qual", n = 2),
+                          xlabel = "Age (years)",
+                          ylabel  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
     } else {
       # --- Age only
-      p <- plotAge(x,
+      p <- plotBar(x,
                    xvar = "XLabel",
                    yvar = "YValue",
-                   fill_color1 = "#65B32E",
-                   ytitle  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
+                   fill_color = EcdcColors(col_scale = "qual", n = 1),
+                   xlabel = "Age (years)",
+                   ylabel  = toCapTitle(tolower(reportParameters$AgeGenderBarGraphLabel)))
     }
 
 
@@ -255,15 +258,16 @@ getAgeGender <- function(x = EpiReport::SALM2016,
                        tolower(reportParameters$AgeGenderBarGraphLabel),
                        ", ", groupby, ", EU/EEA, ",
                        year, sep = "")
-      officer::cursor_bookmark(doc, id = "BARGPH_AGEGENDER_BOOKMARK")
-      doc <- officer::body_add_par(doc,
-                                   value = caption)
+      doc <- officer::body_replace_text_at_bkm(x = doc,
+                                               bookmark = "BARGPH_AGEGENDER_CAPTION",
+                                               value = caption)
 
       ## ------ Plot
-      doc <- officer::body_add_gg(doc,
-                                  value = p,
-                                  width = 6,
-                                  height = 4)
+      doc <- EpiReport::body_replace_gg_at_bkm(doc = doc,
+                                               gg = p,
+                                               bookmark = "BARGPH_AGEGENDER",
+                                               width = 6,
+                                               height = 4)
     }
   }
 
@@ -303,94 +307,120 @@ getAgeGender <- function(x = EpiReport::SALM2016,
 
 
 
-#' Age and Gender bar graph
+#' Grouped bar graph
 #'
-#' This function draws a bar graph of the distribution of cases by age group
-#' and gender (or possibly other grouping). \cr
-#' The bar graph presents the distribution of cases at EU/EEA level using either:
-#' \itemize{
-#'    \item{\code{AG-COUNT}: }{The number of cases by age and gender}
-#'    \item{\code{AG-RATE}: }{The rate per 100 000 cases by age and gender}
-#'    \item{\code{AG-PROP}: }{The proportion of cases by age and gender}
-#' }
+#' This function draws a vertical grouped bar graph of the values of variable 'Yvar'
+#' with the categorical variable 'Xvar' on the x-axis and grouped by 'Group' categorical variable. \cr
 #' Expects aggregated data.
 #'
-#' @param data dataframe containing the variables to plot
+#' @param .data dataframe containing the variables to plot
 #' @param xvar character string, name of the variable to plot on the x-axis in quotes
 #' (default \code{"XLabel"})
+#' @param xlabel character string, label of the x axis
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
 #' (default \code{"ZValue"})
-#' @param fill_color1 character string, hexadecimal colour to use in the graph for bar 1;
-#' (default to ECDC green \code{"#65B32E"})
-#' @param fill_color2 character string, hexadecimal colour to use in the graph for bar 2;
-#' (default to ECDC blue \code{"#7CBDC4"})
+#' @param ylabel character string, label of the y axis
+#' @param fill_color vector of character strings, hexadecimal colour to use in the graph for bars;
+#' the vector should contain the number categories in \code{"group"} variable.
+#' (default to ECDC blue \code{"#7CBDC4"} and ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 2))
 #' @param group character string, name of the grouping variable in quotes, e.g. gender.
-#' (default \code{"YLabel"})
-#' @param ytitle character string, y-axis title; (default \code{"Rate"}).
+#' (default \code{"YLabel"}).
+#' @param position character string, position of the bars, either \code{"dodge"}
+#' or \code{"stack"} (default \code{"dodge"}, see \code{geom_bar(position = ... )}).
 #'
-#' @keywords age gender bargraph
+#' @keywords bargraph
+#'
+#' @importFrom tidyr %>%
 #'
 #' @seealso Global function: \code{\link{getAgeGender}}  \cr
+#' Internal function: \code{\link{EcdcColors}} \cr
 #' Required Packages: \code{\link{ggplot2}}
 #'
 #' @examples
 #' # --- Create dummy data
 #' mydat <- data.frame(Gender=c("F", "F", "M", "M"),
-#' AgeGroup = c("0-65", "65+", "0-65", "65+"),
-#' NumberOfCases = c(54,43,32,41))
+#'                     AgeGroup = c("0-65", "65+", "0-65", "65+"),
+#'                     NumberOfCases = c(30, 35, 70, 65))
 #'
 #' # --- Plot the dummy data
-#' plotAgeGender(mydat,
+#' plotBarGrouped(mydat,
 #'               xvar = "AgeGroup",
+#'               xlabel = "Age",
 #'               yvar = "NumberOfCases",
-#'               group = "Gender",
-#'               ytitle = "Number of cases")
+#'               ylabel = "Number of cases",
+#'               group = "Gender")
+#'
+#' # -- Create dummy data
+#' mydat <- data.frame(VaccStatus = rep(c("Unvaccinated", "1 dose", "2 doses", "3 doses"), 3),
+#'                     AgeGroup = rep(c("<1", "1-4", "5-9") , each = 4),
+#'                     Proportion = c(90, 10, 0, 0,
+#'                                    30, 50, 20, 0,
+#'                                    10, 25, 35, 30))
+#' mydat$VaccStatus <- factor(mydat$VaccStatus,
+#'                            levels = c("Unvaccinated", "1 dose", "2 doses", "3 doses"))
+#' plotBarGrouped(mydat,
+#'                xvar = "AgeGroup",
+#'                xlabel = "Age (years)",
+#'                yvar = "Proportion",
+#'                ylabel = "Proportion of cases %",
+#'                group = "VaccStatus",
+#'                position = "stack")
+#'
 #'
 #' @export
 #'
-plotAgeGender <- function(data,
-                          xvar = "XLabel",
-                          yvar = "ZValue",
-                          group = "YLabel",
-                          fill_color1 = "#65B32E",
-                          fill_color2 = "#7CBDC4",
-                          ytitle  = "Rate") {
+plotBarGrouped <- function(.data,
+                           xvar = "XLabel",
+                           xlabel = "",
+                           yvar = "ZValue",
+                           ylabel = "",
+                           group = "YLabel",
+                           fill_color = EcdcColors(col_scale = "qual",
+                                                   n = length(unique(.data[[group]]))),
+                           position = "dodge") {
 
 
   # --- Breaks for the Y axis
+  if (position == "dodge") {
+    FIGBREAKS <- pretty(seq(0,
+                            max(.data[[yvar]], na.rm = TRUE),
+                            by = max(.data[[yvar]], na.rm = TRUE)/5))
+  } else {
+    max <- .data %>%
+      dplyr::group_by(.data[[xvar]]) %>%
+      dplyr::mutate(total = sum(.data[[yvar]], na.rm = TRUE))
+    FIGBREAKS <- pretty(seq(0,
+                            max(max$total),
+                            by = max(max(max$total))/5))
+  }
 
-  FIGBREAKS <- pretty(seq(0,
-                          max(data[[yvar]]),
-                          by = max(data[[yvar]])/5))
+  # --- Reversing order of levels if stacked bars
+  if (position == "stack") {
+    .data[[group]] <- factor(.data[[group]])
+    .data[[group]] <- factor(.data[[group]],
+                             levels = rev(levels(.data[[group]])))
+  }
 
 
-  # --- Please Note: ECDC AER plots use the font "Tahoma"
-  # --- The font is not available on Linux
 
-  # if ("Tahoma" %in% extrafont::fonts()) {
-  #   FONT <- "Tahoma"
-  #   suppressMessages(extrafont::loadfonts(device = "win"))
-  # } else if (Sys.info()["sysname"] == "Windows") {
-  #   suppressMessages(extrafont::font_import(pattern = 'tahoma', prompt = FALSE))
-  #   suppressMessages(extrafont::loadfonts(device = "win"))
-  #   FONT <- "Tahoma"
-  # } else {
-  #   FONT <- NULL
-  # }
+  ######  Option not yet implemented
   FONT <- NULL
 
 
 
   # --- Plotting
 
-  p <- ggplot2::ggplot(data = data,
-                       ggplot2::aes(x = data[[xvar]], y = data[[yvar]], fill = data[[group]])) +
-    ggplot2::geom_bar(stat = "identity", position = ggplot2::position_dodge()) +
-    ggplot2::scale_fill_manual(values = c(fill_color1, fill_color2)) +
+  p <- ggplot2::ggplot(data = .data,
+                       ggplot2::aes(x = .data[[xvar]],
+                                    y = .data[[yvar]],
+                                    fill = .data[[group]])) +
+    ggplot2::geom_bar(stat = "identity",
+                      position = position) +
+    ggplot2::scale_fill_manual(values = fill_color) +
     ggplot2::scale_y_continuous(expand = c(0,0),
                                 limits = c(0, max(FIGBREAKS)),
                                 breaks = FIGBREAKS) +
-    ggplot2::labs(title = "", x = "Age", y = ytitle) +
+    ggplot2::labs(title = "", x = xlabel , y = ylabel) +
     ggplot2::theme(axis.text = ggplot2::element_text(size = 8, family = FONT),
                    axis.title = ggplot2::element_text(size = 9, family = FONT),
                    axis.line = ggplot2::element_line(colour = "black"),
@@ -412,25 +442,27 @@ plotAgeGender <- function(data,
 
 
 
-#' Age bar graph
+
+#' Bar graph
 #'
-#' This function draws a bar graph by age group (or possibly other grouping). \cr
-#' The bar graph presents the distribution of cases at EU/EEA level
-#' using the rate per 100 000 cases by age. \cr
+#' This function draws a bar graph of the values of variable 'Yvar'
+#' with the categorical variable 'Xvar' on the x-axis. \cr
 #' Expects aggregated data.
 #'
-#' @param data dataframe containing the variables to plot
+#' @param .data dataframe containing the variables to plot
 #' @param xvar character string, name of the variable to plot on the x-axis in quotes
 #' (default \code{"XLabel"})
+#' @param xlabel character string, label of the x axis
 #' @param yvar character string, name of the variable to plot on the y-axis in quotes
 #' (default \code{"YValue"})
-#' @param fill_color1 character string, hexadecimal colour to use in the graph;
-#' (default to ECDC green \code{"#65B32E"})
-#' @param ytitle character string, y-axis title; (default \code{"Rate"}).
+#' @param ylabel character string, label of the y axis
+#' @param fill_color character string, hexadecimal colour to use in the graph;
+#' (default to ECDC green \code{"#65B32E"}, see EcdcColors(col_scale = "qual", n = 1))
 #'
 #' @keywords age bargraph
 #'
 #' @seealso Global function: \code{\link{getAgeGender}}  \cr
+#' Internal function: \code{\link{EcdcColors}} \cr
 #' Required Packages: \code{\link{ggplot2}}
 #'
 #' @examples
@@ -440,35 +472,39 @@ plotAgeGender <- function(data,
 #'                     NumberOfCases = c(54,32,41))
 #'
 #' # --- Plot the dummy data
-#' plotAge(mydat,
+#' plotBar(mydat,
 #'         xvar = "AgeGroup",
+#'         xlabel = "Age",
 #'         yvar = "NumberOfCases",
-#'         ytitle = "Number of cases")
+#'         ylabel = "Number of cases")
 #'
 #' @export
 #'
-plotAge <- function(data,
+plotBar <- function(.data,
                     xvar = "XLabel",
+                    xlabel = "",
                     yvar = "YValue",
-                    fill_color1 = "#65B32E",
-                    ytitle  = "Rate") {
+                    ylabel  = "",
+                    fill_color = EcdcColors(col_scale = "qual", n = 1)) {
 
 
   # --- Breaks for the Y axis
 
   FIGBREAKS <- pretty(seq(0,
-                          max(data[[yvar]]),
-                          by = max(data[[yvar]])/5))
+                          max(.data[[yvar]], na.rm = TRUE),
+                          by = max(.data[[yvar]], na.rm = TRUE)/5))
 
   # --- Plotting
 
-  p <- ggplot2::ggplot(data = data,
-                       ggplot2::aes(x = data[[xvar]], y = data[[yvar]])) +
-    ggplot2::geom_bar(stat = "identity", fill = fill_color1) +
+  p <- ggplot2::ggplot(data = .data,
+                       ggplot2::aes(x = .data[[xvar]], y = .data[[yvar]])) +
+    ggplot2::geom_bar(stat = "identity",
+                      fill = fill_color,
+                      width = 0.6) +
     ggplot2::scale_y_continuous(expand = c(0,0),
                                 limits = c(0, max(FIGBREAKS)),
                                 breaks = FIGBREAKS) +
-    ggplot2::labs(title = "", x = "Age", y = ytitle) +
+    ggplot2::labs(title = "", x = xlabel, y = ylabel) +
     ggplot2::theme(axis.text = ggplot2::element_text(size = 8),
                    axis.title = ggplot2::element_text(size = 9),
                    axis.line = ggplot2::element_line(colour = "black"),
@@ -480,4 +516,3 @@ plotAge <- function(data,
 
   return(p)
 }
-

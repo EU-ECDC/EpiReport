@@ -25,6 +25,6 @@ over the past five years `getTrend()`
 Two types of datasets can be used:
 
 * The default dataset included in the `EpiReport` package which includes 
-Salmonellosis data for 2012-2016: `EpiReport::SALM2016`;
+Denger data for 2015-2019: `EpiReport::DENGUE2019`;
 * Any dataset specified as described in the package vignette.
 

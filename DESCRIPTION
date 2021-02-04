@@ -1,8 +1,8 @@
 Package: EpiReport
 Type: Package
 Title: Epidemiological Report
-Version: 0.1.1
-Date: 2020-05-11
+Version: 1.0.1
+Date: 2021-02-04
 Authors@R: c( 
   person( given = "Lore", family = "Merdrignac", 
           role = c("aut", "ctr", "cre"), email = "l.merdrignac@epiconcept.fr", comment = "Author of the package and original code"),
@@ -23,13 +23,13 @@ Description: Drafting an epidemiological report in 'Microsoft Word' format for a
   by month, over the past five years;
   - Age and gender bar graph with the distribution of cases at the European Union / European Economic Area level.
   Two types of datasets can be used:
-  - The default dataset of salmonella 2012-2016 data;
+  - The default dataset of dengue 2015-2019 data;
   - Any dataset specified as described in the vignette.
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.5.0)
 License: EUPL
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Imports:
     officer,
     flextable,
@@ -37,11 +37,8 @@ Imports:
     png,
     dplyr,
     tidyr,
-    ggplot2,
-    extrafont,
-    graphics,
-    utils,
-    knitr (>= 1.20),
-    rmarkdown
+    tidyselect,
+    ggplot2
+Suggests: knitr (>= 1.20)
 VignetteBuilder: knitr
-URL: https://ecdc.europa.eu/en/annual-epidemiological-reports
+URL: https://www.ecdc.europa.eu/en/annual-epidemiological-reports

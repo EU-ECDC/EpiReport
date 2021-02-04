@@ -1,11 +1,11 @@
 #' Get disease-specific table: distribution of cases by Member State (GeoCode)
 #'
 #' Function returning the table (\code{'flextable'}) that will be included
-#' in the epidemiological report at the bookmark location \code{'TABLE1_BOOKMARK'}
+#' in the epidemiological report at the bookmark location \code{'TABLE1'}
 #' of the template report. An additional caption will be included at the location
 #' of the bookmark \code{'TABLE1_CAPTION'}. \cr
 #' (see Table 1 of the ECDC annual reports
-#' \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+#' \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 #'
 #' The current version of the \code{'EpiReport'} package includes three types of table
 #' (see detailed specification of the tables in the
@@ -20,11 +20,11 @@
 #'
 #' @param x dataframe, raw disease-specific dataset (see specification of the dataset in the
 #' package vignette with \code{browseVignettes(package = "EpiReport")})
-#' (default \code{SALM2016})
-#' @param disease character string, disease code (default \code{"SALM"}).
+#' (default \code{DENGUE2019})
+#' @param disease character string, disease code (default \code{"DENGUE"}).
 #' Please make sure the disease code is included in the disease-specific dataset x
 #' in the \code{HealthTopicCode} variable.
-#' @param year numeric, year to produce the table for (default \code{2016}).
+#' @param year numeric, year to produce the table for (default \code{2019}).
 #' Please make sure the year is included in the disease-specific dataset x in the \code{TimeCode} variable.
 #' @param reportParameters dataframe, dataset including the required parameters for the report
 #' production (default \code{AERparams}) (see specification of the dataset in the
@@ -39,20 +39,20 @@
 #'
 #' @return 'Word' doc or \code{flextable} object (see \code{'flextable'} package)
 #'
-#' @seealso Global function for the full epidemilogical report: \code{\link{getAER}}  \cr
+#' @seealso Global function for the full epidemiological report: \code{\link{getAER}}  \cr
 #' Required Packages: \code{\link{flextable}} \code{\link{officer}} \cr
 #' Internal functions: \code{\link{shapeECDCFlexTable}} \code{\link{cleanECDCTable}} \cr
 #' Default datasets: \code{\link{AERparams}} \code{\link{MSCode}}
 #'
 #' @examples
-#' # --- Draft the table using the default Salmonellosis dataset
+#' # --- Draft the table using the default Dengue dataset
 #' getTableByMS()
 #'
 #' @export
 #'
-getTableByMS <- function(x = EpiReport::SALM2016 ,
-                         disease = "SALM",
-                         year = 2016,
+getTableByMS <- function(x = EpiReport::DENGUE2019 ,
+                         disease = "DENGUE",
+                         year = 2019,
                          reportParameters = EpiReport::AERparams,
                          MSCode = EpiReport::MSCode,
                          index = 1,
@@ -62,9 +62,9 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
   ## Setting default arguments if missing
   ## ----
 
-  if(missing(x)) { x <- EpiReport::SALM2016 }
-  if(missing(disease)) { disease <- "SALM" }
-  if(missing(year)) { year <- 2016 }
+  if(missing(x)) { x <- EpiReport::DENGUE2019 }
+  if(missing(disease)) { disease <- "DENGUE" }
+  if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
   if(missing(index)) { index <- 1 }
@@ -110,7 +110,7 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
 
   # --- Filtering on 5-year period
   x <- dplyr::filter(x, x$TimeCode %in% (year-4):year)
-  if(nrow(x) == 0) {
+  if(nrow(x) == 0 | length(unique(x$TimeCode)) != 5) {
     stop(paste('The dataset does not include the required 5-year study period for the selected disease "',
                disease, '".'))
   }
@@ -261,8 +261,52 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
   # Specific Tables (to be continued)
   # ----
 
-  if(reportParameters$TableUse == "SPECIFIC") {
-    return(doc)
+  if(reportParameters$TableUse == "STAGE") {
+
+    # --- Filtering
+    x <- dplyr::filter(x, x$MeasureCode %in% paste(c(reportParameters$MeasurePopulation,
+                                                     "ACUTE", "CHRONIC", "UNKNOWN"),
+                                                   rep(c("COUNT", "RATE"), each = 4) , sep = "."))
+    # --- Filtering disease STAGE only for the year of interest
+    x <- dplyr::filter(x, !(x$TimeCode != year &
+                              x$MeasureCode %in% paste(c("ACUTE", "CHRONIC", "UNKNOWN"),
+                                                       rep(c("COUNT", "RATE"), each = 3) , sep = ".")))
+    if(nrow(x) == 0) {
+      stop(paste('The dataset does not include the required \'MeasureCode\' indicator for the selected disease "',
+                 disease, '" to present the AER table by disease stage'))
+    }
+
+    # --- Rounding rates
+    x$YValue <- round(x$YValue, reportParameters$TableRatesNoDecimals)
+
+    # --- Building the table
+    x <- dplyr::select(x, c("GeoCode", "TimeCode", "MeasureCode", "YValue"))
+    x <- tidyr::unite(x, col = "Key", "TimeCode", "MeasureCode")
+    x <- tidyr::spread(x, "Key", "YValue")
+
+    # --- Reordering and rounding columns
+    lastColumn <- paste(year, "_", paste(rep(c(reportParameters$MeasurePopulation,
+                                               "ACUTE", "CHRONIC", "UNKNOWN"), each = 2),
+                                         c("COUNT", "RATE"), sep = "."), sep = "")
+    stageColumn <- dplyr::select(x, dplyr::all_of(lastColumn))
+    x <- dplyr::bind_cols(dplyr::select(x, -lastColumn),
+                          stageColumn)
+
+    # --- Cleaning table
+    x <- cleanECDCTable(x, MSCode$Country, MSCode$GeoCode)
+
+    # --- Preparing headers
+    names(x) <- make.names(names(x))    #FlexTable supports only syntactic names
+    cases <- paste(substring(reportParameters$MeasurePopulation,1,1),
+                   tolower(substring(reportParameters$MeasurePopulation,2)),
+                   sep = "" )
+    headers <- data.frame(
+      col_keys = names(x),
+      years = c("Country", rep((year-4):year, each = 2), rep(year, 6)),
+      stage = c("Country", rep(cases, 10), rep( c("Acute", "Chronic", "Unknown") , each = 2)),
+      indicator = c("Country", rep(c("Cases", "Rate"), 8)),
+      stringsAsFactors = FALSE
+    )
   }
 
   # ----
@@ -281,22 +325,47 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
     # --- If no 'Word' document, then return the flextable
     return(ft)
   } else {
-    # --- If there is a 'Word' document, then replace the corresponding bookmark
-    officer::cursor_bookmark(doc, id = "TABLE1_BOOKMARK")
-    doc <- flextable::body_add_flextable(doc, value = ft)
+
+    # --- First add a new Word section for landscape tables
+    if (reportParameters$TableUse == "STAGE") {
+      doc <- officer::cursor_bookmark(doc, id = "TABLE1_CAPTION")
+      doc <- officer::cursor_backward(doc)
+      doc <- officer::body_end_section_continuous(doc)
+    }
 
 
     # ----
-    # Adding the caption
+    # Adding first the caption
     # ----
 
     ## ------ Caption definition
     pop <- ifelse(reportParameters$MeasurePopulation == "ALL", "", "-")
     pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
+    unit <- ifelse(reportParameters$TableUse != "COUNT" ,
+                   " and rates per 100 000 population", "")
     caption <- paste("Table 1. Distribution of ", pop, reportParameters$Label,
-                     " cases, ", "EU/EEA, ", year - 4, "\U2013", year, sep = "")
-    officer::cursor_bookmark(doc, id = "TABLE1_CAPTION")
-    doc <- officer::body_add_par(doc, value = caption)
+                     " cases", unit, " by country and year, EU/EEA, ",
+                     year - 4, "\U2013", year, sep = "")
+    doc <- officer::body_replace_text_at_bkm(doc,
+                                             bookmark = "TABLE1_CAPTION",
+                                             value = caption)
+
+
+    # ----
+    # Adding then the table
+    # ----
+    doc <- officer::cursor_bookmark(doc, id = "TABLE1")
+    doc <- flextable::body_add_flextable(doc, value = ft)
+    # doc <- flextable::body_replace_flextable_at_bkm(doc,  #---Nice but we loose bookmark
+    #                                                 bookmark = "TABLE1",
+    #                                                 value = ft)
+
+
+    # --- Ending landscape section for large STAGE table
+    if (reportParameters$TableUse == "STAGE") {
+      doc <- officer::body_end_section_landscape(doc)
+    }
+
 
     return(doc)
 
@@ -319,7 +388,9 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
 #' @param fsize numeric, font to use (Default 7)
 #' @param fname character, font name (Default \code{"Tahoma"})
 #' @param maincolor character string, hexadecimal code for the header background
-#' color (Default \code{"#69AE23"})
+#' color (Default \code{EcdcColors(col_scale = "green", n=1)})
+#' @param lastbold bolean, last row in bold (Default \code{TRUE}),
+#' usually used when the last row includes totals (EU/EEA totals)
 #'
 #' @return flextable object (see \code{flextable} package)
 #'
@@ -328,7 +399,7 @@ getTableByMS <- function(x = EpiReport::SALM2016 ,
 #'
 #' @export
 #'
-shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
+shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor, lastbold){
 
   ## ----
   ## Setting default arguments if missing
@@ -336,7 +407,8 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
 
   if(missing(fsize)) {fsize <- 7}
   if(missing(fname)) {fname <- "Tahoma"}
-  if(missing(maincolor)) {maincolor <- "#69AE23"}
+  if(missing(maincolor)) {maincolor <- EcdcColors(col_scale = "green", n=1)}
+  if(missing(lastbold)) {lastbold <- TRUE}
 
 
 
@@ -346,12 +418,21 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
 
   # --- Borders
   ft <- flextable::border_remove(ft)
-  std_border <- officer::fp_border(color = "grey80")
+  std_border <- officer::fp_border(color = EcdcColors(col_scale = "grey", grey_shade = "mediumlight"))
   ft <- flextable::hline(ft, border = std_border)
-  # --- Headers
-  ft <- flextable::set_header_df(ft, mapping = headers, key = "col_keys" )
-  ft <- flextable::merge_h(ft, i = 1, part = "header")
-  ft <- flextable::merge_v(ft, j = "Country", part = "header")
+  if(!missing(headers)){
+    # --- Headers
+    # headers <- as.data.frame(lapply(headers, as.character))  #--- Getting rid of possible factors
+    ft <- flextable::set_header_df(ft, mapping = headers, key = "col_keys" )
+    ft <- flextable::merge_h(ft, i = 1, part = "header")
+    for(col in seq(2, ncol(ft$header$dataset), by=2)) {
+      if(col+1 <= ncol(ft$header$dataset)) {
+        if(ft$header$dataset[2, col] == ft$header$dataset[2, col+1]){
+          ft <- flextable::merge_at(ft, i = 2, j = c(col, col+1), part = "header")
+        }
+      }
+    }
+    ft <- flextable::merge_v(ft, j = 1, part = "header")}
   # --- Headers Borders
   hd_border <- officer::fp_border(color = "white")
   ft <- flextable::border_inner_v(ft, border = hd_border, part = "header")
@@ -367,7 +448,9 @@ shapeECDCFlexTable <- function(ft, headers, fsize, fname, maincolor){
   ft <- flextable::align(ft, align = "center", part = "all")
   ft <- flextable::align(ft, align = "left", j = 1)
   # --- EUEEA bold
-  ft <- flextable::bold(ft, i = nrow(ft$body$dataset))
+  if(lastbold == TRUE){
+    ft <- flextable::bold(ft, i = nrow(ft$body$dataset))
+  }
   # --- Autofit
   ft <- flextable::autofit(ft)
 

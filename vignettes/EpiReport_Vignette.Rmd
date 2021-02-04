@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 ## Description
 
 The EpiReport package allows the user to draft an epidemiological report similar to the ECDC Annual Epidemiological Report (AER) 
-(see https://ecdc.europa.eu/en/annual-epidemiological-reports) in Microsoft Word format for a given disease.
+(see https://www.ecdc.europa.eu/en/annual-epidemiological-reports) in Microsoft Word format for a given disease.
 
 Through standalone functions, the package is specifically designed to generate
 each disease-specific output presented in these reports, using ECDC Atlas export data. 
@@ -69,7 +69,7 @@ Link to the ECDC AER reports | `r pkgUrl`
 
 ECDC's annual epidemiological report is available as a series of individual 
 epidemiological disease reports. Reports are published on the ECDC website 
-https://ecdc.europa.eu/en/annual-epidemiological-reports as they become available.
+https://www.ecdc.europa.eu/en/annual-epidemiological-reports as they become available.
 
 The year given in the title of the report (i.e. 'Annual epidemiological report for 2016') 
 refers to the year the data were collected. Reports are usually available for publication 
@@ -323,6 +323,39 @@ getAER(template = "C:/EpiReport/template/New_AER_Template.docx",
 Please make sure that the Microsoft Word bookmarks are preserved throughout the 
 modifications to the template. The bookmarks specify the location where to include
 each output.
+
+
+
+### 2.3. Word bookmarks
+
+Each epidemiological output will be included in the Word template 
+in the corresponding report chapter. 
+The `EpiReport` package relies on Microsoft Word bookmarks to specify 
+the exact location where to include each output.
+
+The list of bookmarks recognised by the `EpiReport` package are:
+
+- YEAR
+- DISEASE
+- DATEPUBLICATLAS
+- TABLE1_CAPTION
+- TABLE1
+- MAP_NB_CAPTION
+- MAP_NB
+- MAP_RATE_CAPTION
+- MAP_RATE
+- MAP_ASR_CAPTION
+- MAP_ASR
+- TS_TREND_CAPTION
+- TS_TREND
+- TS_TREND_COUNTRIES
+- TS_SEASON_CAPTION
+- TS_SEASON
+- TS_SEASON_COUNTRIES
+- BARGPH_AGEGENDER_CAPTION
+- BARGPH_AGEGENDER
+- BARGPH_AGE_CAPTION
+- BARGPH_AGE
 
 
 

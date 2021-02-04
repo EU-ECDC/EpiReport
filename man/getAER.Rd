@@ -8,9 +8,9 @@ getAER(
   template = file.path(system.file(package = "EpiReport"),
     "template/AER_template.docx"),
   outputPath = getwd(),
-  x = EpiReport::SALM2016,
-  disease = "SALM",
-  year = 2016,
+  x = EpiReport::DENGUE2019,
+  disease = "DENGUE",
+  year = 2019,
   reportParameters = EpiReport::AERparams,
   MSCode = EpiReport::MSCode,
   pathPNG = system.file("maps", package = "EpiReport")
@@ -27,13 +27,13 @@ Default value is the current working directory \code{getwd()}.}
 
 \item{x}{dataframe, raw disease-specific dataset (see specification of the dataset in the
 package vignette with \code{browseVignettes("EpiReport")})
-(default \code{SALM2016})}
+(default \code{DENGUE2019})}
 
-\item{disease}{character string, disease code (default \code{"SALM"}).
+\item{disease}{character string, disease code (default \code{"DENGUE"}).
 Please make sure the disease code is included in the disease-specific dataset x
 in the \code{HealthTopicCode} variable.}
 
-\item{year}{numeric, year to produce the report for (default \code{2016}).
+\item{year}{numeric, year to produce the report for (default \code{2019}).
 Please make sure the year is included in the disease-specific dataset x in the \code{TimeCode} variable.}
 
 \item{reportParameters}{dataframe, dataset including the required parameters for the report
@@ -56,12 +56,12 @@ Function to generate the 'Microsoft Word' epidemiological report
 including all disease-specific outputs at each output-specific bookmarks exact location. \cr
 (for further information on the outputs and the corresponding bookmarks,
 please see the package vignette "The Epidemiological Report Package" with \code{browseVignettes("EpiReport")})\cr
-(see ECDC AER \url{https://ecdc.europa.eu/en/annual-epidemiological-reports})
+(see ECDC AER \url{https://www.ecdc.europa.eu/en/annual-epidemiological-reports})
 }
 \examples{
 
-\donttest{
-# --- Generating the AER report using the default Salmonellosis dataset
+\dontrun{
+# --- Generating the AER report using the default Dengue dataset
 getAER()
 }
 
@@ -78,7 +78,7 @@ getAER(disease = "ZIKV", year = 2016, x = ZIKV2016, outputPath = output, pathPNG
 \seealso{
 Default template: \code{\link{getTemplate}} \cr
 Default datasets: \code{\link{MSCode}}
-\code{\link{AERparams}} \code{\link{SALM2016}} \cr
+\code{\link{AERparams}} \code{\link{SALM2016}} \code{\link{DENGUE2019}}\cr
 Disease-specific outputs: \code{\link{getTableByMS}}
 \code{\link{getSeason}} \code{\link{getTrend}} \code{\link{getMap}} \code{\link{getAgeGender}}
 }
