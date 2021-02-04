@@ -1,3 +1,16 @@
+EpiReport 1.0.1 (2021-02-04)
+==================
+
+### BUG FIXES
+
+* Allowing NA values in functions
+  + `plotBar()`
+  + `plotBarGrouped()`
+  + `plotSeasonality()`
+  + `plotTS()`
+  + `plotTSGrouped()`
+
+
 EpiReport 1.0.0 (2020-12-18)
 ==================
 
