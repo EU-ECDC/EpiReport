@@ -148,7 +148,11 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
     }
 
     # --- Rounding rates
-    x$YValue <- round(x$YValue, reportParameters$TableRatesNoDecimals)
+    x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.RATE')] <-
+      round(x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.RATE')], reportParameters$TableRatesNoDecimals)
+
+    x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.AGESTANDARDISED.RATE')] <-
+      round(x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.AGESTANDARDISED.RATE')], reportParameters$TableASRNoDecimals)
 
     # --- Building the table
     x <- dplyr::select(x, c("GeoCode", "TimeCode", "MeasureCode", "YValue"))
@@ -159,7 +163,6 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
     lastColumn <- paste(year, "_", reportParameters$MeasurePopulation,
                         ".AGESTANDARDISED.RATE", sep = "")
     asrColumn <- dplyr::select(x, lastColumn)
-    asrColumn <- round(asrColumn, reportParameters$TableASRNoDecimals)
     x <- dplyr::bind_cols(dplyr::select(x, -lastColumn),
                           asrColumn)
 
