@@ -177,9 +177,15 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
   doc <- officer::body_replace_text_at_bkm(doc,
                                            bookmark = "YEAR",
                                            value = as.character(year))
+  
+  # DEPRICATED, code retained for compatibility with reports created based on old templates
+  # works only when creating a new report based on the template or updating the report from year-1 to year
   doc <- officer::headers_replace_all_text(doc, old_value = "YEAR", new_value = as.character(year), warn = FALSE)
+  doc <- officer::headers_replace_all_text(doc, old_value = as.character(year-1), new_value = as.character(year), warn = FALSE)
 
-
+  # replacing the bookmark in the new template
+  doc <- officer::headers_replace_text_at_bkm(doc, bookmark = "YEAR_HEADER_LEFT", value = as.character(year))
+  doc <- officer::headers_replace_text_at_bkm(doc, bookmark = "YEAR_HEADER_RIGHT", value = as.character(year))
 
   ## ----
   ## Extraction date on which the Atlas is based on
