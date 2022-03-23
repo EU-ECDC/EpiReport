@@ -56,73 +56,71 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
                          reportParameters = EpiReport::AERparams,
                          MSCode = EpiReport::MSCode,
                          index = 1,
-                         doc){
-
+                         doc,
+                         len_history){
+  
   ## ----
   ## Setting default arguments if missing
   ## ----
-
+  
   if(missing(x)) { x <- EpiReport::DENGUE2019 }
   if(missing(disease)) { disease <- "DENGUE" }
   if(missing(year)) { year <- 2019 }
   if(missing(reportParameters)) { reportParameters <- EpiReport::AERparams }
   if(missing(MSCode)) { MSCode <- EpiReport::MSCode }
   if(missing(index)) { index <- 1 }
-
-
+  
+  
   ## ----
   ## Preparing the data
   ## ----
-
+  
   x$MeasureCode <- cleanMeasureCode(x$MeasureCode)
-
-
+  
+  
   ## ----
   ## Filtering parameter table
   ## ----
-
+  
   reportParameters <- filterDisease(disease, reportParameters)
-
-
+  
+  
   ## ----
   ## Filtering data
   ## ----
-
+  
   # --- Filtering on the required variables
   x <- dplyr::select(x, c("HealthTopicCode", "MeasureCode", "TimeUnit",
                           "TimeCode", "GeoCode", "YValue"))
   if(nrow(x) == 0) {
     stop(paste('The dataset does not include the necessary variables.'))
   }
-
+  
   # --- Filtering on the disease of interest
   x <- dplyr::filter(x, x$HealthTopic == disease)
   if(nrow(x) == 0) {
     stop(paste('The dataset does not include the selected disease "', disease, '".'))
   }
-
+  
   # --- Filtering on Yearly data only
   x <- dplyr::filter(x, x$TimeUnit == "Y")
   if(nrow(x) == 0) {
     stop(paste('The dataset does not include the required time unit \'Y\' for the selected disease "',
                disease, '".'))
   }
-
+  
   # --- Filtering on 5-year period
-  x <- dplyr::filter(x, x$TimeCode %in% (year-4):year)
-  if(nrow(x) == 0 | length(unique(x$TimeCode)) != 5) {
-    stop(paste('The dataset does not include the required 5-year study period for the selected disease "',
-               disease, '".'))
-  }
-
+  x <- dplyr::filter(x, x$TimeCode %in% ((year - (len_history - 1)):year))
+  
+  
   # --- Filtering for analysis at country and EU-EEA level only, no EU level
   x <- dplyr::filter(x, x$GeoCode %in% MSCode$GeoCode)
   if(nrow(x) == 0) {
     stop(paste('The dataset does not include any \'GeoCode\' from the MSCode dataset for the selected disease "',
                disease, '".'))
   }
-
-
+  
+  
 
   ## ------------------
   ## Building the Table
@@ -148,11 +146,12 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
     }
 
     # --- Rounding rates
-    x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.RATE')] <-
-      round(x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.RATE')], reportParameters$TableRatesNoDecimals)
+    x$YValue <- round(x$YValue, reportParameters$TableRatesNoDecimals)
+    #x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.RATE')] <-
+      #round(x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.RATE')], reportParameters$TableRatesNoDecimals)
 
-    x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.AGESTANDARDISED.RATE')] <-
-      round(x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.AGESTANDARDISED.RATE')], reportParameters$TableASRNoDecimals)
+    #x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.AGESTANDARDISED.RATE')] <-
+      #round(x$YValue[x$MeasureCode == paste0(reportParameters$MeasurePopulation, '.AGESTANDARDISED.RATE')], reportParameters$TableASRNoDecimals)
 
     # --- Building the table
     x <- dplyr::select(x, c("GeoCode", "TimeCode", "MeasureCode", "YValue"))
@@ -163,6 +162,7 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
     lastColumn <- paste(year, "_", reportParameters$MeasurePopulation,
                         ".AGESTANDARDISED.RATE", sep = "")
     asrColumn <- dplyr::select(x, lastColumn)
+    asrColumn <- round(asrColumn, reportParameters$TableASRNoDecimals)
     x <- dplyr::bind_cols(dplyr::select(x, -lastColumn),
                           asrColumn)
 
@@ -173,8 +173,8 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
     names(x) <- make.names(names(x))    #FlexTable supports only syntactic names
     headers <- data.frame(
       col_keys = names(x),
-      years = c("Country", rep((year-4):year, each = 2), year),
-      indicator = c("Country", rep(c("Number", "Rate"), 5), "ASR"),
+      years = c("Country", rep((year - (len_history - 1)):year, each = 2), year),
+      indicator = c("Country", rep(c("Number", "Rate"), len_history), "ASR"),
       stringsAsFactors = FALSE
     )
 
@@ -210,8 +210,8 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
     names(x) <- make.names(names(x))    #FlexTable supports only syntactic names
     headers <- data.frame(
       col_keys = names(x),
-      years = c("Country", rep((year-4):year, each = 2)),
-      indicator = c("Country", rep(c("Number", "Rate"), 5)),
+      years = c("Country", rep((year - (len_history - 1)):year, each = 2)),
+      indicator = c("Country", rep(c("Number", "Rate"), len_history))),
       stringsAsFactors = FALSE
     )
 
@@ -243,8 +243,8 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
     names(x) <- make.names(names(x))    #FlexTable supports only syntactic names
     headers <- data.frame(
       col_keys = names(x),
-      years = c("Country", (year-4):year),
-      indicator = c("Country", rep("Number", 5)),
+      years = c("Country", (year - (len_history - 1)):year),
+      indicator = c("Country", rep("Number", len_history)),
       stringsAsFactors = FALSE
     )
 
@@ -305,7 +305,7 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
                    sep = "" )
     headers <- data.frame(
       col_keys = names(x),
-      years = c("Country", rep((year-4):year, each = 2), rep(year, 6)),
+      years = c("Country", rep((year - (len_history -1)):year, each = 2), rep(year, 6)),
       stage = c("Country", rep(cases, 10), rep( c("Acute", "Chronic", "Unknown") , each = 2)),
       indicator = c("Country", rep(c("Cases", "Rate"), 8)),
       stringsAsFactors = FALSE
@@ -348,7 +348,7 @@ getTableByMS <- function(x = EpiReport::DENGUE2019 ,
                    " and rates per 100 000 population", "")
     caption <- paste("Table 1. Distribution of ", pop, reportParameters$Label,
                      " cases", unit, " by country and year, EU/EEA, ",
-                     year - 4, "\U2013", year, sep = "")
+                     year - 2, "-", year, sep = "")
     doc <- officer::body_replace_text_at_bkm(doc,
                                              bookmark = "TABLE1_CAPTION",
                                              value = caption)
