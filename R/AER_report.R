@@ -123,7 +123,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                    year = 2019,
                    reportParameters = EpiReport::AERparams,
                    MSCode = EpiReport::MSCode,
-                   pathPNG = system.file("maps", package = "EpiReport"), len_history = len_history){
+                   pathPNG = system.file("maps", package = "EpiReport")){
 
 
   ## ----
@@ -221,8 +221,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                    reportParameters = reportParameters,
                                    MSCode = MSCode,
                                    index = indexTab,
-                                   doc = doc,
-                                   len_history = len_history)
+                                   doc = doc)
     indexTab <- indexTab + 1
   }
 
@@ -260,8 +259,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                reportParameters = reportParameters,
                                MSCode = MSCode,
                                index = indexFig,
-                               doc = doc,
-                               len_history = len_history)
+                               doc = doc)
     indexFig <- indexFig + 1
   }
 
@@ -278,8 +276,7 @@ getAER <- function(template =  file.path(system.file(package = "EpiReport"), "te
                                 reportParameters = reportParameters,
                                 MSCode = MSCode,
                                 index = indexFig,
-                                doc = doc,
-                                len_history = len_history)
+                                doc = doc)
     indexFig <- indexFig + 1
   }
 

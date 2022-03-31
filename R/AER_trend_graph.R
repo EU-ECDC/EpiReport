@@ -57,8 +57,7 @@ getTrend <- function(x = EpiReport::DENGUE2019,
                      reportParameters = EpiReport::AERparams,
                      MSCode = EpiReport::MSCode,
                      index = 1,
-                     doc,
-                     len_history){
+                     doc){
 
   ## ----
   ## Setting default arguments if missing
@@ -118,7 +117,7 @@ getTrend <- function(x = EpiReport::DENGUE2019,
     }
 
     # --- Filtering on 5 year period monthly data
-    studyPeriodYear <- ((year - (len_history - 1)):year)
+    studyPeriodYear <- (year-4):year
     studyPeriodMonth <- sub(" ", "0", format(1:12, width = 2))
     studyPeriod <- paste(rep(studyPeriodYear, each = 12),
                          rep(studyPeriodMonth, times = 5), sep="-")
@@ -200,7 +199,7 @@ getTrend <- function(x = EpiReport::DENGUE2019,
       pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
       caption <- paste("Figure ", index, ". Distribution of ", pop,
                        reportParameters$Label, " cases by month, EU/EEA, ",
-                       year-(len_history -1), "\U2013", year, sep = "")
+                       year-4, "\U2013", year, sep = "")
       doc <- officer::body_replace_text_at_bkm(x = doc,
                                                bookmark = "TS_TREND_CAPTION",
                                                value = caption)

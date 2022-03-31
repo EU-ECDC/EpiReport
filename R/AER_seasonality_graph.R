@@ -59,8 +59,7 @@ getSeason <- function(x = EpiReport::DENGUE2019,
                       reportParameters = EpiReport::AERparams,
                       MSCode = EpiReport::MSCode,
                       index = 1,
-                      doc,
-                      len_history)){
+                      doc){
 
   ## ----
   ## Setting default arguments if missing
@@ -120,10 +119,10 @@ getSeason <- function(x = EpiReport::DENGUE2019,
     }
 
     # --- Filtering on 5 year period monthly data
-    studyPeriodYear <- (year - (len_history - 1)):year
+    studyPeriodYear <- (year-4):year
     studyPeriodMonth <- sub(" ", "0", format(1:12, width = 2))
     studyPeriod <- paste(rep(studyPeriodYear, each = 12),
-                         rep(studyPeriodMonth, times = 3), sep="-")
+                         rep(studyPeriodMonth, times = 5), sep="-")
     x <- dplyr::filter(x, x$TimeCode %in% studyPeriod)
     if(nrow(x) == 0 |
        sum(studyPeriod %in% x$TimeCode, na.rm = TRUE) != length(studyPeriod)) {
@@ -220,7 +219,7 @@ getSeason <- function(x = EpiReport::DENGUE2019,
       pop <- ifelse(reportParameters$MeasurePopulation == "CONFIRMED", "confirmed ", pop)
       caption <- paste("Figure ", index, ". Distribution of ", pop,
                        reportParameters$Label, " cases by month, EU/EEA, ",
-                       year, " and ", year-(len_history - 1), "-", year-1, sep = "")
+                       year, " and ", year-4, "\U2013", year-1, sep = "")
       doc <- officer::body_replace_text_at_bkm(x = doc,
                                                bookmark = "TS_SEASON_CAPTION",
                                                value = caption)
@@ -370,7 +369,7 @@ plotSeasonality <- function(.data,
     ggplot2::geom_ribbon(
       ggplot2::aes(ymin = .data[[min4years]] ,
                    ymax = .data[[max4years]],
-                   fill = paste("Min-max (", year - (len_history - 1), "-", year - 1, ")",sep = "")) , alpha = 0.5) +
+                   fill = paste("Min-max (", year - 4, "\U2013", year - 1, ")",sep = "")) , alpha = 0.5) +
     ggplot2::geom_line(
       ggplot2::aes(y = .data[[mean4years]],
                    color = "Mean"),
