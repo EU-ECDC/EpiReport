@@ -41,4 +41,4 @@ Imports:
     ggplot2
 Suggests: knitr (>= 1.20)
 VignetteBuilder: knitr
-URL: https://www.ecdc.europa.eu/en/annual-epidemiological-reports
+URL: https://www.ecdc.europa.eu/en/annual-epidemiological-reports, https://github.com/EU-ECDC/EpiReport
